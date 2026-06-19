@@ -63,14 +63,14 @@ export function ChatSidebar() {
                         animate={{ x: 0, opacity: 1 }}
                         exit={{ x: 420, opacity: 0 }}
                         transition={{ type: "spring", damping: 28, stiffness: 280 }}
-                        className="fixed top-0 right-0 bottom-0 w-[400px] z-[260] glass-premium border-l border-white/10 shadow-2xl flex flex-col"
+                        className="fixed top-0 right-0 bottom-0 w-[400px] z-[260] glass-premium border-l border-border shadow-2xl flex flex-col"
                     >
                         {/* Header */}
-                        <div className="flex items-center justify-between px-5 py-4 border-b border-white/5">
+                        <div className="flex items-center justify-between px-5 py-4 border-b border-border/60">
                             <div className="flex items-center gap-3">
                                 {activeChatId ? (
-                                    <button onClick={() => openChat("")} className="w-8 h-8 rounded-lg hover:bg-white/10 flex items-center justify-center transition-colors">
-                                        <ChevronLeft className="w-4 h-4 text-white/40" />
+                                    <button onClick={() => openChat("")} className="w-8 h-8 rounded-lg hover:bg-foreground/10 flex items-center justify-center transition-colors">
+                                        <ChevronLeft className="w-4 h-4 text-stone-500" />
                                     </button>
                                 ) : (
                                     <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center border border-primary/30">
@@ -78,18 +78,18 @@ export function ChatSidebar() {
                                     </div>
                                 )}
                                 <div>
-                                    <h3 className="font-black text-sm tracking-tight">
+                                    <h3 className="font-black text-sm tracking-tight text-foreground">
                                         {activeConv ? activeConv.name : "Messages"}
                                     </h3>
                                     {activeConv && (
-                                        <p className="text-[9px] font-mono tracking-widest text-white/30 uppercase">
+                                        <p className="text-[9px] font-mono tracking-widest text-muted-foreground uppercase font-black">
                                             {activeConv.type === "team" ? `${activeConv.participants.length} members` : "Direct message"}
                                         </p>
                                     )}
                                 </div>
                             </div>
-                            <button onClick={closeChat} className="w-8 h-8 rounded-lg hover:bg-white/10 flex items-center justify-center transition-colors">
-                                <X className="w-4 h-4 text-white/40" />
+                            <button onClick={closeChat} className="w-8 h-8 rounded-lg hover:bg-foreground/10 flex items-center justify-center transition-colors">
+                                <X className="w-4 h-4 text-stone-500" />
                             </button>
                         </div>
 
@@ -98,7 +98,7 @@ export function ChatSidebar() {
                             /* Conversation List */
                             <div className="overflow-y-auto flex-1 py-2">
                                 <div className="px-5 py-2">
-                                    <h4 className="text-[9px] font-black uppercase tracking-[0.3em] text-white/20 mb-3">Conversations</h4>
+                                    <h4 className="text-[9px] font-black uppercase tracking-[0.3em] text-stone-500 mb-3">Conversations</h4>
                                 </div>
                                 {conversations.map((conv) => {
                                     const otherUser = conv.participants.find(p => p.id !== currentUser.id);
@@ -108,23 +108,23 @@ export function ChatSidebar() {
                                             key={conv.id}
                                             whileHover={{ x: 4 }}
                                             onClick={() => openChat(conv.id)}
-                                            className="px-5 py-3 flex items-center gap-3 hover:bg-white/[0.03] cursor-pointer transition-all group"
+                                            className="px-5 py-3 flex items-center gap-3 hover:bg-foreground/[0.03] cursor-pointer transition-all group"
                                         >
                                             <div className="relative">
-                                                <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-primary/20 to-indigo-500/20 flex items-center justify-center text-sm font-black border border-white/10 group-hover:border-primary/40 transition-all">
+                                                <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-primary/20 to-indigo-500/20 flex items-center justify-center text-sm font-black border border-border group-hover:border-primary/40 transition-all text-foreground">
                                                     {conv.type === "team" ? <Hash className="w-5 h-5 text-primary" /> : (otherUser?.avatar || "?")}
                                                 </div>
                                                 {conv.type === "direct" && otherUser?.isOnline && (
-                                                    <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-slate-950 bg-emerald-400" />
+                                                    <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-background bg-emerald-500" />
                                                 )}
                                             </div>
                                             <div className="flex-1 min-w-0">
                                                 <div className="flex items-center justify-between">
-                                                    <h5 className="text-xs font-bold text-white group-hover:text-primary transition-colors">{conv.name}</h5>
-                                                    <span className="text-[9px] font-mono text-white/15">{timeStr(conv.lastActivity)}</span>
+                                                    <h5 className="text-xs font-bold text-foreground group-hover:text-primary transition-colors">{conv.name}</h5>
+                                                    <span className="text-[9px] font-mono text-stone-400">{timeStr(conv.lastActivity)}</span>
                                                 </div>
                                                 {lastMsg && (
-                                                    <p className="text-[10px] text-white/30 truncate mt-0.5">
+                                                    <p className="text-[10px] text-muted-foreground truncate mt-0.5">
                                                         {lastMsg.senderId === currentUser.id ? "You: " : ""}{lastMsg.text}
                                                     </p>
                                                 )}
@@ -149,15 +149,15 @@ export function ChatSidebar() {
                                             >
                                                 <div className={`max-w-[80%] ${isSelf ? "order-2" : "order-1"}`}>
                                                     {!isSelf && activeConv.type === "team" && (
-                                                        <p className="text-[9px] font-bold text-primary/60 mb-1 ml-1">{sender?.name}</p>
+                                                        <p className="text-[9px] font-bold text-primary/80 mb-1 ml-1">{sender?.name}</p>
                                                     )}
                                                     <div className={`px-4 py-2.5 rounded-2xl text-[13px] leading-relaxed ${isSelf
-                                                            ? "bg-primary text-white rounded-tr-sm"
-                                                            : "bg-white/[0.06] text-white/80 rounded-tl-sm border border-white/5"
+                                                            ? "bg-primary text-white rounded-tr-sm font-medium"
+                                                            : "bg-foreground/[0.06] text-foreground rounded-tl-sm border border-border/60"
                                                         }`}>
                                                         {msg.text}
                                                     </div>
-                                                    <p className={`text-[9px] font-mono text-white/15 mt-1 ${isSelf ? "text-right mr-1" : "ml-1"}`}>
+                                                    <p className={`text-[9px] font-mono text-stone-400 mt-1 ${isSelf ? "text-right mr-1" : "ml-1"}`}>
                                                         {timeStr(msg.timestamp)}
                                                     </p>
                                                 </div>
@@ -174,10 +174,10 @@ export function ChatSidebar() {
                                                 exit={{ opacity: 0, y: 5 }}
                                                 className="flex justify-start"
                                             >
-                                                <div className="px-4 py-3 rounded-2xl bg-white/[0.06] border border-white/5 rounded-tl-sm flex gap-1">
-                                                    <div className="w-2 h-2 rounded-full bg-white/30 animate-bounce" style={{ animationDelay: "0ms" }} />
-                                                    <div className="w-2 h-2 rounded-full bg-white/30 animate-bounce" style={{ animationDelay: "150ms" }} />
-                                                    <div className="w-2 h-2 rounded-full bg-white/30 animate-bounce" style={{ animationDelay: "300ms" }} />
+                                                <div className="px-4 py-3 rounded-2xl bg-foreground/[0.06] border border-border/60 rounded-tl-sm flex gap-1">
+                                                    <div className="w-2 h-2 rounded-full bg-stone-400 animate-bounce" style={{ animationDelay: "0ms" }} />
+                                                    <div className="w-2 h-2 rounded-full bg-stone-400 animate-bounce" style={{ animationDelay: "150ms" }} />
+                                                    <div className="w-2 h-2 rounded-full bg-stone-400 animate-bounce" style={{ animationDelay: "300ms" }} />
                                                 </div>
                                             </motion.div>
                                         )}
@@ -186,14 +186,14 @@ export function ChatSidebar() {
                                 </div>
 
                                 {/* Input */}
-                                <div className="px-4 py-3 border-t border-white/5">
+                                <div className="px-4 py-3 border-t border-border/60">
                                     <div className="flex items-center gap-2">
                                         <input
                                             value={input}
                                             onChange={(e) => setInput(e.target.value)}
                                             onKeyDown={(e) => e.key === "Enter" && handleSend()}
                                             placeholder="Type a message..."
-                                            className="flex-1 h-11 px-4 bg-white/[0.03] border border-white/5 rounded-xl text-sm outline-none focus:border-primary/30 transition-colors placeholder:text-white/20"
+                                            className="flex-1 h-11 px-4 bg-foreground/[0.03] border border-border rounded-xl text-sm outline-none focus:border-primary/30 transition-colors placeholder:text-stone-400 text-foreground"
                                         />
                                         <button
                                             onClick={handleSend}

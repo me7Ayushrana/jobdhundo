@@ -61,20 +61,30 @@ export function ProfileForm({ onComplete }: ProfileFormProps) {
     };
 
     return (
-        <Card className="max-w-xl mx-auto glass border-white/10 overflow-hidden">
-            <CardHeader className="border-b border-white/5 pb-8">
+        <Card className="max-w-xl mx-auto bg-stone-50 border border-stone-200/80 shadow-2xl rounded-[2.5rem] overflow-hidden">
+            <CardHeader className="border-b border-stone-200/50 pb-8 bg-stone-50/50">
                 <div className="flex justify-between items-center mb-6">
                     {STEPS.map((s, i) => (
                         <div key={s.id} className="flex flex-col items-center gap-2">
-                            <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${i <= step ? "bg-primary text-primary-foreground shadow-[0_0_15px_rgba(99,102,241,0.5)]" : "bg-white/5 text-muted-foreground"}`}>
+                            <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${
+                                i <= step 
+                                    ? "bg-primary text-white shadow-[0_0_15px_rgba(99,102,241,0.3)]" 
+                                    : "bg-stone-200/60 text-stone-500"
+                            }`}>
                                 <s.icon className="w-5 h-5" />
                             </div>
-                            <span className={`text-[10px] font-bold uppercase tracking-wider ${i <= step ? "text-primary" : "text-muted-foreground"}`}>{s.title}</span>
+                            <span className={`text-[10px] font-black uppercase tracking-widest ${
+                                i <= step ? "text-primary font-bold" : "text-stone-400 font-semibold"
+                            }`}>{s.title}</span>
                         </div>
                     ))}
                 </div>
-                <CardTitle className="text-3xl font-bold tracking-tight">Step {step + 1}: {STEPS[step].title}</CardTitle>
-                <CardDescription>Tell us a bit about yourself to find the best match.</CardDescription>
+                <CardTitle className="text-3xl font-black tracking-tight text-stone-900 leading-none">
+                    Step {step + 1}: {STEPS[step].title}
+                </CardTitle>
+                <CardDescription className="text-stone-500 font-semibold text-xs mt-1">
+                    Tell us a bit about yourself to find the best match.
+                </CardDescription>
             </CardHeader>
 
             <CardContent className="pt-8">
@@ -89,21 +99,25 @@ export function ProfileForm({ onComplete }: ProfileFormProps) {
                         {step === 0 && (
                             <>
                                 <div className="space-y-2">
-                                    <label className="text-sm font-bold text-white/70">Full Name</label>
+                                    <label className="text-xs font-black uppercase tracking-widest text-stone-500">
+                                        Full Name
+                                    </label>
                                     <Input
-                                        placeholder="John Doe"
+                                        placeholder="e.g. John Doe"
                                         value={formData.fullName}
                                         onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                                        className="h-12 bg-white/[0.03] border-white/10 focus:border-primary/50 focus:ring-primary/20 placeholder:text-white/20"
+                                        className="h-12 bg-white border-stone-200 text-stone-900 rounded-xl px-4 font-semibold focus-visible:ring-primary focus-visible:ring-1 placeholder:text-stone-400"
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-sm font-bold text-white/70">GitHub Username</label>
+                                    <label className="text-xs font-black uppercase tracking-widest text-stone-500">
+                                        GitHub Username
+                                    </label>
                                     <Input
-                                        placeholder="johndoe"
+                                        placeholder="e.g. johndoe"
                                         value={formData.githubUsername}
                                         onChange={(e) => setFormData({ ...formData, githubUsername: e.target.value })}
-                                        className="h-12 bg-white/[0.03] border-white/10 focus:border-primary/50 focus:ring-primary/20 placeholder:text-white/20"
+                                        className="h-12 bg-white border-stone-200 text-stone-900 rounded-xl px-4 font-semibold focus-visible:ring-primary focus-visible:ring-1 placeholder:text-stone-400"
                                     />
                                 </div>
                             </>
@@ -121,15 +135,17 @@ export function ProfileForm({ onComplete }: ProfileFormProps) {
                                         key={role.id}
                                         variant="ghost"
                                         className={cn(
-                                            "flex flex-col items-center gap-4 p-8 h-auto rounded-3xl transition-all active:scale-95 border",
+                                            "flex flex-col items-center gap-4 p-8 h-auto rounded-3xl transition-all active:scale-95 border cursor-pointer",
                                             formData.role === role.id
-                                                ? "bg-primary/10 border-primary shadow-[0_0_20px_rgba(99,102,241,0.2)]"
-                                                : "bg-white/[0.02] border-white/5 hover:border-white/20"
+                                                ? "bg-primary/10 border-primary shadow-[0_0_20px_rgba(99,102,241,0.15)]"
+                                                : "bg-white border-stone-200 hover:border-stone-300 hover:bg-stone-50/50"
                                         )}
                                         onClick={() => setFormData({ ...formData, role: role.id })}
                                     >
-                                        <role.icon className={cn("w-8 h-8", formData.role === role.id ? "text-primary" : "text-white/40")} />
-                                        <span className={cn("font-bold", formData.role === role.id ? "text-white" : "text-white/60")}>{role.label}</span>
+                                        <role.icon className={cn("w-8 h-8", formData.role === role.id ? "text-primary" : "text-stone-400")} />
+                                        <span className={cn("font-bold", formData.role === role.id ? "text-primary font-black" : "text-stone-600")}>
+                                            {role.label}
+                                        </span>
                                     </Button>
                                 ))}
                             </div>
@@ -143,17 +159,22 @@ export function ProfileForm({ onComplete }: ProfileFormProps) {
                                         value={newSkill}
                                         onChange={(e) => setNewSkill(e.target.value)}
                                         onKeyDown={(e) => e.key === "Enter" && addSkill()}
-                                        className="h-12 bg-white/[0.03] border-white/10 focus:border-primary/50 placeholder:text-white/20"
+                                        className="h-12 bg-white border-stone-200 text-stone-900 rounded-xl px-4 font-semibold focus-visible:ring-primary focus-visible:ring-1 placeholder:text-stone-400"
                                     />
-                                    <Button onClick={addSkill} variant="secondary" className="h-12 px-6">Add</Button>
+                                    <Button 
+                                        onClick={addSkill} 
+                                        className="h-12 px-6 bg-stone-200 hover:bg-stone-300 text-stone-800 font-bold rounded-xl cursor-pointer"
+                                    >
+                                        Add
+                                    </Button>
                                 </div>
                                 <div className="flex flex-wrap gap-2">
                                     {skills.map((s) => (
-                                        <Badge key={s} variant="secondary" className="px-4 py-2 bg-primary/10 border-primary/20 text-primary rounded-xl flex items-center gap-2">
-                                            <span className="font-bold">{s}</span>
+                                        <Badge key={s} variant="secondary" className="px-4 py-2 bg-primary/10 border border-primary/20 text-primary rounded-xl flex items-center gap-2 font-bold">
+                                            <span>{s}</span>
                                             <button
                                                 onClick={() => setSkills(skills.filter(sk => sk !== s))}
-                                                className="hover:text-white transition-colors active:scale-90 opacity-60 hover:opacity-100"
+                                                className="hover:text-primary-foreground text-primary/60 transition-colors active:scale-90"
                                             >
                                                 <X className="w-3 h-3" />
                                             </button>
@@ -175,19 +196,34 @@ export function ProfileForm({ onComplete }: ProfileFormProps) {
                                         key={style.id}
                                         variant="outline"
                                         className={cn(
-                                            "flex items-center gap-4 p-5 h-auto rounded-2xl transition-all active:scale-98 border text-left justify-start",
+                                            "flex items-center gap-4 p-5 h-auto rounded-2xl transition-all active:scale-98 border text-left justify-start cursor-pointer",
                                             formData.workStyle === style.id
-                                                ? "bg-primary/10 border-primary shadow-[0_0_15px_rgba(99,102,241,0.15)]"
-                                                : "bg-white/[0.01] border-white/5 hover:border-white/10"
+                                                ? "bg-primary/10 border-primary text-primary shadow-sm"
+                                                : "bg-white border-stone-200 hover:border-stone-300 hover:bg-stone-50/50"
                                         )}
                                         onClick={() => setFormData({ ...formData, workStyle: style.id })}
                                     >
-                                        <div className={cn("p-2.5 rounded-lg", formData.workStyle === style.id ? "bg-primary/20 text-primary" : "bg-white/5 text-white/30")}>
+                                        <div className={cn(
+                                            "p-2.5 rounded-lg", 
+                                            formData.workStyle === style.id 
+                                                ? "bg-primary/20 text-primary" 
+                                                : "bg-stone-100 text-stone-400"
+                                        )}>
                                             <style.icon className="w-5 h-5" />
                                         </div>
                                         <div>
-                                            <div className={cn("font-bold text-sm", formData.workStyle === style.id ? "text-white" : "text-white/60")}>{style.label}</div>
-                                            <div className="text-[10px] text-white/30">{style.desc}</div>
+                                            <div className={cn(
+                                                "font-bold text-sm", 
+                                                formData.workStyle === style.id ? "text-primary font-black" : "text-stone-700"
+                                            )}>
+                                                {style.label}
+                                            </div>
+                                            <div className={cn(
+                                                "text-[10px]",
+                                                formData.workStyle === style.id ? "text-primary/70" : "text-stone-400 font-semibold"
+                                            )}>
+                                                {style.desc}
+                                            </div>
                                         </div>
                                     </Button>
                                 ))}
@@ -201,14 +237,14 @@ export function ProfileForm({ onComplete }: ProfileFormProps) {
                         variant="ghost"
                         disabled={step === 0}
                         onClick={() => setStep(step - 1)}
-                        className="active:scale-95 transition-all"
+                        className="active:scale-95 transition-all text-stone-500 hover:text-stone-800 font-bold uppercase text-xs tracking-wider cursor-pointer"
                     >
                         Back
                     </Button>
                     <Button
                         onClick={() => step < STEPS.length - 1 ? setStep(step + 1) : handleComplete()}
                         disabled={!isStepValid() || isCompleting}
-                        className="bg-primary hover:bg-primary/90 px-8 active:scale-95 transition-all min-w-[140px]"
+                        className="bg-primary hover:bg-stone-900 text-white font-black px-8 active:scale-95 transition-all min-w-[140px] rounded-xl text-xs uppercase tracking-wider cursor-pointer"
                     >
                         {isCompleting ? (
                             <div className="flex items-center gap-2">

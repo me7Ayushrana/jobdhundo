@@ -74,7 +74,7 @@ export default function MatchesPage() {
                                 <Button
                                     variant="ghost"
                                     onClick={() => setShowResults(false)}
-                                    className="mb-6 -ml-4 text-muted-foreground hover:text-white gap-2 active:scale-95 transition-all"
+                                    className="mb-6 -ml-4 text-muted-foreground hover:text-foreground gap-2 active:scale-95 transition-all"
                                 >
                                     <ArrowLeft className="w-4 h-4" />
                                     Edit Profile
@@ -107,10 +107,10 @@ export default function MatchesPage() {
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 placeholder="Search by name, role, or tech stack..."
-                                className="w-full h-14 pl-14 pr-6 rounded-2xl glass-premium border-white/5 focus:border-primary/30 transition-all outline-none text-sm font-medium tracking-tight placeholder:text-white/20 selection:bg-primary/30"
+                                className="w-full h-14 pl-14 pr-6 rounded-2xl glass-premium border-foreground/5 focus:border-primary/30 transition-all outline-none text-sm font-medium tracking-tight placeholder:text-stone-400 selection:bg-primary/30"
                             />
                             <div className="absolute inset-y-0 right-6 flex items-center pointer-events-none">
-                                <div className="px-2 py-1 rounded-md bg-white/5 border border-white/10 text-[9px] uppercase font-black tracking-widest text-white/30">
+                                <div className="px-2 py-1 rounded-md bg-foreground/5 border border-foreground/10 text-[9px] uppercase font-black tracking-widest text-stone-500">
                                     {filteredMatches.length} Matches Found
                                 </div>
                             </div>
@@ -126,7 +126,7 @@ export default function MatchesPage() {
                             <motion.div
                                 initial={{ opacity: 0, scale: 0.95 }}
                                 animate={{ opacity: 1, scale: 1 }}
-                                className="py-20 text-center glass-card rounded-[2.5rem] border-white/5"
+                                className="py-20 text-center glass-card rounded-[2.5rem] border-foreground/5"
                             >
                                 <div className="w-20 h-20 bg-primary/10 rounded-3xl flex items-center justify-center mx-auto mb-6 border border-primary/20">
                                     <Sparkles className="w-10 h-10 text-primary animate-pulse" />
@@ -136,7 +136,7 @@ export default function MatchesPage() {
                                 <Button
                                     variant="ghost"
                                     onClick={() => setSearchQuery("")}
-                                    className="mt-6 text-primary hover:text-white active:scale-95 transition-all"
+                                    className="mt-6 text-primary hover:text-foreground active:scale-95 transition-all"
                                 >
                                     Clear Search
                                 </Button>

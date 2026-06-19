@@ -31,10 +31,10 @@ export function ActivityFeed({ maxItems = 6 }: { maxItems?: number }) {
         <div className="space-y-2">
             <div className="flex items-center gap-2 mb-4">
                 <Activity className="w-4 h-4 text-primary" />
-                <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40">Live Activity</h4>
+                <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground font-black">Live Activity</h4>
             </div>
             {items.map((event, idx) => {
-                const config = EVENT_CONFIG[event.type] || { icon: Zap, color: "text-white/40" };
+                const config = EVENT_CONFIG[event.type] || { icon: Zap, color: "text-stone-400" };
                 const Icon = config.icon;
                 return (
                     <motion.div
@@ -44,19 +44,19 @@ export function ActivityFeed({ maxItems = 6 }: { maxItems?: number }) {
                         transition={{ delay: idx * 0.05 }}
                         className="flex items-start gap-3 py-2.5 group"
                     >
-                        <div className={`w-7 h-7 rounded-lg bg-white/[0.04] flex items-center justify-center shrink-0 border border-white/5 group-hover:border-primary/20 transition-all`}>
+                        <div className={`w-7 h-7 rounded-lg bg-foreground/[0.04] flex items-center justify-center shrink-0 border border-border/60 group-hover:border-primary/20 transition-all`}>
                             <Icon className={`w-3.5 h-3.5 ${config.color}`} />
                         </div>
                         <div className="flex-1 min-w-0">
-                            <p className="text-[11px] text-white/50 leading-relaxed">{event.message}</p>
-                            <span className="text-[9px] font-mono text-white/15">{timeAgo(event.timestamp)}</span>
+                            <p className="text-[11px] text-stone-600 leading-relaxed font-semibold">{event.message}</p>
+                            <span className="text-[9px] font-mono text-stone-400">{timeAgo(event.timestamp)}</span>
                         </div>
                     </motion.div>
                 );
             })}
             {items.length === 0 && (
                 <div className="py-8 text-center">
-                    <p className="text-xs text-white/20">No activity yet</p>
+                    <p className="text-xs text-stone-400">No activity yet</p>
                 </div>
             )}
         </div>

@@ -44,80 +44,75 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-:root {
-  --background: oklch(0.05 0.01 260);
-  --foreground: oklch(0.98 0.01 260);
-  --card: oklch(0.08 0.02 260);
-  --card-foreground: oklch(0.98 0.01 260);
-  --popover: oklch(0.08 0.02 260);
-  --popover-foreground: oklch(0.98 0.01 260);
-  --primary: oklch(0.65 0.25 260);
-  --primary-foreground: oklch(0.98 0.01 260);
-  --secondary: oklch(0.2 0.05 260);
-  --secondary-foreground: oklch(0.98 0.01 260);
-  --muted: oklch(0.2 0.05 260);
-  --muted-foreground: oklch(0.6 0.05 260);
-  --accent: oklch(0.3 0.1 260);
-  --accent-foreground: oklch(0.98 0.01 260);
-  --destructive: oklch(0.55 0.2 25);
-  --border: oklch(0.2 0.05 260 / 0.1);
-  --input: oklch(0.2 0.05 260 / 0.1);
-  --ring: oklch(0.65 0.25 260);
-  --chart-1: oklch(0.65 0.25 260);
-  --chart-2: oklch(0.55 0.2 150);
-  --chart-3: oklch(0.7 0.15 40);
-  --chart-4: oklch(0.6 0.2 280);
-  --chart-5: oklch(0.65 0.25 320);
-  --radius: 1rem;
+:root, .dark {
+  --background: oklch(0.985 0.004 80);
+  --foreground: oklch(0.2 0.015 80);
+  --card: oklch(0.995 0.002 80);
+  --card-foreground: oklch(0.2 0.015 80);
+  --popover: oklch(0.995 0.002 80);
+  --popover-foreground: oklch(0.2 0.015 80);
+  --primary: oklch(0.55 0.15 35); /* Elegant Terracotta Solid */
+  --primary-foreground: oklch(0.995 0.002 80);
+  --secondary: oklch(0.94 0.006 80);
+  --secondary-foreground: oklch(0.2 0.015 80);
+  --muted: oklch(0.94 0.006 80);
+  --muted-foreground: oklch(0.38 0.01 80);
+  --accent: oklch(0.92 0.008 80);
+  --accent-foreground: oklch(0.2 0.015 80);
+  --destructive: oklch(0.58 0.18 20);
+  --border: oklch(0.2 0.015 80 / 0.07);
+  --input: oklch(0.2 0.015 80 / 0.07);
+  --ring: oklch(0.55 0.15 35);
+  --chart-1: oklch(0.55 0.15 35);
+  --chart-2: oklch(0.48 0.12 145);
+  --chart-3: oklch(0.62 0.12 40);
+  --chart-4: oklch(0.55 0.15 280);
+  --chart-5: oklch(0.58 0.18 320);
+  --radius: 0.75rem;
 }
 
 @layer base {
   body {
-    @apply bg-background text-foreground selection:bg-primary/30;
+    @apply bg-background text-foreground selection:bg-primary/20;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
 
 @layer utilities {
   .glass {
-    @apply bg-background/50 backdrop-blur-xl border border-white/10;
+    @apply bg-background/95 backdrop-blur-md border border-border;
   }
 
   .glass-premium {
-    @apply bg-white/[0.03] backdrop-blur-2xl border border-white/10 overflow-hidden;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-
-    &::before {
-      content: "";
-      @apply absolute inset-0 bg-gradient-to-br from-white/[0.05] to-transparent pointer-events-none;
-    }
+    @apply bg-card border border-border overflow-hidden;
+    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.01), 0 1px 2px 0 rgba(0, 0, 0, 0.005);
   }
 
   .glass-card {
-    @apply bg-card/40 backdrop-blur-md border border-white/5 hover:border-white/10 transition-all duration-300;
+    @apply bg-card border border-border hover:border-primary/30 transition-all duration-200;
   }
 
   .text-glow {
-    text-shadow: 0 0 20px var(--primary);
+    text-shadow: none;
   }
 
   .bg-grid {
-    background-image: linear-gradient(to right, oklch(1 0 0 / 0.05) 1px, transparent 1px),
-      linear-gradient(to bottom, oklch(1 0 0 / 0.05) 1px, transparent 1px);
-    background-size: 40px 40px;
+    background-image: linear-gradient(to right, oklch(0.2 0.015 80 / 0.02) 1px, transparent 1px),
+      linear-gradient(to bottom, oklch(0.2 0.015 80 / 0.02) 1px, transparent 1px);
+    background-size: 32px 32px;
   }
 
   .animate-pulse-slow {
-    animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    animation: none;
   }
 
   .animate-shimmer-fast {
-    animation: shimmer 1s infinite;
+    animation: none;
   }
 
   .custom-scrollbar::-webkit-scrollbar {
-    height: 8px;
-    width: 8px;
+    height: 6px;
+    width: 6px;
   }
 
   .custom-scrollbar::-webkit-scrollbar-track {
@@ -125,104 +120,58 @@
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-white/10 rounded-full hover:bg-white/20 transition-colors;
-  }
-}
-
-@keyframes pulse {
-
-  0%,
-  100% {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: 0.5;
-  }
-}
-
-@keyframes shimmer {
-  100% {
-    transform: translateX(100%);
+    @apply bg-foreground/10 rounded-full hover:bg-foreground/20 transition-colors;
   }
 }
 
 @layer utilities {
   .shimmer-border {
-    @apply relative overflow-hidden;
+    position: relative;
+    border: 1px solid var(--border);
   }
 
   .shadow-glow {
-    box-shadow: 0 0 20px var(--primary);
+    box-shadow: none;
   }
 
   .shadow-glow-emerald {
-    box-shadow: 0 0 20px oklch(0.65 0.25 150);
+    box-shadow: none;
   }
 
   .text-glow {
-    text-shadow: 0 0 15px var(--primary);
+    text-shadow: none;
   }
 
   .gold-shimmer {
-    background: linear-gradient(90deg,
-        #8a6d3b 0%,
-        #e6be8a 25%,
-        #8a6d3b 50%,
-        #e6be8a 75%,
-        #8a6d3b 100%);
-    background-size: 200% auto;
-    color: transparent;
-    -webkit-background-clip: text;
-    background-clip: text;
-    animation: gold-shimmer-anim 4s linear infinite;
+    color: var(--primary);
   }
 
   .gold-shimmer-border {
-    position: relative;
-    background: var(--background);
-    background-clip: padding-box;
-    border: 1px solid transparent;
-  }
-
-  .gold-shimmer-border::before {
-    content: "";
-    position: absolute;
-    inset: -1px;
-    z-index: -1;
-    background: linear-gradient(90deg,
-        #8a6d3b 0%,
-        #e6be8a 25%,
-        #8a6d3b 50%,
-        #e6be8a 75%,
-        #8a6d3b 100%);
-    background-size: 200% auto;
-    border-radius: inherit;
-    animation: gold-shimmer-anim 4s linear infinite;
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask-composite: exclude;
-    -webkit-mask-composite: destination-out;
+    border: 1px solid var(--border);
   }
 
   .text-glass-shimmer {
-    background: linear-gradient(120deg,
-        rgba(255, 255, 255, 0.1) 0%,
-        rgba(255, 255, 255, 0.5) 20%,
-        rgba(255, 255, 255, 1) 50%,
-        rgba(255, 255, 255, 0.5) 80%,
-        rgba(255, 255, 255, 0.1) 100%);
-    background-size: 200% auto;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    animation: gold-shimmer-anim 6s linear infinite;
-    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.2));
+    color: var(--foreground);
   }
 }
 
-@keyframes gold-shimmer-anim {
-  to {
-    background-position: 200% center;
-  }
-}/* UI Refinement: Optimized backdrop-blur for glass-premium - SC */
+/* Scoped Navbar Link & Icon Visibility Overrides */
+nav div.hidden.md\:flex a, 
+nav div.hidden.md\:flex button {
+  color: var(--foreground) !important;
+  transition: color 0.2s ease-in-out !important;
+}
+nav div.hidden.md\:flex a:hover, 
+nav div.hidden.md\:flex button:hover {
+  color: var(--primary) !important;
+}
+nav div.hidden.md\:flex a svg, 
+nav div.hidden.md\:flex button svg {
+  color: var(--foreground) !important;
+  transition: color 0.2s ease-in-out !important;
+}
+nav div.hidden.md\:flex a:hover svg, 
+nav div.hidden.md\:flex button:hover svg {
+  color: var(--primary) !important;
+}
+

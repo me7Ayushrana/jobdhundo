@@ -46,35 +46,35 @@ export function FriendsPanel() {
                         animate={{ x: 0, opacity: 1 }}
                         exit={{ x: -400, opacity: 0 }}
                         transition={{ type: "spring", damping: 28, stiffness: 280 }}
-                        className="fixed top-0 left-0 bottom-0 w-[380px] z-[260] glass-premium border-r border-white/10 shadow-2xl flex flex-col"
+                        className="fixed top-0 left-0 bottom-0 w-[380px] z-[260] glass-premium border-r border-border shadow-2xl flex flex-col"
                     >
                         {/* Header */}
-                        <div className="flex items-center justify-between px-6 py-5 border-b border-white/5">
+                        <div className="flex items-center justify-between px-6 py-5 border-b border-border/60">
                             <div className="flex items-center gap-3">
                                 <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center border border-primary/30">
                                     <Users className="w-5 h-5 text-primary" />
                                 </div>
                                 <div>
-                                    <h3 className="font-black text-sm tracking-tight">Friends</h3>
-                                    <p className="text-[10px] font-mono tracking-widest text-emerald-400 uppercase">
+                                    <h3 className="font-black text-sm tracking-tight text-foreground">Friends</h3>
+                                    <p className="text-[10px] font-mono tracking-widest text-emerald-600 uppercase font-black">
                                         {onlineFriendsCount} online
                                     </p>
                                 </div>
                             </div>
-                            <button onClick={toggleFriendsPanel} className="w-8 h-8 rounded-lg hover:bg-white/10 flex items-center justify-center transition-colors">
-                                <X className="w-4 h-4 text-white/40" />
+                            <button onClick={toggleFriendsPanel} className="w-8 h-8 rounded-lg hover:bg-foreground/10 flex items-center justify-center transition-colors">
+                                <X className="w-4 h-4 text-stone-500" />
                             </button>
                         </div>
 
                         {/* Search */}
                         <div className="px-5 py-3">
                             <div className="relative">
-                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20" />
+                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400" />
                                 <input
                                     value={searchQ}
                                     onChange={(e) => setSearchQ(e.target.value)}
                                     placeholder="Search friends..."
-                                    className="w-full h-10 pl-10 pr-4 bg-white/[0.03] border border-white/5 rounded-xl text-xs outline-none focus:border-primary/30 transition-colors placeholder:text-white/20"
+                                    className="w-full h-10 pl-10 pr-4 bg-foreground/[0.03] border border-border rounded-xl text-xs outline-none focus:border-primary/30 transition-colors placeholder:text-stone-400 text-foreground"
                                 />
                             </div>
                         </div>
@@ -83,7 +83,7 @@ export function FriendsPanel() {
                             {/* Pending Requests */}
                             {pendingFriendRequests.length > 0 && (
                                 <div className="px-5 py-3">
-                                    <h4 className="text-[9px] font-black uppercase tracking-[0.3em] text-white/20 mb-3 flex items-center gap-2">
+                                    <h4 className="text-[9px] font-black uppercase tracking-[0.3em] text-stone-500 mb-3 flex items-center gap-2">
                                         <UserPlus className="w-3 h-3 text-primary" />
                                         Pending Requests ({pendingFriendRequests.length})
                                     </h4>
@@ -93,15 +93,15 @@ export function FriendsPanel() {
                                                 key={req.id}
                                                 initial={{ opacity: 0, y: 10 }}
                                                 animate={{ opacity: 1, y: 0 }}
-                                                className="flex items-center justify-between p-3 rounded-xl bg-white/[0.02] border border-white/5 hover:border-primary/20 transition-all"
+                                                className="flex items-center justify-between p-3 rounded-xl bg-foreground/[0.02] border border-border hover:border-primary/20 transition-all"
                                             >
                                                 <div className="flex items-center gap-3">
-                                                    <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-primary/20 to-indigo-500/20 flex items-center justify-center text-sm font-black border border-white/10">
+                                                    <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-primary/20 to-indigo-500/20 flex items-center justify-center text-sm font-black border border-border text-foreground">
                                                         {req.from.avatar}
                                                     </div>
                                                     <div>
-                                                        <h5 className="text-xs font-bold text-white">{req.from.name}</h5>
-                                                        <p className="text-[9px] text-white/30 font-mono uppercase">{req.from.role}</p>
+                                                        <h5 className="text-xs font-bold text-foreground">{req.from.name}</h5>
+                                                        <p className="text-[9px] text-muted-foreground font-mono uppercase font-semibold">{req.from.role}</p>
                                                     </div>
                                                 </div>
                                                 <div className="flex gap-1.5">
@@ -109,13 +109,13 @@ export function FriendsPanel() {
                                                         onClick={() => acceptFriendRequest(req.id)}
                                                         className="w-8 h-8 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/40 flex items-center justify-center transition-all active:scale-90"
                                                     >
-                                                        <Check className="w-4 h-4 text-emerald-400" />
+                                                        <Check className="w-4 h-4 text-emerald-600" />
                                                     </button>
                                                     <button
                                                         onClick={() => rejectFriendRequest(req.id)}
-                                                        className="w-8 h-8 rounded-lg bg-white/5 hover:bg-red-500/20 flex items-center justify-center transition-all active:scale-90"
+                                                        className="w-8 h-8 rounded-lg bg-foreground/5 hover:bg-red-500/20 flex items-center justify-center transition-all active:scale-90"
                                                     >
-                                                        <XCircle className="w-4 h-4 text-white/30 hover:text-red-400" />
+                                                        <XCircle className="w-4 h-4 text-stone-400 hover:text-red-600" />
                                                     </button>
                                                 </div>
                                             </motion.div>
@@ -126,12 +126,12 @@ export function FriendsPanel() {
 
                             {/* Divider */}
                             {pendingFriendRequests.length > 0 && (
-                                <div className="h-px bg-gradient-to-r from-transparent via-white/5 to-transparent mx-5" />
+                                <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent mx-5" />
                             )}
 
                             {/* Friends List */}
                             <div className="px-5 py-3">
-                                <h4 className="text-[9px] font-black uppercase tracking-[0.3em] text-white/20 mb-3">
+                                <h4 className="text-[9px] font-black uppercase tracking-[0.3em] text-stone-500 mb-3">
                                     All Friends ({filteredFriends.length})
                                 </h4>
                                 <div className="space-y-1">
@@ -139,18 +139,18 @@ export function FriendsPanel() {
                                         <motion.div
                                             key={friend.id}
                                             layout
-                                            className="flex items-center justify-between p-3 rounded-xl hover:bg-white/[0.03] transition-all group cursor-pointer"
+                                            className="flex items-center justify-between p-3 rounded-xl hover:bg-foreground/[0.03] transition-all group cursor-pointer"
                                         >
                                             <div className="flex items-center gap-3">
                                                 <div className="relative">
-                                                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/20 to-indigo-500/20 flex items-center justify-center text-sm font-black border border-white/10 group-hover:border-primary/40 transition-all">
+                                                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/20 to-indigo-500/20 flex items-center justify-center text-sm font-black border border-border group-hover:border-primary/40 transition-all text-foreground">
                                                         {friend.avatar}
                                                     </div>
-                                                    <div className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-slate-950 ${friend.isOnline ? "bg-emerald-400" : "bg-white/20"}`} />
+                                                    <div className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-background ${friend.isOnline ? "bg-emerald-500" : "bg-stone-300"}`} />
                                                 </div>
                                                 <div>
-                                                    <h5 className="text-xs font-bold text-white group-hover:text-primary transition-colors">{friend.name}</h5>
-                                                    <p className="text-[9px] text-white/30 font-mono uppercase">{friend.role} • {friend.style}</p>
+                                                    <h5 className="text-xs font-bold text-foreground group-hover:text-primary transition-colors">{friend.name}</h5>
+                                                    <p className="text-[9px] text-muted-foreground font-mono uppercase font-semibold">{friend.role} • {friend.style}</p>
                                                 </div>
                                             </div>
                                             <div className="flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -166,7 +166,7 @@ export function FriendsPanel() {
                                                     className="w-8 h-8 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/40 flex items-center justify-center transition-all active:scale-90"
                                                     title="Invite to Team"
                                                 >
-                                                    <Send className="w-3.5 h-3.5 text-emerald-400" />
+                                                    <Send className="w-3.5 h-3.5 text-emerald-600" />
                                                 </button>
                                             </div>
                                         </motion.div>
@@ -175,8 +175,8 @@ export function FriendsPanel() {
 
                                 {filteredFriends.length === 0 && (
                                     <div className="py-12 text-center space-y-2">
-                                        <Users className="w-8 h-8 text-white/10 mx-auto" />
-                                        <p className="text-xs text-white/20">No friends found</p>
+                                        <Users className="w-8 h-8 text-stone-300 mx-auto" />
+                                        <p className="text-xs text-stone-400">No friends found</p>
                                     </div>
                                 )}
                             </div>

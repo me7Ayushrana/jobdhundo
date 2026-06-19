@@ -35,7 +35,6 @@ export function RepoGraph({ nodes, repoUrl }: RepoGraphProps) {
             if (!levelCounts[currentLevel]) levelCounts[currentLevel] = 0;
 
             const x = paddingX + currentLevel * colGap;
-            // Stagger nodes slightly to avoid straight lines everywhere
             const y = paddingY + levelCounts[currentLevel] * (nodeHeight + rowGap);
 
             levelCounts[currentLevel]++;
@@ -56,7 +55,6 @@ export function RepoGraph({ nodes, repoUrl }: RepoGraphProps) {
             }
         };
 
-        // Calculate total height needed
         const maxNodesInAnyLevel = Math.max(...levelCounts.filter(Boolean));
         const totalContentHeight = paddingY * 2 + maxNodesInAnyLevel * (nodeHeight + rowGap);
 
@@ -73,7 +71,7 @@ export function RepoGraph({ nodes, repoUrl }: RepoGraphProps) {
     const maxRows = Math.max(...flattened.map(n => n.y)) + nodeHeight + paddingY;
 
     return (
-        <div className="relative w-full overflow-x-auto custom-scrollbar rounded-2xl bg-slate-950/20 border border-white/5 backdrop-blur-sm">
+        <div className="relative w-full overflow-x-auto custom-scrollbar rounded-2xl bg-stone-50 border border-stone-200 backdrop-blur-sm">
             <div
                 className="relative"
                 style={{ width: paddingX + (maxLevel + 1) * colGap + nodeWidth, height: Math.max(500, maxRows) }}
@@ -81,12 +79,12 @@ export function RepoGraph({ nodes, repoUrl }: RepoGraphProps) {
                 <svg className="absolute inset-0 w-full h-full pointer-events-none">
                     <defs>
                         <linearGradient id="edge-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" stopColor="#6366f1" stopOpacity="0.1" />
-                            <stop offset="100%" stopColor="#6366f1" stopOpacity="0.5" />
+                            <stop offset="0%" stopColor="#6366f1" stopOpacity="0.15" />
+                            <stop offset="100%" stopColor="#6366f1" stopOpacity="0.6" />
                         </linearGradient>
                     </defs>
 
-                    {flattened.map((node, i) => (
+                    {flattened.map((node) => (
                         <motion.path
                             key={`edge-${node.path}`}
                             d={`M ${node.parentPos!.x + nodeWidth} ${node.parentPos!.y} C ${node.parentPos!.x + nodeWidth + colGap / 2} ${node.parentPos!.y}, ${node.x - colGap / 2} ${node.y}, ${node.x} ${node.y}`}
@@ -104,13 +102,13 @@ export function RepoGraph({ nodes, repoUrl }: RepoGraphProps) {
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="absolute z-10 glass px-6 py-4 flex items-center gap-4 border-primary/40 rounded-2xl bg-primary/10 shadow-[0_0_30px_rgba(99,102,241,0.2)]"
+                    className="absolute z-10 glass px-6 py-4 flex items-center gap-4 border border-primary/20 rounded-2xl bg-primary/10 shadow-sm"
                     style={{ left: rootX, top: rootY - nodeHeight / 2, width: nodeWidth }}
                 >
-                    <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center border border-primary/40 shadow-inner">
+                    <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center border border-primary/30">
                         <Folder className="w-5 h-5 text-primary" />
                     </div>
-                    <span className="font-extrabold text-sm tracking-tight uppercase opacity-80">root</span>
+                    <span className="font-extrabold text-sm tracking-tight text-primary uppercase opacity-90">root</span>
                 </motion.div>
 
                 {/* Tree Nodes */}
@@ -124,11 +122,14 @@ export function RepoGraph({ nodes, repoUrl }: RepoGraphProps) {
                             initial={{ opacity: 0, x: 20 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: node.level * 0.1 }}
-                            className={`absolute z-10 glass border-white/10 px-4 py-3 flex items-center gap-3 group hover:border-primary/50 hover:bg-white/5 transition-all rounded-xl shadow-lg ${node.type === 'file' ? 'cursor-pointer' : 'cursor-default'}`}
+                            className={`absolute z-10 glass border border-stone-200 px-4 py-3 flex items-center gap-3 group hover:border-primary/50 hover:bg-stone-50 transition-all rounded-xl shadow-md ${node.type === 'file' ? 'cursor-pointer' : 'cursor-default'}`}
                             style={{ left: node.x, top: node.y - nodeHeight / 2, width: nodeWidth }}
                         >
-                            <div className={`w-9 h-9 rounded-lg flex items-center justify-center border transition-colors ${node.type === 'dir' ? 'bg-indigo-500/10 border-indigo-500/30 text-indigo-400' : 'bg-slate-800/50 border-white/10 text-slate-400 group-hover:text-primary'
-                                }`}>
+                            <div className={`w-9 h-9 rounded-lg flex items-center justify-center border transition-colors ${
+                                node.type === 'dir' 
+                                    ? 'bg-indigo-500/10 border-indigo-500/20 text-indigo-600' 
+                                    : 'bg-stone-100 border-stone-200 text-stone-500 group-hover:bg-primary/10 group-hover:border-primary/20 group-hover:text-primary'
+                            }`}>
                                 {node.type === 'dir' ? (
                                     <Folder className="w-4 h-4" />
                                 ) : (
@@ -136,9 +137,9 @@ export function RepoGraph({ nodes, repoUrl }: RepoGraphProps) {
                                 )}
                             </div>
                             <div className="flex-1 min-w-0">
-                                <div className="text-xs font-bold truncate group-hover:text-white transition-colors">{node.name}</div>
+                                <div className="text-xs font-bold text-stone-800 truncate group-hover:text-stone-900 transition-colors">{node.name}</div>
                                 {node.type === 'file' && (
-                                    <div className="text-[9px] font-mono text-muted-foreground uppercase tracking-widest flex items-center gap-1 opacity-60 group-hover:opacity-100 group-hover:text-primary transition-all">
+                                    <div className="text-[9px] font-mono text-stone-400 uppercase tracking-widest flex items-center gap-1 opacity-70 group-hover:opacity-100 group-hover:text-primary transition-all">
                                         Link <ExternalLink className="w-2.5 h-2.5" />
                                     </div>
                                 )}
