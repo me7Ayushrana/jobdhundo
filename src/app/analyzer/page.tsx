@@ -185,30 +185,42 @@ export default function AnalyzerPage() {
         {/* Search / Upload Action box */}
         <div className="max-w-2xl mx-auto">
           {activeTab === "github" ? (
-            <div className="p-3 bg-white border border-stone-200 rounded-3xl shadow-sm flex items-center gap-3">
-              <div className="flex-1 flex items-center px-4 gap-3 bg-stone-50 rounded-2xl border border-stone-200 h-14">
-                <Github className="w-5 h-5 text-stone-400" />
-                <Input
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  placeholder="Enter GitHub Username..."
-                  className="bg-transparent border-none text-sm h-full focus-visible:ring-0 placeholder:text-stone-400 font-semibold"
-                  onKeyDown={(e) => e.key === "Enter" && runAnalysis()}
-                />
+            <div className="space-y-4">
+              <div className="p-3 bg-white border border-stone-200 rounded-3xl shadow-sm flex items-center gap-3">
+                <div className="flex-1 flex items-center px-4 gap-3 bg-stone-50 rounded-2xl border border-stone-200 h-14">
+                  <Github className="w-5 h-5 text-stone-400" />
+                  <Input
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    placeholder="Enter GitHub Username..."
+                    className="bg-transparent border-none text-sm h-full focus-visible:ring-0 placeholder:text-stone-400 font-semibold"
+                    onKeyDown={(e) => e.key === "Enter" && runAnalysis()}
+                  />
+                </div>
+                <Button
+                  onClick={runAnalysis}
+                  disabled={!username || isAnalyzing}
+                  className="h-14 px-8 bg-primary text-white font-black uppercase text-[10px] tracking-widest rounded-2xl shadow-lg shadow-primary/10 active:scale-95 transition-transform shrink-0 flex items-center gap-1.5 cursor-pointer"
+                >
+                  {isAnalyzing ? (
+                    <RefreshCw className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <>
+                      Extract DNA <ChevronRight className="w-4 h-4" />
+                    </>
+                  )}
+                </Button>
               </div>
-              <Button
-                onClick={runAnalysis}
-                disabled={!username || isAnalyzing}
-                className="h-14 px-8 bg-primary text-white font-black uppercase text-[10px] tracking-widest rounded-2xl shadow-lg shadow-primary/10 active:scale-95 transition-transform shrink-0 flex items-center gap-1.5 cursor-pointer"
-              >
-                {isAnalyzing ? (
-                  <RefreshCw className="w-4 h-4 animate-spin" />
-                ) : (
-                  <>
-                    Extract DNA <ChevronRight className="w-4 h-4" />
-                  </>
-                )}
-              </Button>
+
+              <div className="flex justify-center animate-in fade-in slide-in-from-bottom-2 duration-300">
+                <Button
+                  variant="outline"
+                  onClick={() => window.open("https://getmygit.vercel.app", "_blank")}
+                  className="h-12 px-6 border-stone-200 text-stone-700 hover:text-stone-900 bg-white rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-sm hover:bg-stone-50 flex items-center gap-2 cursor-pointer transition-all border"
+                >
+                  <Github className="w-4 h-4 text-primary" /> Analyzer Repository <ChevronRight className="w-3.5 h-3.5 text-stone-400" />
+                </Button>
+              </div>
             </div>
           ) : (
             <div className="p-3 bg-white border border-stone-200 rounded-3xl shadow-sm flex flex-col md:flex-row items-center gap-3">
