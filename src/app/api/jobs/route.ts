@@ -1,10 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { fetchAdzunaJobs } from "@/lib/jobs/aggregators/adzuna";
-import { fetchLoopCVJobs } from "@/lib/jobs/aggregators/loopcv";
-import { fetchJSearchJobs } from "@/lib/jobs/aggregators/jsearch";
-import { getCacheKey, getCachedJobs, saveJobsToCache, getStaleJobs } from "@/lib/jobs/cache";
-import { UnifiedJob, JobSearchResult } from "@/lib/jobs/types";
-import { HIGH_FIDELITY_FALLBACK_JOBS } from "@/lib/jobs/mock-data";
+import { loadAllJobsFromDb } from "@/lib/jobs/sync-manager";
+import { JobSearchResult } from "@/lib/jobs/types";
 
 export async function GET(req: NextRequest) {
   try {
@@ -21,108 +17,58 @@ export async function GET(req: NextRequest) {
     const page = parseInt(searchParams.get("page") || "1", 10);
     const perPage = parseInt(searchParams.get("perPage") || "10", 10);
 
-    const filters = {
-      q,
-      location,
-      jobTypes,
-      experience,
-      skills,
-      salaryMin,
-      salaryMax,
-      remote,
-      postedWithin,
-      page,
-      perPage
-    };
+    // Load unified consolidated listings directly from centralized database (Firestore or Local JSON)
+    const allDbJobs = await loadAllJobsFromDb();
 
-    const cacheKey = getCacheKey(filters);
+    // Apply filters
+    let filteredJobs = [...allDbJobs];
 
-    // 1. Try to read active cache
-    const cachedResult = await getCachedJobs(cacheKey);
-    if (cachedResult) {
-      return NextResponse.json(cachedResult);
-    }
-
-    // 2. Fetch from Live APIs in parallel (wrapped in safe catch)
-    console.log("[API Route] Cache miss. Fetching live API listings...");
-    const [adzunaJobs, loopcvJobs, jsearchJobs] = await Promise.all([
-      fetchAdzunaJobs(q || "software", location, page).catch((e) => {
-        console.error("Adzuna fetch failed:", e);
-        return [];
-      }),
-      fetchLoopCVJobs(q || "software", location).catch((e) => {
-        console.error("LoopCV fetch failed:", e);
-        return [];
-      }),
-      fetchJSearchJobs(q || "software", location, page).catch((e) => {
-        console.error("JSearch fetch failed:", e);
-        return [];
-      })
-    ]);
-
-    let rawAggregated = [...adzunaJobs, ...loopcvJobs, ...jsearchJobs];
-
-    // Deduplicate jobs by Title + Company + Location
-    const seen = new Set<string>();
-    let deduped = rawAggregated.filter((job) => {
-      const hash = `${job.title.toLowerCase()}|${job.company.toLowerCase()}|${job.location.toLowerCase()}`;
-      if (seen.has(hash)) return false;
-      seen.add(hash);
-      return true;
-    });
-
-    // ALWAYS include all curated/fallback jobs to ensure complete coverage of multiple platforms!
-    const curatedSourceJobs = HIGH_FIDELITY_FALLBACK_JOBS;
-    const dedupedCurated = curatedSourceJobs.filter((job) => {
-      const hash = `${job.title.toLowerCase()}|${job.company.toLowerCase()}|${job.location.toLowerCase()}`;
-      if (seen.has(hash)) return false;
-      seen.add(hash);
-      return true;
-    });
-    
-    deduped = [...deduped, ...dedupedCurated];
-
-    // Fallback: If we got 0 results (e.g. empty), use the full curated database
-    if (deduped.length === 0) {
-      console.log("[API Route] No live results, using Curated mock database.");
-      // Apply basic keywords text filter on mock listings
-      deduped = HIGH_FIDELITY_FALLBACK_JOBS.filter(job => {
-        if (!q) return true;
-        const term = q.toLowerCase();
+    // 1. Text Search (Query Title, Company, Description, or Skills)
+    if (q.trim()) {
+      const term = q.toLowerCase().trim();
+      filteredJobs = filteredJobs.filter((job) => {
         return (
           job.title.toLowerCase().includes(term) ||
           job.company.toLowerCase().includes(term) ||
-          job.skills.some(s => s.toLowerCase().includes(term))
+          job.description.toLowerCase().includes(term) ||
+          job.skills.some((s) => s.toLowerCase().includes(term))
         );
       });
     }
 
-    // 3. Apply exact Filters
-    let filteredJobs = [...deduped];
+    // 2. Location filter
+    if (location.trim()) {
+      const locTerm = location.toLowerCase().trim();
+      filteredJobs = filteredJobs.filter((job) => 
+        job.location.toLowerCase().includes(locTerm)
+      );
+    }
 
-    // Job Types filter
+    // 3. Job Types filter
     if (jobTypes.length > 0) {
       filteredJobs = filteredJobs.filter((job) => jobTypes.includes(job.jobType));
     }
 
-    // Experience filter
+    // 4. Experience filter
     if (experience.length > 0) {
       filteredJobs = filteredJobs.filter((job) => experience.includes(job.experienceLevel));
     }
 
-    // Remote filter
+    // 5. Remote filter
     if (remote) {
-      filteredJobs = filteredJobs.filter((job) => job.location.toLowerCase().includes("remote"));
+      filteredJobs = filteredJobs.filter((job) => 
+        job.location.toLowerCase().includes("remote")
+      );
     }
 
-    // Skills filter
+    // 6. Skills filter
     if (skills.length > 0) {
       filteredJobs = filteredJobs.filter((job) =>
         skills.some((s) => job.skills.map((js) => js.toLowerCase()).includes(s.toLowerCase()))
       );
     }
 
-    // Salary Min/Max Filter
+    // 7. Salary Min/Max Filter
     if (salaryMin !== undefined) {
       filteredJobs = filteredJobs.filter((job) => !job.salaryMin || job.salaryMin >= salaryMin);
     }
@@ -130,7 +76,7 @@ export async function GET(req: NextRequest) {
       filteredJobs = filteredJobs.filter((job) => !job.salaryMax || job.salaryMax <= salaryMax);
     }
 
-    // Recency (Posted Within) Filter
+    // 8. Recency (Posted Within) Filter
     if (postedWithin !== "all") {
       const now = Date.now();
       let limitMs = 30 * 24 * 60 * 60 * 1000; // default 30d
@@ -142,12 +88,12 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    // Sort by postedDate descending
+    // Sort by postedDate descending (newest opportunities first)
     filteredJobs.sort((a, b) => new Date(b.postedDate).getTime() - new Date(a.postedDate).getTime());
 
-    // Calculate source breakdowns
+    // Calculate source breakdowns dynamically
     const sourceBreakdown: Record<string, number> = {};
-    deduped.forEach((job) => {
+    filteredJobs.forEach((job) => {
       sourceBreakdown[job.source] = (sourceBreakdown[job.source] || 0) + 1;
     });
 
@@ -168,25 +114,9 @@ export async function GET(req: NextRequest) {
       fetchedAt: new Date().toISOString()
     };
 
-    // Store in cache (10 minutes TTL)
-    if (totalResults > 0) {
-      await saveJobsToCache(cacheKey, result);
-    }
-
     return NextResponse.json(result);
   } catch (error: any) {
-    console.error("[API GET Jobs] Endpoint crashed:", error);
-    // Serve stale cache fallback
-    try {
-      const { searchParams } = new URL(req.url);
-      const q = searchParams.get("q") || "";
-      const cacheKey = getCacheKey({ q });
-      const stale = await getStaleJobs(cacheKey);
-      if (stale) {
-        return NextResponse.json({ ...stale, cached: true, warning: "Served from offline backup." });
-      }
-    } catch (_) {}
-
+    console.error("[API GET Jobs] Centralized query failed:", error);
     return NextResponse.json({ error: "Server error", details: error.message }, { status: 500 });
   }
 }

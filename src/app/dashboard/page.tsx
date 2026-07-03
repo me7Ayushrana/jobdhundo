@@ -17,7 +17,8 @@ import {
   HelpCircle,
   FileText,
   MapPin,
-  ExternalLink
+  ExternalLink,
+  RefreshCw
 } from "lucide-react";
 import { useSocial } from "@/components/providers/social-context";
 import { UnifiedJob } from "@/lib/jobs/types";
@@ -102,6 +103,60 @@ export default function DashboardPage() {
   const [recommendedJobs, setRecommendedJobs] = useState<UnifiedJob[]>([]);
   const [applications, setApplications] = useState<Application[]>([]);
   const [selectedSalaryRole, setSelectedSalaryRole] = useState<"Full Stack" | "Frontend" | "Backend" | "DevOps">("Full Stack");
+  
+  // Dynamic API jobs state
+  const [allJobs, setAllJobs] = useState<UnifiedJob[]>([]);
+  
+  // Database synchronization states
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [syncLogs, setSyncLogs] = useState<string[]>([]);
+  const [showSyncLogs, setShowSyncLogs] = useState(false);
+
+  // Fetch jobs dynamically from backend database
+  useEffect(() => {
+    async function fetchJobs() {
+      try {
+        const res = await fetch("/api/jobs?perPage=100");
+        if (res.ok) {
+          const data = await res.json();
+          setAllJobs(data.jobs || []);
+        }
+      } catch (err) {
+        console.error("Dashboard failed to fetch live jobs database:", err);
+      }
+    }
+    fetchJobs();
+  }, []);
+
+  // Sync execution handler
+  const handleSyncJobs = async () => {
+    setIsSyncing(true);
+    setShowSyncLogs(true);
+    setSyncLogs(["[SyncManager] Initializing Job Dhundo! pipeline...", "[Connector] Contacting portals..."]);
+    try {
+      const res = await fetch("/api/jobs/sync", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query: "software engineer", location: "India" })
+      });
+      
+      if (!res.ok) throw new Error("Sync failed");
+      const data = await res.json();
+      
+      setSyncLogs(data.logs || []);
+      
+      // Reload jobs
+      const reloadRes = await fetch("/api/jobs?perPage=100");
+      if (reloadRes.ok) {
+        const reloadData = await reloadRes.json();
+        setAllJobs(reloadData.jobs || []);
+      }
+    } catch (err: any) {
+      setSyncLogs(prev => [...prev, `❌ Error: ${err.message || err}`]);
+    } finally {
+      setIsSyncing(false);
+    }
+  };
 
   // Application form states
   const [appCompany, setAppCompany] = useState("");
@@ -145,11 +200,9 @@ export default function DashboardPage() {
 
   // Sync saved jobs and compute feed recommendations
   useEffect(() => {
-    // Fetch live feed matched exactly to user skills
     const userSkills = currentUser?.skills || ["React", "TypeScript", "Node.js"];
     
-    // In dev match fallback database, score and sort all listings
-    const matched = HIGH_FIDELITY_FALLBACK_JOBS.map(job => {
+    const matched = allJobs.map(job => {
       const matchScore = calculateMatchScore(
         userSkills,
         job.skills,
@@ -160,7 +213,7 @@ export default function DashboardPage() {
     }).sort((a, b) => (b.matchScore || 0) - (a.matchScore || 0));
 
     setRecommendedJobs(matched);
-  }, [currentUser]);
+  }, [currentUser, allJobs]);
 
   // Derived Saved Jobs list
   const savedJobs = useMemo(() => {
@@ -277,7 +330,51 @@ export default function DashboardPage() {
             {/* 1. MY FEED */}
             {activeTab === "feed" && (
               <div className="space-y-6">
-                <div className="flex justify-between items-center">
+                
+                {/* Real-time sync widget */}
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white border border-stone-200 rounded-3xl p-6 shadow-sm">
+                  <div className="space-y-1">
+                    <h3 className="text-sm font-black text-stone-900 uppercase tracking-wide">Sync Live Job Portals</h3>
+                    <p className="text-xs text-stone-500 font-semibold leading-relaxed max-w-xl">
+                      Trigger the universal synchronizer to fetch, validate, and deduplicate the latest software engineering openings from LinkedIn, Indeed, Internshala, Naukri, Wellfound, Apna, SimplyHired, and 5+ other websites.
+                    </p>
+                  </div>
+                  <div className="shrink-0 flex flex-col items-end gap-2">
+                    <Button
+                      onClick={handleSyncJobs}
+                      disabled={isSyncing}
+                      className="px-6 py-3 bg-primary text-white font-black uppercase text-[10px] tracking-widest rounded-xl shadow-lg shadow-primary/10 flex items-center gap-1.5 cursor-pointer"
+                    >
+                      {isSyncing ? (
+                        <>
+                          <RefreshCw className="w-3.5 h-3.5 animate-spin" /> Syncing Portals...
+                        </>
+                      ) : (
+                        <>
+                          <RefreshCw className="w-3.5 h-3.5" /> Sync Database
+                        </>
+                      )}
+                    </Button>
+                    {syncLogs.length > 0 && (
+                      <button
+                        onClick={() => setShowSyncLogs(!showSyncLogs)}
+                        className="text-[9px] font-bold text-stone-400 hover:text-stone-600 uppercase tracking-wider underline cursor-pointer"
+                      >
+                        {showSyncLogs ? "Hide Sync Logs" : "Show Sync Logs"}
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                {showSyncLogs && syncLogs.length > 0 && (
+                  <div className="p-4 bg-stone-950 text-emerald-400 font-mono text-[10px] rounded-2xl max-h-40 overflow-y-auto space-y-1 shadow-inner leading-relaxed text-left">
+                    {syncLogs.map((log, idx) => (
+                      <div key={idx}>{log}</div>
+                    ))}
+                  </div>
+                )}
+
+                <div className="flex justify-between items-center pt-2">
                   <h3 className="text-sm font-black text-stone-400 uppercase tracking-widest">Recommended for your DNA</h3>
                   <Badge variant="outline" className="text-[10px] font-bold text-stone-500 py-0.5 rounded-full border-none bg-stone-100">
                     Matches sorted by score
