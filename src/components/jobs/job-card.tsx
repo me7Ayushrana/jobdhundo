@@ -77,7 +77,7 @@ export function JobCard({ job, userSkills = [], onViewDetails, onSave, isSaved =
       whileHover={{ y: -6, boxShadow: "0 20px 40px -15px rgba(0,0,0,0.08)" }}
       transition={{ duration: 0.3 }}
       onClick={() => onViewDetails(job)}
-      className="group relative flex flex-col justify-between p-6 bg-white dark:bg-stone-900 border border-black/5 dark:border-white/5 rounded-2xl cursor-pointer hover:border-primary/20 dark:hover:border-primary/20 transition-all overflow-hidden h-[330px] shadow-sm"
+      className="group relative flex flex-col justify-between p-6 bg-white border border-black/5 rounded-2xl cursor-pointer hover:border-primary/20 transition-all overflow-hidden h-[330px] shadow-sm"
     >
       {/* Dynamic Backglow for Match Score */}
       {score >= 80 && (
@@ -92,11 +92,11 @@ export function JobCard({ job, userSkills = [], onViewDetails, onSave, isSaved =
               // eslint-disable-next-line @next/next/no-img-element
               <img src={job.companyLogo} alt={job.company} className="w-9 h-9 rounded-lg object-contain bg-stone-50 p-1 border border-stone-100" />
             ) : (
-              <div className="w-9 h-9 rounded-lg bg-stone-100 dark:bg-stone-800 flex items-center justify-center font-bold text-stone-600 dark:text-stone-300 text-sm">
+              <div className="w-9 h-9 rounded-lg bg-stone-100 flex items-center justify-center font-bold text-stone-600 text-sm">
                 {job.company.charAt(0)}
               </div>
             )}
-            <span className="text-xs font-semibold text-stone-500 dark:text-stone-400 tracking-wide uppercase">{job.company}</span>
+            <span className="text-xs font-semibold text-stone-500 tracking-wide uppercase">{job.company}</span>
           </div>
 
           <button
@@ -112,16 +112,16 @@ export function JobCard({ job, userSkills = [], onViewDetails, onSave, isSaved =
         </div>
 
         {/* Title & Metadata */}
-        <h3 className="font-bold text-stone-900 dark:text-stone-50 text-base leading-tight group-hover:text-primary transition-colors mb-2 line-clamp-2">
+        <h3 className="font-bold text-stone-900 text-base leading-tight group-hover:text-primary transition-colors mb-2 line-clamp-2">
           {job.title}
         </h3>
 
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-xs text-stone-500 dark:text-stone-400 font-medium mb-4">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-xs text-stone-500 font-medium mb-4">
           <div className="flex items-center gap-1">
             <MapPin className="w-3.5 h-3.5" />
             <span>{job.location}</span>
           </div>
-          <span className="text-stone-300 dark:text-stone-700">•</span>
+          <span className="text-stone-300">•</span>
           <div className="flex items-center gap-1">
             <Briefcase className="w-3.5 h-3.5" />
             <span className="capitalize">{job.jobType}</span>
@@ -129,8 +129,8 @@ export function JobCard({ job, userSkills = [], onViewDetails, onSave, isSaved =
         </div>
 
         {/* Salary & Details */}
-        <div className="flex items-center justify-between py-2 border-y border-stone-50 dark:border-stone-800/60 mb-4 text-xs font-semibold">
-          <div className="flex items-center text-stone-700 dark:text-stone-300">
+        <div className="flex items-center justify-between py-2 border-y border-stone-50 mb-4 text-xs font-semibold">
+          <div className="flex items-center text-stone-700">
             <DollarSign className="w-3.5 h-3.5 text-stone-400" />
             <span>{formatSalary()}</span>
           </div>
@@ -165,7 +165,7 @@ export function JobCard({ job, userSkills = [], onViewDetails, onSave, isSaved =
       </div>
 
       {/* Footer: Circular Progress & Button */}
-      <div className="flex items-center justify-between border-t border-stone-100 dark:border-stone-800/80 pt-4 mt-auto">
+      <div className="flex items-center justify-between border-t border-stone-100 pt-4 mt-auto">
         {/* Circular Progress Match Score */}
         <div className="flex items-center gap-2">
           <div className="relative w-8 h-8 flex items-center justify-center">
@@ -174,7 +174,7 @@ export function JobCard({ job, userSkills = [], onViewDetails, onSave, isSaved =
                 cx="16"
                 cy="16"
                 r="12"
-                className="stroke-stone-100 dark:stroke-stone-800"
+                className="stroke-stone-100"
                 strokeWidth="2.5"
                 fill="transparent"
               />
@@ -212,7 +212,7 @@ export function JobCard({ job, userSkills = [], onViewDetails, onSave, isSaved =
               e.stopPropagation();
               onViewDetails(job);
             }}
-            className="text-[10px] font-bold uppercase tracking-wider py-1.5 px-3 rounded-xl border border-stone-200 dark:border-stone-800 hover:bg-stone-50 dark:hover:bg-stone-800 text-stone-700 dark:text-stone-300"
+            className="text-[10px] font-bold uppercase tracking-wider py-1.5 px-3 rounded-xl border border-stone-200 hover:bg-stone-50 text-stone-700"
           >
             Details
           </Button>
@@ -231,7 +231,7 @@ export function JobCard({ job, userSkills = [], onViewDetails, onSave, isSaved =
       </div>
 
       {/* Attribution */}
-      <span className="absolute bottom-1 right-2 text-[8px] font-bold text-stone-400 dark:text-stone-600 uppercase tracking-widest pointer-events-none">
+      <span className="absolute bottom-1 right-2 text-[8px] font-bold text-stone-400 uppercase tracking-widest pointer-events-none">
         {job.sourceAttribution}
       </span>
     </motion.div>

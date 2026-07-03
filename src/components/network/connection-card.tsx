@@ -23,7 +23,7 @@ export function ConnectionCard({ match, onChat }: ConnectionCardProps) {
   return (
     <motion.div
       whileHover={{ y: -4, boxShadow: "0 12px 30px -10px rgba(0,0,0,0.06)" }}
-      className="p-6 bg-white dark:bg-stone-900 border border-black/5 dark:border-white/5 rounded-2xl flex flex-col justify-between h-[360px] shadow-sm relative overflow-hidden group"
+      className="p-6 bg-white border border-black/5 rounded-2xl flex flex-col justify-between h-[360px] shadow-sm relative overflow-hidden group"
     >
       {/* Bio / Title */}
       <div>
@@ -33,7 +33,7 @@ export function ConnectionCard({ match, onChat }: ConnectionCardProps) {
               {user.avatar || user.name.charAt(0)}
             </div>
             <div>
-              <h3 className="font-bold text-stone-900 dark:text-stone-50 leading-tight">
+              <h3 className="font-bold text-stone-900 leading-tight">
                 {user.name}
               </h3>
               <a
@@ -55,8 +55,8 @@ export function ConnectionCard({ match, onChat }: ConnectionCardProps) {
 
         {/* Company & Referrals */}
         {user.company && (
-          <div className="p-3.5 rounded-xl bg-stone-50 dark:bg-stone-800/40 border border-stone-100 dark:border-stone-800/60 mb-4 flex items-center justify-between">
-            <div className="flex items-center gap-2 text-xs font-bold text-stone-700 dark:text-stone-300">
+          <div className="p-3.5 rounded-xl bg-stone-50 border border-stone-100 mb-4 flex items-center justify-between">
+            <div className="flex items-center gap-2 text-xs font-bold text-stone-700">
               <Briefcase className="w-4 h-4 text-stone-400" />
               <span>{user.company}</span>
             </div>
@@ -70,10 +70,10 @@ export function ConnectionCard({ match, onChat }: ConnectionCardProps) {
 
         {/* DNA details */}
         <div className="flex items-center gap-1.5 mb-4">
-          <Badge variant="outline" className="text-[10px] font-bold text-stone-500 uppercase py-0 px-2 rounded-full bg-stone-50 dark:bg-stone-800 border-none">
+          <Badge variant="outline" className="text-[10px] font-bold text-stone-500 uppercase py-0 px-2 rounded-full bg-stone-50 border-none">
             {user.role}
           </Badge>
-          <Badge variant="outline" className="text-[10px] font-bold text-stone-500 uppercase py-0 px-2 rounded-full bg-stone-50 dark:bg-stone-800 border-none">
+          <Badge variant="outline" className="text-[10px] font-bold text-stone-500 uppercase py-0 px-2 rounded-full bg-stone-50 border-none">
             {dna.type}
           </Badge>
         </div>
@@ -81,7 +81,7 @@ export function ConnectionCard({ match, onChat }: ConnectionCardProps) {
         {/* Reasons */}
         <div className="space-y-2 mb-4">
           {reasons.slice(0, 2).map((reason, rIdx) => (
-            <div key={rIdx} className="flex items-center gap-2 text-xs text-stone-500 dark:text-stone-400 font-semibold">
+            <div key={rIdx} className="flex items-center gap-2 text-xs text-stone-500 font-semibold">
               <CheckCircle2 className="w-3.5 h-3.5 text-primary shrink-0" />
               <span className="line-clamp-1">{reason}</span>
             </div>
@@ -90,12 +90,12 @@ export function ConnectionCard({ match, onChat }: ConnectionCardProps) {
       </div>
 
       {/* Action Footer */}
-      <div className="flex items-center gap-2 border-t border-stone-50 dark:border-stone-800/60 pt-4 mt-auto">
+      <div className="flex items-center gap-2 border-t border-stone-50 pt-4 mt-auto">
         <Button
           variant="outline"
           size="sm"
           onClick={() => window.open(`https://github.com/${user.github}`, "_blank")}
-          className="flex-1 text-[10px] font-bold uppercase tracking-wider py-2 rounded-xl border-stone-200 dark:border-stone-800 hover:bg-stone-50 dark:hover:bg-stone-800"
+          className="flex-1 text-[10px] font-bold uppercase tracking-wider py-2 rounded-xl border-stone-200 hover:bg-stone-50"
         >
           View Profile
         </Button>

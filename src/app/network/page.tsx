@@ -58,15 +58,15 @@ export default function NetworkPage() {
   };
 
   return (
-    <div className="relative min-h-screen bg-stone-50 dark:bg-stone-950 pt-28 pb-20">
+    <div className="relative min-h-screen bg-stone-50 pt-28 pb-20">
       <div className="container mx-auto px-6 max-w-7xl space-y-8">
         
         {/* Title */}
         <div>
-          <h1 className="text-3xl font-black text-stone-900 dark:text-white tracking-tight flex items-center gap-2">
+          <h1 className="text-3xl font-black text-stone-900 tracking-tight flex items-center gap-2">
             Professional Network <Users className="w-5 h-5 text-primary" />
           </h1>
-          <p className="text-xs text-stone-500 dark:text-stone-400 font-semibold mt-1">
+          <p className="text-xs text-stone-500 font-semibold mt-1">
             Connect with referrers and professionals at top engineering organizations
           </p>
         </div>
@@ -74,30 +74,30 @@ export default function NetworkPage() {
         {/* Dashboard Bar: Searches, Filters, Quick Companies */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-stretch">
           {/* Search Inputs */}
-          <div className="lg:col-span-3 bg-white dark:bg-stone-900 border border-black/5 dark:border-white/5 rounded-3xl p-6 shadow-sm flex flex-col md:flex-row items-stretch md:items-center gap-4">
+          <div className="lg:col-span-3 bg-white border border-black/5 rounded-3xl p-6 shadow-sm flex flex-col md:flex-row items-stretch md:items-center gap-4">
             <div className="flex-1 relative">
               <Search className="absolute left-3.5 top-3.5 w-4.5 h-4.5 text-stone-400" />
               <Input
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Who can refer me to Google? or search skills..."
-                className="pl-10 h-12 bg-stone-50 dark:bg-stone-800/40 border-stone-200 dark:border-stone-800 text-xs rounded-xl"
+                className="pl-10 h-12 bg-stone-50 border-stone-200 text-xs rounded-xl"
               />
             </div>
 
-            <label className="flex items-center gap-2.5 cursor-pointer text-xs font-black uppercase tracking-wider text-stone-700 dark:text-stone-300 shrink-0 px-2 py-3 border border-transparent hover:bg-stone-50 dark:hover:bg-stone-800/60 rounded-xl transition-all">
+            <label className="flex items-center gap-2.5 cursor-pointer text-xs font-black uppercase tracking-wider text-stone-700 shrink-0 px-2 py-3 border border-transparent hover:bg-stone-50 rounded-xl transition-all">
               <input
                 type="checkbox"
                 checked={onlyReferrers}
                 onChange={(e) => setOnlyReferrers(e.target.checked)}
-                className="w-4 h-4 rounded border-stone-300 text-primary focus:ring-primary dark:bg-stone-800"
+                className="w-4 h-4 rounded border-stone-300 text-primary focus:ring-primary"
               />
               <span className="flex items-center gap-1.5"><ShieldCheck className="w-4 h-4 text-emerald-500" /> Only Referrers</span>
             </label>
           </div>
 
           {/* Quick company links */}
-          <div className="bg-white dark:bg-stone-900 border border-black/5 dark:border-white/5 rounded-3xl p-6 shadow-sm flex flex-col justify-center space-y-2">
+          <div className="bg-white border border-black/5 rounded-3xl p-6 shadow-sm flex flex-col justify-center space-y-2">
             <span className="text-[9px] font-black text-stone-400 uppercase tracking-widest">Quick Referrals</span>
             <div className="flex flex-wrap gap-1.5">
               {["Google", "Meta", "Vercel", "Netflix", "Microsoft"].map(company => (
@@ -129,12 +129,12 @@ export default function NetworkPage() {
             ))}
           </div>
         ) : (
-          <div className="p-16 text-center bg-white dark:bg-stone-900 border border-black/5 dark:border-white/5 rounded-3xl space-y-4">
-            <div className="w-12 h-12 rounded-full bg-stone-100 dark:bg-stone-800 flex items-center justify-center mx-auto text-stone-400">
+          <div className="p-16 text-center bg-white border border-black/5 rounded-3xl space-y-4">
+            <div className="w-12 h-12 rounded-full bg-stone-100 flex items-center justify-center mx-auto text-stone-400">
               <Users className="w-6 h-6" />
             </div>
-            <h3 className="text-base font-bold text-stone-900 dark:text-white">No connections match your filters</h3>
-            <p className="text-xs text-stone-500 dark:text-stone-400 font-medium max-w-sm mx-auto">
+            <h3 className="text-base font-bold text-stone-900">No connections match your filters</h3>
+            <p className="text-xs text-stone-500 font-medium max-w-sm mx-auto">
               Try searching for a different company name, or uncheck the "Only Referrers" box to see more candidate options.
             </p>
             <Button

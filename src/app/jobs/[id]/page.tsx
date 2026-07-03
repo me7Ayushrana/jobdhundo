@@ -107,7 +107,7 @@ export default function JobDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-stone-50 dark:bg-stone-950 pt-36 pb-20 flex flex-col items-center justify-center space-y-4">
+      <div className="min-h-screen bg-stone-50 pt-36 pb-20 flex flex-col items-center justify-center space-y-4">
         <div className="w-10 h-10 border-t-2 border-primary rounded-full animate-spin" />
         <span className="text-xs font-bold text-stone-400 uppercase tracking-widest">Loading details...</span>
       </div>
@@ -116,12 +116,12 @@ export default function JobDetailPage() {
 
   if (error || !job) {
     return (
-      <div className="min-h-screen bg-stone-50 dark:bg-stone-950 pt-36 pb-20 flex flex-col items-center justify-center space-y-6">
+      <div className="min-h-screen bg-stone-50 pt-36 pb-20 flex flex-col items-center justify-center space-y-6">
         <div className="w-12 h-12 bg-rose-500/10 border border-rose-500/25 text-rose-500 rounded-full flex items-center justify-center">
           <AlertCircle className="w-6 h-6" />
         </div>
         <div className="text-center space-y-2">
-          <h2 className="text-lg font-black text-stone-900 dark:text-white">Job Listing Not Found</h2>
+          <h2 className="text-lg font-black text-stone-900">Job Listing Not Found</h2>
           <p className="text-xs text-stone-400 font-medium max-w-sm">
             {error || "The job opportunity may have expired or is no longer available in the aggregator cache."}
           </p>
@@ -161,7 +161,7 @@ export default function JobDetailPage() {
   };
 
   return (
-    <div className="relative min-h-screen bg-stone-50 dark:bg-stone-950 pt-28 pb-20">
+    <div className="relative min-h-screen bg-stone-50 pt-28 pb-20">
       <div className="container mx-auto px-6 max-w-5xl space-y-8">
         
         {/* Back Link */}
@@ -170,24 +170,24 @@ export default function JobDetailPage() {
         </Link>
 
         {/* Header Block */}
-        <div className="bg-white dark:bg-stone-900 border border-black/5 dark:border-white/5 rounded-3xl p-6 md:p-8 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+        <div className="bg-white border border-black/5 rounded-3xl p-6 md:p-8 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
           <div className="flex gap-4 items-start pr-4">
             {job.companyLogo ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={job.companyLogo} alt={job.company} className="w-16 h-16 rounded-2xl object-contain bg-stone-50 border border-stone-100 p-2 mt-1" />
             ) : (
-              <div className="w-16 h-16 rounded-2xl bg-stone-100 dark:bg-stone-800 flex items-center justify-center font-black text-stone-600 dark:text-stone-300 text-xl border border-stone-200 dark:border-stone-700 mt-1">
+              <div className="w-16 h-16 rounded-2xl bg-stone-100 flex items-center justify-center font-black text-stone-600 text-xl border border-stone-200 mt-1">
                 {job.company.charAt(0)}
               </div>
             )}
             <div>
               <div className="flex flex-wrap items-center gap-2 mb-1">
                 <span className="text-sm font-bold text-stone-400">{job.company}</span>
-                <Badge variant="outline" className="text-[9px] uppercase font-black py-0.5 border-none bg-stone-50 dark:bg-stone-800 text-stone-600 dark:text-stone-400">
+                <Badge variant="outline" className="text-[9px] uppercase font-black py-0.5 border-none bg-stone-50 text-stone-600">
                   {job.sourceAttribution}
                 </Badge>
               </div>
-              <h1 className="text-2xl md:text-3xl font-black text-stone-900 dark:text-white leading-tight">
+              <h1 className="text-2xl md:text-3xl font-black text-stone-900 leading-tight">
                 {job.title}
               </h1>
             </div>
@@ -195,7 +195,7 @@ export default function JobDetailPage() {
 
           {/* DNA Scorer Box */}
           <div className={`p-4 rounded-2xl border flex items-center gap-3 shrink-0 ${getScoreColor(score)}`}>
-            <div className="w-10 h-10 rounded-full bg-white dark:bg-stone-950 flex items-center justify-center font-black text-sm">
+            <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center font-black text-sm">
               {score}
             </div>
             <div className="flex flex-col">
@@ -213,24 +213,24 @@ export default function JobDetailPage() {
           {/* Left Main */}
           <div className="lg:col-span-2 space-y-8">
             {/* Description */}
-            <div className="bg-white dark:bg-stone-900 border border-black/5 dark:border-white/5 rounded-3xl p-6 md:p-8 shadow-sm space-y-6">
+            <div className="bg-white border border-black/5 rounded-3xl p-6 md:p-8 shadow-sm space-y-6">
               <div>
-                <h3 className="text-xs font-black uppercase tracking-widest text-stone-900 dark:text-white mb-3">
+                <h3 className="text-xs font-black uppercase tracking-widest text-stone-900 mb-3">
                   Job Description
                 </h3>
-                <p className="text-sm text-stone-600 dark:text-stone-300 leading-relaxed font-medium whitespace-pre-line">
+                <p className="text-sm text-stone-600 leading-relaxed font-medium whitespace-pre-line">
                   {job.description}
                 </p>
               </div>
 
               {job.requirements && job.requirements.length > 0 && (
                 <div>
-                  <h3 className="text-xs font-black uppercase tracking-widest text-stone-900 dark:text-white mb-3">
+                  <h3 className="text-xs font-black uppercase tracking-widest text-stone-900 mb-3">
                     Qualifications & Responsibilities
                   </h3>
                   <ul className="space-y-3">
                     {job.requirements.map((req, rIdx) => (
-                      <li key={rIdx} className="flex items-start gap-2.5 text-sm text-stone-600 dark:text-stone-300 font-medium">
+                      <li key={rIdx} className="flex items-start gap-2.5 text-sm text-stone-600 font-medium">
                         <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" />
                         <span>{req}</span>
                       </li>
@@ -251,13 +251,13 @@ export default function JobDetailPage() {
                     <Link
                       key={sj.id}
                       href={`/jobs/${sj.id}`}
-                      className="p-5 bg-white dark:bg-stone-900 border border-black/5 dark:border-white/5 rounded-2xl shadow-sm hover:border-primary/20 transition-all flex flex-col justify-between h-[160px]"
+                      className="p-5 bg-white border border-black/5 rounded-2xl shadow-sm hover:border-primary/20 transition-all flex flex-col justify-between h-[160px]"
                     >
                       <div>
                         <span className="text-[10px] font-bold text-stone-400 block mb-1">{sj.company}</span>
-                        <h4 className="font-bold text-xs text-stone-900 dark:text-white line-clamp-2 leading-snug">{sj.title}</h4>
+                        <h4 className="font-bold text-xs text-stone-900 line-clamp-2 leading-snug">{sj.title}</h4>
                       </div>
-                      <div className="flex justify-between items-center pt-2 border-t border-stone-50 dark:border-stone-850 mt-2 text-[10px] font-bold">
+                      <div className="flex justify-between items-center pt-2 border-t border-stone-50 mt-2 text-[10px] font-bold">
                         <span className="text-stone-500">{sj.location}</span>
                         <span className="text-primary">{sj.matchScore}% Match</span>
                       </div>
@@ -272,10 +272,10 @@ export default function JobDetailPage() {
           <div className="space-y-6">
             
             {/* Metadata Summary card */}
-            <div className="bg-white dark:bg-stone-900 border border-black/5 dark:border-white/5 rounded-3xl p-6 shadow-sm space-y-4">
+            <div className="bg-white border border-black/5 rounded-3xl p-6 shadow-sm space-y-4">
               <h3 className="text-xs font-black uppercase tracking-widest text-stone-400">Position Summary</h3>
               
-              <div className="space-y-4 text-xs font-semibold text-stone-700 dark:text-stone-300">
+              <div className="space-y-4 text-xs font-semibold text-stone-700">
                 <div className="flex items-center gap-3">
                   <MapPin className="w-4.5 h-4.5 text-stone-400 shrink-0" />
                   <span>{job.location}</span>
@@ -296,19 +296,19 @@ export default function JobDetailPage() {
             </div>
 
             {/* Tech Stack Indicator list */}
-            <div className="bg-white dark:bg-stone-900 border border-black/5 dark:border-white/5 rounded-3xl p-6 shadow-sm space-y-4">
+            <div className="bg-white border border-black/5 rounded-3xl p-6 shadow-sm space-y-4">
               <h3 className="text-xs font-black uppercase tracking-widest text-stone-400">Skills Comparison</h3>
               
               <div className="space-y-2">
                 {job.skills.map((skill, sIdx) => {
                   const hasSkill = userSkills.some(us => us.toLowerCase() === skill.toLowerCase());
                   return (
-                    <div key={sIdx} className="flex items-center justify-between text-xs py-2 px-3.5 rounded-xl bg-stone-50 dark:bg-stone-800/40 border border-stone-100 dark:border-stone-800/60 font-semibold">
-                      <span className="text-stone-800 dark:text-stone-200">{skill}</span>
+                    <div key={sIdx} className="flex items-center justify-between text-xs py-2 px-3.5 rounded-xl bg-stone-50 border border-stone-100 font-semibold">
+                      <span className="text-stone-800">{skill}</span>
                       {hasSkill ? (
                         <span className="text-[10px] font-black uppercase text-emerald-500 bg-emerald-500/10 py-0.5 px-2 rounded-full border border-emerald-500/20">Have</span>
                       ) : (
-                        <span className="text-[10px] font-bold text-stone-400 dark:text-stone-600">Missing</span>
+                        <span className="text-[10px] font-bold text-stone-400">Missing</span>
                       )}
                     </div>
                   );
@@ -317,7 +317,7 @@ export default function JobDetailPage() {
             </div>
 
             {/* Save and Apply Sticky Container */}
-            <div className="bg-white dark:bg-stone-900 border border-black/5 dark:border-white/5 rounded-3xl p-6 shadow-sm flex flex-col gap-3">
+            <div className="bg-white border border-black/5 rounded-3xl p-6 shadow-sm flex flex-col gap-3">
               <Button
                 onClick={() => window.open(`${job.applyUrl}?ref=devmatch`, "_blank")}
                 className="w-full font-black uppercase tracking-widest py-5 rounded-2xl bg-primary text-white hover:bg-primary/90 flex items-center justify-center gap-2 shadow-lg shadow-primary/10 active:scale-[0.98] transition-transform"

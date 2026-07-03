@@ -219,7 +219,7 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="relative min-h-screen bg-stone-50 dark:bg-stone-950 pt-28 pb-20">
+    <div className="relative min-h-screen bg-stone-50 pt-28 pb-20">
       <div className="container mx-auto px-6 max-w-7xl space-y-8">
         
         {/* Title Block */}
@@ -229,16 +229,16 @@ export default function DashboardPage() {
               <Sparkles className="w-3.5 h-3.5 animate-pulse" /> COMMAND CENTER
             </span>
           </Badge>
-          <h1 className="text-4xl md:text-6xl font-black tracking-tighter leading-none text-stone-900 dark:text-white">
+          <h1 className="text-4xl md:text-6xl font-black tracking-tighter leading-none text-stone-900">
             Job Command <span className="text-stone-400 italic font-medium">Center</span>
           </h1>
-          <p className="text-sm text-stone-500 dark:text-stone-400 max-w-md leading-relaxed">
+          <p className="text-sm text-stone-500 max-w-md leading-relaxed">
             Monitor matched feeds, bookmark prospects, track recruiters, and analyze market parameters.
           </p>
         </div>
 
         {/* Tab Selection */}
-        <div className="flex overflow-x-auto pb-2 border-b border-stone-200 dark:border-stone-850 gap-2">
+        <div className="flex overflow-x-auto pb-2 border-b border-stone-200 gap-2">
           {[
             { id: "feed", label: "My Feed", icon: Briefcase },
             { id: "saved", label: "Saved Jobs", icon: Bookmark },
@@ -279,7 +279,7 @@ export default function DashboardPage() {
               <div className="space-y-6">
                 <div className="flex justify-between items-center">
                   <h3 className="text-sm font-black text-stone-400 uppercase tracking-widest">Recommended for your DNA</h3>
-                  <Badge variant="outline" className="text-[10px] font-bold text-stone-500 py-0.5 rounded-full border-none bg-stone-100 dark:bg-stone-900">
+                  <Badge variant="outline" className="text-[10px] font-bold text-stone-500 py-0.5 rounded-full border-none bg-stone-100">
                     Matches sorted by score
                   </Badge>
                 </div>
@@ -317,12 +317,12 @@ export default function DashboardPage() {
                     ))}
                   </div>
                 ) : (
-                  <div className="p-16 text-center bg-white dark:bg-stone-900 border border-black/5 dark:border-white/5 rounded-3xl space-y-4">
-                    <div className="w-12 h-12 rounded-full bg-stone-100 dark:bg-stone-800 flex items-center justify-center mx-auto text-stone-400">
+                  <div className="p-16 text-center bg-white border border-black/5 rounded-3xl space-y-4">
+                    <div className="w-12 h-12 rounded-full bg-stone-100 flex items-center justify-center mx-auto text-stone-400">
                       <Bookmark className="w-6 h-6" />
                     </div>
-                    <h3 className="text-base font-bold text-stone-900 dark:text-white">No bookmarked jobs</h3>
-                    <p className="text-xs text-stone-500 dark:text-stone-400 font-medium max-w-xs mx-auto">
+                    <h3 className="text-base font-bold text-stone-900">No bookmarked jobs</h3>
+                    <p className="text-xs text-stone-500 font-medium max-w-xs mx-auto">
                       Click the bookmark icon on any job card inside the discovery feed to save it here for tracking.
                     </p>
                   </div>
@@ -351,12 +351,12 @@ export default function DashboardPage() {
                       applications.map(app => (
                         <div
                           key={app.id}
-                          className="p-5 bg-white dark:bg-stone-900 border border-black/5 dark:border-white/5 rounded-2xl shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4 hover:border-stone-200 dark:hover:border-stone-800 transition-all"
+                          className="p-5 bg-white border border-black/5 rounded-2xl shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4 hover:border-stone-200 transition-all"
                         >
                           <div>
                             <span className="text-[10px] font-bold text-stone-400 uppercase tracking-wider">{app.company}</span>
-                            <h4 className="font-bold text-stone-900 dark:text-white text-base leading-tight mt-0.5">{app.role}</h4>
-                            <div className="flex items-center gap-4 text-xs font-semibold text-stone-500 dark:text-stone-400 mt-2">
+                            <h4 className="font-bold text-stone-900 text-base leading-tight mt-0.5">{app.role}</h4>
+                            <div className="flex items-center gap-4 text-xs font-semibold text-stone-500 mt-2">
                               <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" /> Added {app.date}</span>
                               {app.notes && <span className="italic line-clamp-1 max-w-[280px]">"{app.notes}"</span>}
                             </div>
@@ -393,9 +393,9 @@ export default function DashboardPage() {
                         </div>
                       ))
                     ) : (
-                      <div className="p-12 text-center bg-white dark:bg-stone-900 border border-black/5 dark:border-white/5 rounded-3xl space-y-4">
+                      <div className="p-12 text-center bg-white border border-black/5 rounded-3xl space-y-4">
                         <FileText className="w-10 h-10 text-stone-300 mx-auto" />
-                        <h4 className="text-sm font-bold text-stone-900 dark:text-white">No active applications tracked</h4>
+                        <h4 className="text-sm font-bold text-stone-900">No active applications tracked</h4>
                         <p className="text-xs text-stone-400 max-w-xs mx-auto">Click "Add Job" to record external recruiter cycles or direct apply processes.</p>
                       </div>
                     )}
@@ -410,9 +410,9 @@ export default function DashboardPage() {
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 10 }}
-                        className="bg-white dark:bg-stone-900 border border-black/5 dark:border-white/5 rounded-3xl p-6 shadow-sm space-y-4"
+                        className="bg-white border border-black/5 rounded-3xl p-6 shadow-sm space-y-4"
                       >
-                        <h4 className="text-xs font-black uppercase tracking-widest text-stone-900 dark:text-white pb-3 border-b border-stone-100 dark:border-stone-800">
+                        <h4 className="text-xs font-black uppercase tracking-widest text-stone-900 pb-3 border-b border-stone-100">
                           Track New Application
                         </h4>
 
@@ -424,7 +424,7 @@ export default function DashboardPage() {
                               value={appCompany}
                               onChange={(e) => setAppCompany(e.target.value)}
                               placeholder="e.g. Google"
-                              className="bg-stone-50 dark:bg-stone-800/40 border-stone-250 dark:border-stone-800 text-xs rounded-xl"
+                              className="bg-stone-50 border-stone-250 text-xs rounded-xl"
                             />
                           </div>
 
@@ -435,7 +435,7 @@ export default function DashboardPage() {
                               value={appRole}
                               onChange={(e) => setAppRole(e.target.value)}
                               placeholder="e.g. Frontend Developer"
-                              className="bg-stone-50 dark:bg-stone-800/40 border-stone-250 dark:border-stone-800 text-xs rounded-xl"
+                              className="bg-stone-50 border-stone-250 text-xs rounded-xl"
                             />
                           </div>
 
@@ -444,7 +444,7 @@ export default function DashboardPage() {
                             <select
                               value={appStatus}
                               onChange={(e) => setAppStatus(e.target.value as any)}
-                              className="w-full p-2.5 bg-stone-50 dark:bg-stone-800/40 border border-stone-200 dark:border-stone-850 text-xs font-semibold rounded-xl text-stone-700 dark:text-stone-300"
+                              className="w-full p-2.5 bg-stone-50 border border-stone-200 text-xs font-semibold rounded-xl text-stone-700"
                             >
                               <option value="applied">Applied</option>
                               <option value="interviewing">Interviewing</option>
@@ -459,7 +459,7 @@ export default function DashboardPage() {
                               value={appNotes}
                               onChange={(e) => setAppNotes(e.target.value)}
                               placeholder="Key milestones, tech interview dates, or recruiter contact details..."
-                              className="w-full h-20 p-3 bg-stone-50 dark:bg-stone-800/40 border border-stone-200 dark:border-stone-850 text-xs rounded-xl font-medium text-stone-750 dark:text-stone-300 focus:outline-none"
+                              className="w-full h-20 p-3 bg-stone-50 border border-stone-200 text-xs rounded-xl font-medium text-stone-750 focus:outline-none"
                             />
                           </div>
 
@@ -480,9 +480,9 @@ export default function DashboardPage() {
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 
                 {/* Chart Block */}
-                <Card className="lg:col-span-2 bg-white dark:bg-stone-900 border-black/5 dark:border-white/5 rounded-3xl p-6 shadow-sm">
+                <Card className="lg:col-span-2 bg-white border-black/5 rounded-3xl p-6 shadow-sm">
                   <CardHeader className="p-0 pb-4">
-                    <CardTitle className="text-base font-black text-stone-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
+                    <CardTitle className="text-base font-black text-stone-900 uppercase tracking-wider flex items-center gap-2">
                       <Award className="w-5 h-5 text-primary" /> Skill Profile vs Market Demand
                     </CardTitle>
                     <CardDescription className="text-xs">
@@ -506,18 +506,18 @@ export default function DashboardPage() {
 
                 {/* Analytical Breakdown */}
                 <div className="space-y-6">
-                  <div className="bg-white dark:bg-stone-900 border border-black/5 dark:border-white/5 rounded-3xl p-6 shadow-sm space-y-4">
+                  <div className="bg-white border border-black/5 rounded-3xl p-6 shadow-sm space-y-4">
                     <h4 className="text-xs font-black uppercase tracking-widest text-stone-400">Skill Gap Diagnosis</h4>
                     
                     <div className="space-y-4 text-xs font-semibold">
-                      <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 rounded-xl space-y-1">
+                      <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 rounded-xl space-y-1">
                         <h5 className="font-extrabold flex items-center gap-1.5"><CheckCircle className="w-3.5 h-3.5" /> High-Density Mastery</h5>
                         <p className="text-[11px] leading-relaxed">
                           Your **React** and **Tailwind CSS** levels exceed 90% of market benchmarks, putting you in the top tier for client-side architectures.
                         </p>
                       </div>
 
-                      <div className="p-3 bg-amber-500/10 border border-amber-500/20 text-amber-600 dark:text-amber-400 rounded-xl space-y-1">
+                      <div className="p-3 bg-amber-500/10 border border-amber-500/20 text-amber-600 rounded-xl space-y-1">
                         <h5 className="font-extrabold flex items-center gap-1.5"><TrendingUp className="w-3.5 h-3.5" /> Core Growth Focus</h5>
                         <p className="text-[11px] leading-relaxed">
                           Hiring indices show growing demand for **Go** and **AWS** platforms. Upgrading these skills will increase your matches by 35%.
@@ -535,10 +535,10 @@ export default function DashboardPage() {
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 
                 {/* Bar chart panel */}
-                <Card className="lg:col-span-2 bg-white dark:bg-stone-900 border-black/5 dark:border-white/5 rounded-3xl p-6 shadow-sm">
+                <Card className="lg:col-span-2 bg-white border-black/5 rounded-3xl p-6 shadow-sm">
                   <CardHeader className="p-0 pb-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
-                      <CardTitle className="text-base font-black text-stone-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
+                      <CardTitle className="text-base font-black text-stone-900 uppercase tracking-wider flex items-center gap-2">
                         <DollarSign className="w-5 h-5 text-primary" /> Salary Range Insights
                       </CardTitle>
                       <CardDescription className="text-xs">
@@ -549,7 +549,7 @@ export default function DashboardPage() {
                     <select
                       value={selectedSalaryRole}
                       onChange={(e) => setSelectedSalaryRole(e.target.value as any)}
-                      className="p-2 bg-stone-50 dark:bg-stone-800 border border-stone-250 dark:border-stone-850 text-xs font-bold rounded-xl text-stone-700 dark:text-stone-300 focus:outline-none"
+                      className="p-2 bg-stone-50 border border-stone-250 text-xs font-bold rounded-xl text-stone-700 focus:outline-none"
                     >
                       <option value="Full Stack">Full Stack Dev</option>
                       <option value="Frontend">Frontend Dev</option>
@@ -574,23 +574,23 @@ export default function DashboardPage() {
 
                 {/* Analytical breakdown */}
                 <div className="space-y-6">
-                  <div className="bg-white dark:bg-stone-900 border border-black/5 dark:border-white/5 rounded-3xl p-6 shadow-sm space-y-4">
+                  <div className="bg-white border border-black/5 rounded-3xl p-6 shadow-sm space-y-4">
                     <h4 className="text-xs font-black uppercase tracking-widest text-stone-400">Market Insights</h4>
                     
-                    <div className="space-y-4 text-xs font-semibold text-stone-700 dark:text-stone-300">
-                      <div className="flex justify-between items-center py-2 border-b border-stone-100 dark:border-stone-800">
+                    <div className="space-y-4 text-xs font-semibold text-stone-700">
+                      <div className="flex justify-between items-center py-2 border-b border-stone-100">
                         <span>Role Selection</span>
                         <span className="font-extrabold text-primary">{selectedSalaryRole}</span>
                       </div>
-                      <div className="flex justify-between items-center py-2 border-b border-stone-100 dark:border-stone-800">
+                      <div className="flex justify-between items-center py-2 border-b border-stone-100">
                         <span>Top Paying Geo</span>
                         <span>San Francisco</span>
                       </div>
-                      <div className="flex justify-between items-center py-2 border-b border-stone-100 dark:border-stone-800">
+                      <div className="flex justify-between items-center py-2 border-b border-stone-100">
                         <span>Remote Index</span>
                         <span className="text-emerald-500 font-extrabold">Strong demand (42%)</span>
                       </div>
-                      <p className="text-[11px] font-medium text-stone-500 dark:text-stone-400 leading-relaxed pt-2">
+                      <p className="text-[11px] font-medium text-stone-500 leading-relaxed pt-2">
                         💡 **Negotiation Tip**: When targeting Remote roles, reference global currency scales. Organizations frequently budget on mid-tier USD brackets ($60k–$100k) regardless of local boundaries.
                       </p>
                     </div>

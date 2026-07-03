@@ -42,7 +42,7 @@ export function Navbar() {
                 animate={{ y: 0, opacity: 1 }}
                 className="fixed top-0 left-0 right-0 z-[200] flex justify-center p-6 bg-transparent pointer-events-none"
             >
-                <nav className="glass px-8 py-3.5 rounded-full flex items-center justify-between w-full max-w-7xl animate-in fade-in slide-in-from-top-4 duration-1000 border-black/5 dark:border-white/5 relative pointer-events-auto shadow-2xl">
+                <nav className="glass px-8 py-3.5 rounded-full flex items-center justify-between w-full max-w-7xl animate-in fade-in slide-in-from-top-4 duration-1000 border-black/5 relative pointer-events-auto shadow-2xl">
                     <Link href="/" className="relative z-10">
                         <span className="text-2xl font-black tracking-tighter text-stone-900 uppercase italic">DevMatch</span>
                     </Link>

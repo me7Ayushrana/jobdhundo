@@ -137,9 +137,9 @@ export default function AnalyzerPage() {
   }));
 
   return (
-    <div className="relative min-h-screen bg-stone-50 dark:bg-stone-950 pt-28 pb-20 overflow-hidden">
+    <div className="relative min-h-screen bg-stone-50 pt-28 pb-20 overflow-hidden">
       {/* Grid lines backdrop */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.02)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none z-[1]" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.02)_1px,transparent_1px)]_right,rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none z-[1]" />
 
       <div className="container mx-auto px-6 max-w-5xl space-y-10 relative z-10">
         
@@ -148,17 +148,17 @@ export default function AnalyzerPage() {
           <Badge variant="outline" className="bg-primary/5 border-primary/20 text-xs font-mono tracking-widest text-primary uppercase py-1.5 px-4 rounded-full">
             INTELLIGENCE PROTOCOL
           </Badge>
-          <h1 className="text-4xl md:text-6xl font-black tracking-tighter leading-none text-stone-900 dark:text-white">
+          <h1 className="text-4xl md:text-6xl font-black tracking-tighter leading-none text-stone-900">
             Skill DNA <span className="text-primary">Extractor</span>
           </h1>
-          <p className="text-sm text-stone-500 dark:text-stone-400 max-w-md mx-auto leading-relaxed font-semibold">
+          <p className="text-sm text-stone-500 max-w-md mx-auto leading-relaxed font-semibold">
             Deconstruct your engineering footprint. Choose your source to scan and parse skills automatically.
           </p>
         </header>
 
         {/* Tab Selection */}
         <div className="flex justify-center">
-          <div className="p-1 bg-stone-200/60 dark:bg-stone-900 border border-stone-250 dark:border-stone-850 rounded-2xl flex gap-1 shadow-sm">
+          <div className="p-1 bg-stone-200/60 border border-stone-250 rounded-2xl flex gap-1 shadow-sm">
             <button
               onClick={() => { setActiveTab("github"); setShowResults(false); }}
               className={`px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider flex items-center gap-2 transition-all ${
@@ -185,8 +185,8 @@ export default function AnalyzerPage() {
         {/* Search / Upload Action box */}
         <div className="max-w-2xl mx-auto">
           {activeTab === "github" ? (
-            <div className="p-3 bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-3xl shadow-sm flex items-center gap-3">
-              <div className="flex-1 flex items-center px-4 gap-3 bg-stone-50 dark:bg-stone-800/40 rounded-2xl border border-stone-200 dark:border-stone-850 h-14">
+            <div className="p-3 bg-white border border-stone-200 rounded-3xl shadow-sm flex items-center gap-3">
+              <div className="flex-1 flex items-center px-4 gap-3 bg-stone-50 rounded-2xl border border-stone-200 h-14">
                 <Github className="w-5 h-5 text-stone-400" />
                 <Input
                   value={username}
@@ -211,8 +211,8 @@ export default function AnalyzerPage() {
               </Button>
             </div>
           ) : (
-            <div className="p-3 bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-3xl shadow-sm flex flex-col md:flex-row items-center gap-3">
-              <div className="flex-1 w-full flex items-center px-4 gap-3 bg-stone-50 dark:bg-stone-800/40 rounded-2xl border border-stone-200 dark:border-stone-850 h-14 relative cursor-pointer group">
+            <div className="p-3 bg-white border border-stone-200 rounded-3xl shadow-sm flex flex-col md:flex-row items-center gap-3">
+              <div className="flex-1 w-full flex items-center px-4 gap-3 bg-stone-50 rounded-2xl border border-stone-200 h-14 relative cursor-pointer group">
                 <input
                   type="file"
                   accept=".pdf,.docx,.doc,.txt"
@@ -220,7 +220,7 @@ export default function AnalyzerPage() {
                   className="absolute inset-0 opacity-0 cursor-pointer"
                 />
                 <FileText className="w-5 h-5 text-stone-400 shrink-0" />
-                <span className="text-xs font-bold text-stone-600 dark:text-stone-300 truncate">
+                <span className="text-xs font-bold text-stone-600 truncate">
                   {fileName ? fileName : "Drag & drop or select CV file..."}
                 </span>
               </div>
@@ -255,7 +255,7 @@ export default function AnalyzerPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="p-16 text-center space-y-6 max-w-sm mx-auto bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-3xl shadow-md z-25 relative"
+              className="p-16 text-center space-y-6 max-w-sm mx-auto bg-white border border-stone-200 rounded-3xl shadow-md z-25 relative"
             >
               <div className="w-12 h-12 border-t-2 border-primary rounded-full mx-auto animate-spin" />
               <div className="space-y-2">
@@ -264,7 +264,7 @@ export default function AnalyzerPage() {
                   initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -5 }}
-                  className="text-xs font-black text-stone-850 dark:text-white uppercase tracking-wider"
+                  className="text-xs font-black text-stone-850 uppercase tracking-wider"
                 >
                   {currentSteps[analysisStep]}
                 </motion.h4>
@@ -285,20 +285,20 @@ export default function AnalyzerPage() {
             <div className="lg:col-span-7 space-y-6">
               
               {/* Profile Card */}
-              <Card className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-3xl p-6 shadow-sm">
+              <Card className="bg-white border border-stone-200 rounded-3xl p-6 shadow-sm">
                 <CardHeader className="p-0 pb-4">
                   <CardTitle className="text-xs font-black uppercase text-stone-400 tracking-widest flex items-center gap-1.5">
                     <Dna className="w-4 h-4 text-primary" /> Profile DNA Analysis
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="p-0 grid grid-cols-2 gap-4">
-                  <div className="p-4 bg-stone-50 dark:bg-stone-800/40 rounded-2xl border border-stone-200 dark:border-stone-800 flex flex-col justify-between h-28">
+                  <div className="p-4 bg-stone-50 rounded-2xl border border-stone-200 flex flex-col justify-between h-28">
                     <span className="text-[9px] font-bold text-stone-400 uppercase tracking-widest">Extracted Tech Skills</span>
-                    <span className="text-2xl font-black text-stone-900 dark:text-white mt-2">{skillsResult.length}</span>
+                    <span className="text-2xl font-black text-stone-900 mt-2">{skillsResult.length}</span>
                     <span className="text-[9px] text-stone-400 font-semibold mt-1">Unique skills and frameworks</span>
                   </div>
 
-                  <div className="p-4 bg-stone-50 dark:bg-stone-800/40 rounded-2xl border border-stone-200 dark:border-stone-800 flex flex-col justify-between h-28">
+                  <div className="p-4 bg-stone-50 rounded-2xl border border-stone-200 flex flex-col justify-between h-28">
                     <span className="text-[9px] font-bold text-stone-400 uppercase tracking-widest">Extraction Confidence</span>
                     <span className="text-2xl font-black text-emerald-500 mt-2">{confidence}%</span>
                     <span className="text-[9px] text-stone-400 font-semibold mt-1">Refined from {activeTab === "github" ? "GitHub profiles" : "document structures"}</span>
@@ -308,7 +308,7 @@ export default function AnalyzerPage() {
 
               {/* Skills Radar Chart */}
               {radarData.length > 0 && (
-                <Card className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-3xl p-6 shadow-sm">
+                <Card className="bg-white border border-stone-200 rounded-3xl p-6 shadow-sm">
                   <CardHeader className="p-0 pb-4">
                     <CardTitle className="text-xs font-black uppercase text-stone-400 tracking-widest">
                       Extracted Stack Radar
@@ -334,7 +334,7 @@ export default function AnalyzerPage() {
               
               {/* Top Languages */}
               {topLanguages.length > 0 && (
-                <Card className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-3xl p-6 shadow-sm">
+                <Card className="bg-white border border-stone-200 rounded-3xl p-6 shadow-sm">
                   <CardHeader className="p-0 pb-4">
                     <CardTitle className="text-xs font-black uppercase text-stone-400 tracking-widest flex items-center gap-1.5">
                       <BarChart2 className="w-4 h-4 text-stone-400" /> Primary Languages
@@ -342,7 +342,7 @@ export default function AnalyzerPage() {
                   </CardHeader>
                   <CardContent className="p-0 flex flex-wrap gap-1.5">
                     {topLanguages.map((lang, idx) => (
-                      <Badge key={idx} className="bg-stone-50 dark:bg-stone-800 text-stone-600 dark:text-stone-300 border border-stone-200 dark:border-stone-700 text-xs font-semibold px-3 py-1 rounded-full">
+                      <Badge key={idx} className="bg-stone-50 text-stone-600 border border-stone-200 text-xs font-semibold px-3 py-1 rounded-full">
                         {lang}
                       </Badge>
                     ))}
@@ -351,7 +351,7 @@ export default function AnalyzerPage() {
               )}
 
               {/* Skills Tags */}
-              <Card className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-3xl p-6 shadow-sm">
+              <Card className="bg-white border border-stone-200 rounded-3xl p-6 shadow-sm">
                 <CardHeader className="p-0 pb-4">
                   <CardTitle className="text-xs font-black uppercase text-stone-400 tracking-widest flex items-center gap-1.5">
                     <Award className="w-4 h-4 text-stone-400" /> Extracted Framework DNA
@@ -367,7 +367,7 @@ export default function AnalyzerPage() {
               </Card>
 
               {/* Sync and Go Actions */}
-              <div className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-3xl p-6 shadow-sm space-y-3">
+              <div className="bg-white border border-stone-200 rounded-3xl p-6 shadow-sm space-y-3">
                 <Button
                   onClick={handleSyncProfile}
                   className="w-full font-black uppercase tracking-widest py-5 rounded-2xl bg-primary text-white hover:bg-primary/90 flex items-center justify-center gap-2 shadow-lg shadow-primary/10 active:scale-95 transition-transform cursor-pointer"
@@ -378,7 +378,7 @@ export default function AnalyzerPage() {
                 <Button
                   variant="outline"
                   onClick={() => router.push(`/jobs?skills=${skillsResult.slice(0, 3).join(",")}`)}
-                  className="w-full font-bold uppercase tracking-wider py-5 rounded-2xl border-stone-200 dark:border-stone-700 hover:bg-stone-50 dark:hover:bg-stone-800 flex items-center justify-center gap-2 cursor-pointer"
+                  className="w-full font-bold uppercase tracking-wider py-5 rounded-2xl border-stone-200 hover:bg-stone-50 flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <Compass className="w-4.5 h-4.5" /> Explore Matched Jobs
                 </Button>

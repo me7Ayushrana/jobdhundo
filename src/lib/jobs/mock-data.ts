@@ -1,57 +1,7 @@
 import { UnifiedJob } from "./types";
 
 export const HIGH_FIDELITY_FALLBACK_JOBS: UnifiedJob[] = [
-  {
-    id: "dm-mock-1",
-    title: "Senior Full Stack Engineer (Next.js & Go)",
-    company: "Vercel",
-    companyLogo: "https://assets.vercel.com/image/upload/v1588863977/brand/vercel-logo-black.png",
-    location: "Remote",
-    jobType: "full-time",
-    experienceLevel: "senior",
-    salaryMin: 120000,
-    salaryMax: 160000,
-    salaryCurrency: "USD",
-    salaryPeriod: "yearly",
-    description: "We are looking for a Senior Full Stack Engineer to lead components of our dashboard platform. You will work on optimizing build feedback loops, creating beautiful interactive experiences, and enhancing core cloud interfaces using Next.js and Go.",
-    requirements: [
-      "5+ years of experience with React, Next.js, and modern TypeScript development.",
-      "Proficient in Go, Node.js, or similar backend systems.",
-      "Passion for performance, layout design, and user experience.",
-      "Experience with Kubernetes, AWS, or serverless architectures."
-    ],
-    skills: ["React", "Next.js", "TypeScript", "Go", "AWS", "Tailwind CSS"],
-    postedDate: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
-    applyUrl: "https://vercel.com/careers",
-    source: "cached",
-    sourceAttribution: "via DevMatch Curated"
-  },
-  {
-    id: "dm-mock-2",
-    title: "Lead Java Developer (Platform Systems)",
-    company: "Google",
-    companyLogo: "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png",
-    location: "Bangalore, India",
-    jobType: "full-time",
-    experienceLevel: "lead",
-    salaryMin: 3500000,
-    salaryMax: 5000000,
-    salaryCurrency: "INR",
-    salaryPeriod: "yearly",
-    description: "Join the Google Cloud core team in Bangalore. You will architect high-throughput distributed message processing and backend services using Java, Spring Boot, and Apache Kafka. This role requires collaboration across international geographies.",
-    requirements: [
-      "8+ years of production experience in backend software development.",
-      "Deep expertise in Java, JVM tuning, and Spring Boot framework.",
-      "Hands-on experience with Kafka, gRPC, and large-scale SQL/NoSQL databases.",
-      "B.Tech/M.Tech in Computer Science or equivalent practical experience."
-    ],
-    skills: ["Java", "Spring Boot", "Kafka", "PostgreSQL", "Docker"],
-    postedDate: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-    applyUrl: "https://careers.google.com",
-    source: "cached",
-    sourceAttribution: "via DevMatch Curated"
-  },
-  // --- Internshala Internships ---
+  // --- Internshala Internships (10 Opportunities) ---
   {
     id: "dm-internshala-1",
     title: "Web Development Intern (React & Node.js)",
@@ -64,7 +14,7 @@ export const HIGH_FIDELITY_FALLBACK_JOBS: UnifiedJob[] = [
     salaryMax: 25000,
     salaryCurrency: "INR",
     salaryPeriod: "monthly",
-    description: " razorpay is hiring a Web Development Intern. You will work on expanding core payment interfaces, writing modular React components, and integrating RESTful APIs. This is a 6-month full-time internship with a potential pre-placement offer (PPO).",
+    description: "Razorpay is hiring a Web Development Intern. You will work on expanding core payment interfaces, writing modular React components, and integrating RESTful APIs. This is a 6-month full-time internship with a potential pre-placement offer (PPO) based on performance.",
     requirements: [
       "Familiarity with React, JavaScript, and CSS layout engines.",
       "Basic understanding of RESTful API consumption and state management.",
@@ -72,7 +22,7 @@ export const HIGH_FIDELITY_FALLBACK_JOBS: UnifiedJob[] = [
       "Strong debugging and logical reasoning skills."
     ],
     skills: ["React", "JavaScript", "Node.js", "Tailwind CSS"],
-    postedDate: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(), // 6 hours ago
+    postedDate: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(),
     applyUrl: "https://internshala.com/internship/detail/razorpay-web-development-internship",
     source: "internshala",
     sourceAttribution: "via Internshala"
@@ -101,7 +51,200 @@ export const HIGH_FIDELITY_FALLBACK_JOBS: UnifiedJob[] = [
     source: "internshala",
     sourceAttribution: "via Internshala"
   },
-  // --- Naukri Jobs ---
+  {
+    id: "dm-internshala-3",
+    title: "Mobile App Development Intern (Flutter)",
+    company: "Paytm",
+    location: "Noida, India",
+    jobType: "internship",
+    experienceLevel: "entry",
+    salaryMin: 18000,
+    salaryMax: 22000,
+    salaryCurrency: "INR",
+    salaryPeriod: "monthly",
+    description: "Join Paytm's mobile product team. You will write clean Dart code, optimize performance across iOS and Android apps, and work on native platform channels for payment integrations.",
+    requirements: [
+      "Familiarity with Flutter framework and Dart programming language.",
+      "Understanding of app lifecycles, states, and client-server sync.",
+      "Basic experience with version control (Git).",
+      "Available for a 4-month duration."
+    ],
+    skills: ["Flutter", "Dart", "Git"],
+    postedDate: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
+    applyUrl: "https://internshala.com/internship/detail/paytm-flutter-developer",
+    source: "internshala",
+    sourceAttribution: "via Internshala"
+  },
+  {
+    id: "dm-internshala-4",
+    title: "Python Backend Intern (Django)",
+    company: "Swiggy",
+    location: "Remote (India)",
+    jobType: "internship",
+    experienceLevel: "entry",
+    salaryMin: 15000,
+    salaryMax: 20000,
+    salaryCurrency: "INR",
+    salaryPeriod: "monthly",
+    description: "Swiggy is seeking a Django Backend Intern to assist in scaling delivery logistics controllers. You will write unit tests, design database tables, and clean up microservices endpoints.",
+    requirements: [
+      "Familiarity with Python and Django or Flask frameworks.",
+      "Familiarity with relational databases (SQL, PostgreSQL).",
+      "Good comprehension of OOP models.",
+      "Available for 6 months."
+    ],
+    skills: ["Python", "Django", "PostgreSQL"],
+    postedDate: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+    applyUrl: "https://internshala.com/internship/detail/swiggy-python-django",
+    source: "internshala",
+    sourceAttribution: "via Internshala"
+  },
+  {
+    id: "dm-internshala-5",
+    title: "Data Science & Analyst Internship",
+    company: "Cred",
+    location: "Bangalore, India",
+    jobType: "internship",
+    experienceLevel: "entry",
+    salaryMin: 25000,
+    salaryMax: 35000,
+    salaryCurrency: "INR",
+    salaryPeriod: "monthly",
+    description: "Cred is hiring a Data Science intern to refine user cohorts. You will write Pandas cleanups, analyze event sequences, and formulate tables for marketing pipelines.",
+    requirements: [
+      "Proficient in Python (Pandas, Numpy) and SQL queries.",
+      "Familiarity with visualization platforms (Tableau, PowerBI).",
+      "Strong conceptual background in statistics and regression.",
+      "Available for 6 months in Bangalore office."
+    ],
+    skills: ["Python", "SQL", "Pandas"],
+    postedDate: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+    applyUrl: "https://internshala.com/internship/detail/cred-data-analyst",
+    source: "internshala",
+    sourceAttribution: "via Internshala"
+  },
+  {
+    id: "dm-internshala-6",
+    title: "Next.js Frontend Developer Intern",
+    company: "Groww",
+    location: "Remote (India)",
+    jobType: "internship",
+    experienceLevel: "entry",
+    salaryMin: 20000,
+    salaryMax: 28000,
+    salaryCurrency: "INR",
+    salaryPeriod: "monthly",
+    description: "Groww is looking for a Frontend Intern specializing in Next.js. You will work on financial charts, layout performance, and responsive web styling.",
+    requirements: [
+      "Hands-on experience with Next.js, React, and TypeScript.",
+      "Understanding of server components vs client components.",
+      "Good comprehension of Tailwind CSS.",
+      "Available for immediate joiner (6 months)."
+    ],
+    skills: ["Next.js", "React", "TypeScript", "Tailwind CSS"],
+    postedDate: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString(),
+    applyUrl: "https://internshala.com/internship/detail/groww-frontend-nextjs",
+    source: "internshala",
+    sourceAttribution: "via Internshala"
+  },
+  {
+    id: "dm-internshala-7",
+    title: "Node.js API Intern (Express)",
+    company: "Ola Cabs",
+    location: "Bangalore, India",
+    jobType: "internship",
+    experienceLevel: "entry",
+    salaryMin: 18000,
+    salaryMax: 24000,
+    salaryCurrency: "INR",
+    salaryPeriod: "monthly",
+    description: "Ola is looking for a Node.js Intern. You will support route optimization service pipelines, configure Redis caches, and log performance profiles.",
+    requirements: [
+      "Proficient in Node.js, Express, and modern JavaScript.",
+      "Understanding of REST APIs and async runtime loops.",
+      "Experience with databases (MongoDB or MySQL).",
+      "Available for 6 months."
+    ],
+    skills: ["Node.js", "Express", "MongoDB", "Redis"],
+    postedDate: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
+    applyUrl: "https://internshala.com/internship/detail/ola-nodejs-api",
+    source: "internshala",
+    sourceAttribution: "via Internshala"
+  },
+  {
+    id: "dm-internshala-8",
+    title: "DevOps & Cloud Intern",
+    company: "Freshworks",
+    location: "Chennai, India",
+    jobType: "internship",
+    experienceLevel: "entry",
+    salaryMin: 22000,
+    salaryMax: 30000,
+    salaryCurrency: "INR",
+    salaryPeriod: "monthly",
+    description: "Support our cloud engineering teams in Freshworks. You will write Dockerfiles, configure GitLab CI pipelines, and monitor server pools in AWS.",
+    requirements: [
+      "Basic understanding of Docker containerization and Unix systems.",
+      "Familiarity with AWS cloud services (S3, EC2).",
+      "Willingness to learn Terraform and infrastructure scripting.",
+      "Available for 6 months."
+    ],
+    skills: ["Docker", "AWS", "DevOps"],
+    postedDate: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toISOString(),
+    applyUrl: "https://internshala.com/internship/detail/freshworks-devops",
+    source: "internshala",
+    sourceAttribution: "via Internshala"
+  },
+  {
+    id: "dm-internshala-9",
+    title: "Android App Development Intern (Kotlin)",
+    company: "Meesho",
+    location: "Remote (India)",
+    jobType: "internship",
+    experienceLevel: "entry",
+    salaryMin: 16000,
+    salaryMax: 20000,
+    salaryCurrency: "INR",
+    salaryPeriod: "monthly",
+    description: "Meesho is seeking an Android Developer Intern. Assist in refining search filters, writing layouts in Jetpack Compose, and tracking crash metrics.",
+    requirements: [
+      "Basic knowledge of Kotlin and Jetpack Compose.",
+      "Understanding of Android Studio IDE and version controls.",
+      "Familiarity with networking libraries like Retrofit.",
+      "Available for 3 months."
+    ],
+    skills: ["Kotlin", "Git"],
+    postedDate: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
+    applyUrl: "https://internshala.com/internship/detail/meesho-android-kotlin",
+    source: "internshala",
+    sourceAttribution: "via Internshala"
+  },
+  {
+    id: "dm-internshala-10",
+    title: "Machine Learning Research Intern",
+    company: "Wipro Labs",
+    location: "Bangalore, India",
+    jobType: "internship",
+    experienceLevel: "entry",
+    salaryMin: 25000,
+    salaryMax: 35000,
+    salaryCurrency: "INR",
+    salaryPeriod: "monthly",
+    description: "Assist ML researchers in cleaning NLP models, cataloging training data, and setting up training rigs using PyTorch and Scikit-Learn.",
+    requirements: [
+      "Strong Python scripting and comprehension of linear algebra.",
+      "Experience with ML frameworks (PyTorch, TensorFlow, Scikit-Learn).",
+      "Available to work in-office in Bangalore.",
+      "Available for 6 months."
+    ],
+    skills: ["Python", "PyTorch", "Git"],
+    postedDate: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000).toISOString(),
+    applyUrl: "https://internshala.com/internship/detail/wipro-ml-intern",
+    source: "internshala",
+    sourceAttribution: "via Internshala"
+  },
+
+  // --- Naukri.com Jobs (10 Software Engineering Opportunities) ---
   {
     id: "dm-naukri-1",
     title: "Software Engineer (TypeScript & Next.js)",
@@ -171,6 +314,174 @@ export const HIGH_FIDELITY_FALLBACK_JOBS: UnifiedJob[] = [
     skills: ["Docker", "Kubernetes", "DevOps", "Terraform", "AWS", "Python", "CI/CD"],
     postedDate: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString(),
     applyUrl: "https://www.naukri.com/job-listings-wipro-devops-cloud-engineer",
+    source: "naukri",
+    sourceAttribution: "via Naukri.com"
+  },
+  {
+    id: "dm-naukri-4",
+    title: "Senior Node.js Backend Engineer",
+    company: "HCL Technologies",
+    location: "Noida, India",
+    jobType: "full-time",
+    experienceLevel: "senior",
+    salaryMin: 1400000,
+    salaryMax: 2400000,
+    salaryCurrency: "INR",
+    salaryPeriod: "yearly",
+    description: "Naukri Premium Job: Senior backend specialist needed. Responsibilities include building real-time microservices in Node.js/Express, managing database query loads, and leading technical design architectures.",
+    requirements: [
+      "5+ years of experience developing enterprise backend systems.",
+      "Expertise in Node.js, Express, TypeScript, and Redis caching.",
+      "Hands-on experience scaling MongoDB or PostgreSQL databases.",
+      "Good comprehension of messaging queues (Kafka or RabbitMQ)."
+    ],
+    skills: ["Node.js", "Express", "TypeScript", "Redis", "PostgreSQL", "Kafka"],
+    postedDate: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+    applyUrl: "https://www.naukri.com/job-listings-hcl-nodejs-senior",
+    source: "naukri",
+    sourceAttribution: "via Naukri.com"
+  },
+  {
+    id: "dm-naukri-5",
+    title: "React Native Mobile Developer",
+    company: "Cognizant",
+    location: "Chennai, India",
+    jobType: "full-time",
+    experienceLevel: "mid",
+    salaryMin: 700000,
+    salaryMax: 1200000,
+    salaryCurrency: "INR",
+    salaryPeriod: "yearly",
+    description: "Recruiting a Mobile App Specialist. You will build, ship, and maintain mobile experiences using React Native, TypeScript, and state management architectures.",
+    requirements: [
+      "2-5 years of experience shipping Android/iOS apps via React Native.",
+      "Expertise in Redux, Hooks, and TypeScript.",
+      "Experience integrating native modules and third-party SDKs.",
+      "Familiarity with publishing pipelines on Google Play Store and App Store."
+    ],
+    skills: ["React", "TypeScript", "Git"],
+    postedDate: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
+    applyUrl: "https://www.naukri.com/job-listings-cognizant-react-native",
+    source: "naukri",
+    sourceAttribution: "via Naukri.com"
+  },
+  {
+    id: "dm-naukri-6",
+    title: "Python Data Engineer (ETL & SQL)",
+    company: "Tech Mahindra",
+    location: "Bangalore, India",
+    jobType: "full-time",
+    experienceLevel: "mid",
+    salaryMin: 800000,
+    salaryMax: 1500000,
+    salaryCurrency: "INR",
+    salaryPeriod: "yearly",
+    description: "Seeking a Data Engineer to construct, maintain, and scale data pipelines. You will write Python scripts, build ETL workflows, and write optimized SQL queries.",
+    requirements: [
+      "3+ years of experience in Data Engineering / SQL analysis roles.",
+      "Proficient in Python, SQL, and database indexing.",
+      "Experience with data orchestrations (Airflow, DBT).",
+      "Familiarity with Snowflake or AWS Redshift is a major plus."
+    ],
+    skills: ["Python", "SQL", "AWS"],
+    postedDate: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toISOString(),
+    applyUrl: "https://www.naukri.com/job-listings-techmahindra-python-data",
+    source: "naukri",
+    sourceAttribution: "via Naukri.com"
+  },
+  {
+    id: "dm-naukri-7",
+    title: "Python Machine Learning Engineer",
+    company: "L&T Infotech",
+    location: "Mumbai, India",
+    jobType: "full-time",
+    experienceLevel: "mid",
+    salaryMin: 1000000,
+    salaryMax: 1800000,
+    salaryCurrency: "INR",
+    salaryPeriod: "yearly",
+    description: "Design and implement machine learning models. You will work on text processing algorithms, model evaluations, and scaling predictions in Docker environments.",
+    requirements: [
+      "3+ years of experience with Python, PyTorch, and NLP models.",
+      "Familiarity with deployment tools (Docker, AWS SageMaker).",
+      "Solid understanding of neural networks and dataset prep.",
+      "B.Tech/M.Tech in CS or related field."
+    ],
+    skills: ["Python", "PyTorch", "Docker", "AWS"],
+    postedDate: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000).toISOString(),
+    applyUrl: "https://www.naukri.com/job-listings-lt-ml-engineer",
+    source: "naukri",
+    sourceAttribution: "via Naukri.com"
+  },
+  {
+    id: "dm-naukri-8",
+    title: "Senior QA Automation Engineer",
+    company: "Capgemini",
+    location: "Gurugram, India",
+    jobType: "full-time",
+    experienceLevel: "senior",
+    salaryMin: 900000,
+    salaryMax: 1500000,
+    salaryCurrency: "INR",
+    salaryPeriod: "yearly",
+    description: "Naukri Verified Job: Build, expand, and manage automated testing suites. Lead testing for dashboard rendering, server endpoints, and mobile apps.",
+    requirements: [
+      "5+ years of experience in Software Quality Assurance.",
+      "Proficient writing automation tests in Selenium, Playwright, or Cypress.",
+      "Good familiarity with TypeScript/JavaScript and CI/CD pipelines.",
+      "Create test plans and review unit test coverage logs."
+    ],
+    skills: ["TypeScript", "JavaScript", "Git", "CI/CD"],
+    postedDate: new Date(Date.now() - 9 * 24 * 60 * 60 * 1000).toISOString(),
+    applyUrl: "https://www.naukri.com/job-listings-capgemini-senior-qa",
+    source: "naukri",
+    sourceAttribution: "via Naukri.com"
+  },
+  {
+    id: "dm-naukri-9",
+    title: "Angular Frontend Web Developer",
+    company: "Mindtree",
+    location: "Bhubaneswar, India",
+    jobType: "full-time",
+    experienceLevel: "mid",
+    salaryMin: 600000,
+    salaryMax: 1100000,
+    salaryCurrency: "INR",
+    salaryPeriod: "yearly",
+    description: "Develop corporate portals using Angular. Work with component models, state architectures (NgRx), and clean visual styling using SCSS/Bootstrap.",
+    requirements: [
+      "2-4 years of professional experience developing Angular apps.",
+      "Proficient in TypeScript, HTML5, SCSS, and RxJS.",
+      "Understanding of REST API integration and state persistence.",
+      "Good comprehension of cross-browser performance optimizations."
+    ],
+    skills: ["Angular", "TypeScript", "JavaScript", "Git"],
+    postedDate: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(),
+    applyUrl: "https://www.naukri.com/job-listings-mindtree-angular",
+    source: "naukri",
+    sourceAttribution: "via Naukri.com"
+  },
+  {
+    id: "dm-naukri-10",
+    title: "Java Tech Architect - Spring & Microservices",
+    company: "Accenture",
+    location: "Bangalore, India",
+    jobType: "full-time",
+    experienceLevel: "lead",
+    salaryMin: 2200000,
+    salaryMax: 3800000,
+    salaryCurrency: "INR",
+    salaryPeriod: "yearly",
+    description: "Accenture is recruiting a Lead Java Architect. You will formulate microservice layout protocols, configure high-throughput Kubernetes deployments, and govern database migrations.",
+    requirements: [
+      "8+ years of production experience developing Java/Spring platforms.",
+      "Proven architecture experience in Spring Cloud, Docker, and Kubernetes.",
+      "Expertise scaling messaging systems (Kafka, RabbitMQ).",
+      "Strong leadership and communications skills."
+    ],
+    skills: ["Java", "Spring Boot", "Docker", "Kubernetes", "Kafka", "PostgreSQL"],
+    postedDate: new Date(Date.now() - 11 * 24 * 60 * 60 * 1000).toISOString(),
+    applyUrl: "https://www.naukri.com/job-listings-accenture-java-architect",
     source: "naukri",
     sourceAttribution: "via Naukri.com"
   }

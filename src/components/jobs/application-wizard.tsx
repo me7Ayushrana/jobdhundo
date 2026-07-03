@@ -115,16 +115,16 @@ export function ApplicationWizard({ isOpen, onClose, job, onSuccess }: Applicati
 
   return (
     <div className="fixed inset-0 z-[250] flex items-center justify-center p-4 bg-stone-900/30 backdrop-blur-sm">
-      <div className="bg-white dark:bg-stone-900 rounded-3xl max-w-lg w-full border border-stone-200 dark:border-stone-800 shadow-xl overflow-hidden flex flex-col max-h-[90vh]">
+      <div className="bg-white rounded-3xl max-w-lg w-full border border-stone-200 shadow-xl overflow-hidden flex flex-col max-h-[90vh]">
         
         {/* Header */}
-        <div className="px-6 py-5 border-b border-stone-100 dark:border-stone-850 flex items-center justify-between">
+        <div className="px-6 py-5 border-b border-stone-100 flex items-center justify-between">
           <div>
             <span className="text-[9px] font-black uppercase text-primary tracking-widest">{job.sourceAttribution} Application</span>
-            <h3 className="text-sm font-bold text-stone-900 dark:text-white truncate max-w-[280px]">{job.title}</h3>
+            <h3 className="text-sm font-bold text-stone-900 truncate max-w-[280px]">{job.title}</h3>
             <p className="text-[11px] text-stone-500 font-semibold">{job.company} • {job.location}</p>
           </div>
-          <button onClick={handleCloseAndReset} className="w-8 h-8 rounded-full hover:bg-stone-50 dark:hover:bg-stone-800 flex items-center justify-center text-stone-400 hover:text-stone-600 transition-colors">
+          <button onClick={handleCloseAndReset} className="w-8 h-8 rounded-full hover:bg-stone-50 flex items-center justify-center text-stone-400 hover:text-stone-600 transition-colors">
             <X className="w-4 h-4" />
           </button>
         </div>
@@ -143,7 +143,7 @@ export function ApplicationWizard({ isOpen, onClose, job, onSuccess }: Applicati
             <div className="space-y-5">
               <div className="space-y-2">
                 <label className="text-[10px] font-black uppercase tracking-widest text-stone-400">Step 1: Upload Resume</label>
-                <div className="border-2 border-dashed border-stone-200 dark:border-stone-800 rounded-2xl p-6 text-center hover:border-primary/50 transition-colors relative cursor-pointer group">
+                <div className="border-2 border-dashed border-stone-200 rounded-2xl p-6 text-center hover:border-primary/50 transition-colors relative cursor-pointer group">
                   <input
                     type="file"
                     accept=".pdf,.docx,.doc,.txt"
@@ -151,11 +151,11 @@ export function ApplicationWizard({ isOpen, onClose, job, onSuccess }: Applicati
                     className="absolute inset-0 opacity-0 cursor-pointer"
                   />
                   <div className="space-y-2">
-                    <div className="w-10 h-10 rounded-full bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 flex items-center justify-center mx-auto group-hover:scale-105 transition-transform">
+                    <div className="w-10 h-10 rounded-full bg-stone-50 border border-stone-200 flex items-center justify-center mx-auto group-hover:scale-105 transition-transform">
                       <Upload className="w-5 h-5 text-stone-500" />
                     </div>
                     <div>
-                      <p className="text-xs font-bold text-stone-700 dark:text-stone-300">
+                      <p className="text-xs font-bold text-stone-700">
                         {fileName ? fileName : "Drag & drop or click to upload resume"}
                       </p>
                       <p className="text-[10px] text-stone-400 font-medium">Supporting PDF, DOCX, TXT up to 5MB</p>
@@ -172,8 +172,8 @@ export function ApplicationWizard({ isOpen, onClose, job, onSuccess }: Applicati
               )}
 
               {fileName && !isUploading && (
-                <div className="p-4 bg-stone-50 dark:bg-stone-850 rounded-2xl border border-stone-200 dark:border-stone-800 space-y-2">
-                  <div className="flex items-center gap-2 text-xs font-bold text-stone-700 dark:text-stone-300">
+                <div className="p-4 bg-stone-50 rounded-2xl border border-stone-200 space-y-2">
+                  <div className="flex items-center gap-2 text-xs font-bold text-stone-700">
                     <FileText className="w-4 h-4 text-emerald-500" />
                     <span>Resume successfully parsed</span>
                   </div>
@@ -209,7 +209,7 @@ export function ApplicationWizard({ isOpen, onClose, job, onSuccess }: Applicati
               {job.source === "internshala" ? (
                 <div className="space-y-4">
                   <div className="space-y-2">
-                    <label className="text-xs font-bold text-stone-800 dark:text-stone-200">
+                    <label className="text-xs font-bold text-stone-800">
                       Why should we hire you for this internship? *
                     </label>
                     <textarea
@@ -217,12 +217,12 @@ export function ApplicationWizard({ isOpen, onClose, job, onSuccess }: Applicati
                       value={whyHire}
                       onChange={(e) => setWhyHire(e.target.value)}
                       placeholder="Mention your relevant projects, tech stack experience, and why you are interested..."
-                      className="w-full min-h-[100px] p-3 text-xs font-semibold rounded-xl border border-stone-200 dark:border-stone-850 bg-stone-50 dark:bg-stone-800/40 text-stone-750 dark:text-stone-300 focus:outline-none focus:border-primary"
+                      className="w-full min-h-[100px] p-3 text-xs font-semibold rounded-xl border border-stone-200 bg-stone-50 text-stone-750 focus:outline-none focus:border-primary"
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-xs font-bold text-stone-800 dark:text-stone-200">
+                    <label className="text-xs font-bold text-stone-800">
                       Are you available for the full duration of this internship? *
                     </label>
                     <div className="flex gap-4">
@@ -252,13 +252,13 @@ export function ApplicationWizard({ isOpen, onClose, job, onSuccess }: Applicati
               ) : (
                 <div className="space-y-4">
                   <div className="space-y-2">
-                    <label className="text-xs font-bold text-stone-800 dark:text-stone-200">
+                    <label className="text-xs font-bold text-stone-800">
                       What is your notice period? *
                     </label>
                     <select
                       value={noticePeriod}
                       onChange={(e) => setNoticePeriod(e.target.value)}
-                      className="w-full p-3 bg-stone-50 dark:bg-stone-800/40 border border-stone-200 dark:border-stone-800 text-xs font-semibold rounded-xl text-stone-700 dark:text-stone-300"
+                      className="w-full p-3 bg-stone-50 border border-stone-200 text-xs font-semibold rounded-xl text-stone-700"
                     >
                       <option value="immediate">Immediate Joiner</option>
                       <option value="15days">15 Days</option>
@@ -267,14 +267,14 @@ export function ApplicationWizard({ isOpen, onClose, job, onSuccess }: Applicati
                     </select>
                   </div>
                   <div className="space-y-2">
-                    <label className="text-xs font-bold text-stone-800 dark:text-stone-200">
+                    <label className="text-xs font-bold text-stone-800">
                       Additional Message for the Recruiter (Optional)
                     </label>
                     <textarea
                       value={whyHire}
                       onChange={(e) => setWhyHire(e.target.value)}
                       placeholder="Add any notes on reference coordinates or past achievements..."
-                      className="w-full min-h-[100px] p-3 text-xs font-semibold rounded-xl border border-stone-200 dark:border-stone-850 bg-stone-50 dark:bg-stone-800/40 text-stone-750 dark:text-stone-300 focus:outline-none focus:border-primary"
+                      className="w-full min-h-[100px] p-3 text-xs font-semibold rounded-xl border border-stone-200 bg-stone-50 text-stone-750 focus:outline-none focus:border-primary"
                     />
                   </div>
                 </div>
@@ -305,16 +305,16 @@ export function ApplicationWizard({ isOpen, onClose, job, onSuccess }: Applicati
 
           {step === 3 && (
             <div className="text-center py-8 space-y-4">
-              <div className="w-16 h-16 rounded-full bg-emerald-50 dark:bg-emerald-950 border border-emerald-250 flex items-center justify-center mx-auto">
+              <div className="w-16 h-16 rounded-full bg-emerald-50 border border-emerald-250 flex items-center justify-center mx-auto">
                 <CheckCircle2 className="w-8 h-8 text-emerald-500" />
               </div>
               <div className="space-y-1">
-                <h4 className="text-base font-black text-stone-900 dark:text-white">Application Submitted!</h4>
+                <h4 className="text-base font-black text-stone-900">Application Submitted!</h4>
                 <p className="text-xs text-stone-500 font-semibold max-w-xs mx-auto leading-relaxed">
                   Your resume has been processed, screening forms delivered, and skills added to your local DevMatch profile.
                 </p>
               </div>
-              <div className="p-3 bg-stone-50 dark:bg-stone-850 border border-stone-200 dark:border-stone-800 rounded-2xl max-w-sm mx-auto text-[11px] text-stone-400 font-bold uppercase tracking-wider">
+              <div className="p-3 bg-stone-50 border border-stone-200 rounded-2xl max-w-sm mx-auto text-[11px] text-stone-400 font-bold uppercase tracking-wider">
                 Logged in Command Tracker
               </div>
               <Button

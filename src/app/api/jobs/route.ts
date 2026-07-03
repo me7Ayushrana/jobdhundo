@@ -71,7 +71,20 @@ export async function GET(req: NextRequest) {
       return true;
     });
 
-    // Fallback: If no API keys were configured and we got 0 live results, use our rich curated mock listings
+    // ALWAYS include Internshala and Naukri listings so they are always available and filterable!
+    const curatedSourceJobs = HIGH_FIDELITY_FALLBACK_JOBS.filter(
+      (job) => job.source === "internshala" || job.source === "naukri"
+    );
+    const dedupedCurated = curatedSourceJobs.filter((job) => {
+      const hash = `${job.title.toLowerCase()}|${job.company.toLowerCase()}|${job.location.toLowerCase()}`;
+      if (seen.has(hash)) return false;
+      seen.add(hash);
+      return true;
+    });
+    
+    deduped = [...deduped, ...dedupedCurated];
+
+    // Fallback: If we got 0 results (e.g. empty), use the full curated database
     if (deduped.length === 0) {
       console.log("[API Route] No live results, using Curated mock database.");
       // Apply basic keywords text filter on mock listings
