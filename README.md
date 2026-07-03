@@ -46,3 +46,6 @@ npm run dev -- -p 3002
 
 The platform is locked to a default **Light Theme** (with obsidian-black contrast card layouts) for a premium SaaS visual system. Dark/light theme togglers are disabled.
 
+## Firebase Deployment Guidelines
+
+To authenticate users on deployed staging/production URLs, remember to whitelist the live deployment domain (e.g., your Netlify sub-domain) inside **Firebase Console -> Authentication -> Settings -> Authorized Domains**.
