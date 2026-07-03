@@ -42,3 +42,7 @@ The development server is configured to run on port `3002` by default. You can s
 npm run dev -- -p 3002
 ```
 
+## Theme & Styling
+
+The platform is locked to a default **Light Theme** (with obsidian-black contrast card layouts) for a premium SaaS visual system. Dark/light theme togglers are disabled.
+
