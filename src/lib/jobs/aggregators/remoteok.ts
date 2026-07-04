@@ -1,50 +1,53 @@
 import { UnifiedJob } from "../types";
-import { normalizeJobs, normalizeJobType } from "./normalizer";
+import { normalizeJobs, extractSkills, normalizeJobType } from "./normalizer";
 
 export async function fetchRemoteOKJobs(tag?: string): Promise<UnifiedJob[]> {
   try {
-    const url = tag ? `https://remoteok.com/api?tag=${tag}` : 'https://remoteok.com/api';
-    const res = await fetch(url, {
-      headers: {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-      }
+    const url = tag 
+      ? `https://remoteok.com/api?tag=${encodeURIComponent(tag)}` 
+      : 'https://remoteok.com/api';
+    
+    const res = await fetch(url, { 
+      headers: { 'User-Agent': 'JobDhundo/1.0' },
+      next: { revalidate: 600 }
     });
     
     if (!res.ok) {
-      console.warn(`RemoteOK API returned status ${res.status}`);
+      console.warn(`[RemoteOK] API returned ${res.status}`);
       return [];
     }
-    
+
     const data = await res.json();
-    if (!Array.isArray(data) || data.length <= 1) return [];
+    const jobs = Array.isArray(data) ? data.slice(1) : [];
     
-    // data[0] is legal/metadata statement, rest are job items
-    const jobs = data.slice(1).map((job: any) => {
-      const position = job.position || "Software Engineer";
+    const normalized = jobs.map((job: any) => {
+      const position = job.position || 'Unknown Position';
       const tags = job.tags || [];
       return {
         id: `dm-remoteok-${job.id}`,
         title: position,
-        company: job.company || "Remote Company",
-        companyLogo: job.company_logo || undefined,
-        location: job.location || "Remote",
+        company: job.company || 'Unknown Company',
+        location: job.location || 'Remote',
         jobType: normalizeJobType(position + " " + tags.join(" ")),
-        experienceLevel: "mid" as const,
-        salaryMin: job.salary_min || 0,
-        salaryMax: job.salary_max || 0,
-        salaryCurrency: "USD",
-        salaryPeriod: "yearly" as const,
-        description: job.description || "",
+        experienceLevel: 'mid' as const,
+        salaryMin: job.salary_min ? parseInt(job.salary_min) : undefined,
+        salaryMax: job.salary_max ? parseInt(job.salary_max) : undefined,
+        salaryCurrency: 'USD',
+        salaryPeriod: 'yearly' as const,
+        description: job.description || '',
         requirements: [],
-        skills: tags || [],
+        skills: tags.length > 0 ? tags : extractSkills(position, job.description || ''),
         postedDate: job.date ? new Date(job.date).toISOString() : new Date().toISOString(),
-        applyUrl: job.apply_url || job.url || ""
+        applyUrl: job.apply_url || job.url || `https://remoteok.com/remote-jobs/${job.id}`,
+        source: 'remoteok',
+        sourceAttribution: 'via RemoteOK'
       };
     });
 
-    return normalizeJobs(jobs, "remoteok");
+    return normalizeJobs(normalized, 'remoteok');
+    
   } catch (error) {
-    console.error("Failed to fetch RemoteOK jobs:", error);
+    console.error("[RemoteOK] Error:", error);
     return [];
   }
 }

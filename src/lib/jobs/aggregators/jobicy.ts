@@ -1,5 +1,5 @@
 import { UnifiedJob } from "../types";
-import { normalizeJobs, extractSkills } from "./normalizer";
+import { normalizeJobs, extractSkills, normalizeJobType, normalizeExperience } from "./normalizer";
 
 export async function fetchJobicyJobs(
   count: number = 50,
@@ -9,41 +9,48 @@ export async function fetchJobicyJobs(
 ): Promise<UnifiedJob[]> {
   try {
     let url = `https://jobicy.com/api/v2/remote-jobs?count=${count}`;
-    if (geo) url += `&geo=${geo}`;
-    if (industry) url += `&industry=${industry}`;
+    if (geo) url += `&geo=${encodeURIComponent(geo)}`;
+    if (industry) url += `&industry=${encodeURIComponent(industry)}`;
     if (tag) url += `&tag=${encodeURIComponent(tag)}`;
 
-    const res = await fetch(url);
+    const res = await fetch(url, {
+      headers: { 'User-Agent': 'JobDhundo/1.0' },
+      next: { revalidate: 600 }
+    });
+    
     if (!res.ok) {
-      console.warn(`Jobicy API returned status ${res.status}`);
+      console.warn(`[Jobicy] API returned ${res.status}`);
       return [];
     }
 
     const data = await res.json();
-    if (!data || !Array.isArray(data.jobs)) return [];
-
-    const jobs = data.jobs.map((job: any) => ({
+    const jobs = data.jobs || [];
+    
+    const normalized = jobs.map((job: any) => ({
       id: `dm-jobicy-${job.id}`,
-      title: job.jobTitle || "Software Engineer",
-      company: job.companyName || "Jobicy Partner",
-      companyLogo: job.companyLogo || undefined,
-      location: job.jobGeo || "Remote",
-      jobType: (job.jobType?.toLowerCase().includes("intern") ? "internship" : "full-time") as any,
-      experienceLevel: (job.jobLevel?.toLowerCase() || "mid") as any,
+      title: job.jobTitle || 'Unknown Position',
+      company: job.companyName || 'Unknown Company',
+      companyLogo: job.companyLogo,
+      location: job.jobGeo || 'Remote',
+      jobType: normalizeJobType(job.jobType || 'full-time'),
+      experienceLevel: normalizeExperience(job.jobTitle || '', job.jobDescription || ''),
       salaryMin: job.salaryMin || 0,
       salaryMax: job.salaryMax || 0,
-      salaryCurrency: job.salaryCurrency || "USD",
-      salaryPeriod: job.salaryPeriod || "yearly",
-      description: job.jobDescription || "",
+      salaryCurrency: job.salaryCurrency || 'USD',
+      salaryPeriod: job.salaryPeriod || 'yearly',
+      description: job.jobDescription || '',
       requirements: [],
-      skills: extractSkills(job.jobTitle || "", job.jobDescription || ""),
-      postedDate: job.pubDate ? new Date(job.pubDate).toISOString() : new Date().toISOString(),
-      applyUrl: job.url || ""
+      skills: extractSkills(job.jobTitle || '', job.jobDescription || ''),
+      postedDate: job.pubDate || new Date().toISOString(),
+      applyUrl: job.url || `https://jobicy.com/job/${job.id}`,
+      source: 'jobicy',
+      sourceAttribution: 'via Jobicy'
     }));
 
-    return normalizeJobs(jobs, "jobicy");
+    return normalizeJobs(normalized, 'jobicy');
+    
   } catch (error) {
-    console.error("Failed to fetch Jobicy jobs:", error);
+    console.error("[Jobicy] Error:", error);
     return [];
   }
 }
