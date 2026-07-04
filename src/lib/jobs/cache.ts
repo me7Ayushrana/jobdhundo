@@ -132,3 +132,16 @@ export async function saveJobsToCache(
     }
   }
 }
+
+export function findJobInMemoryCache(id: string): any | null {
+  for (const entry of memoryCache.values()) {
+    if (entry.data && entry.data.jobs) {
+      const found = entry.data.jobs.find((j: any) => j.id === id);
+      if (found) {
+        return found;
+      }
+    }
+  }
+  return null;
+}
+
