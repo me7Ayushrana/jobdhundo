@@ -1,34 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { JobSearchResult } from "@/lib/jobs/types";
 import { HIGH_FIDELITY_FALLBACK_JOBS } from "@/lib/jobs/mock-data";
-
-// Import real API aggregators
 import { fetchRemoteOKJobs } from "@/lib/jobs/aggregators/remoteok";
 import { fetchJobicyJobs } from "@/lib/jobs/aggregators/jobicy";
 
-// Import existing aggregators (if you have them)
-let fetchAdzunaJobs: any, fetchJSearchJobs: any, fetchLoopCVJobs: any;
-try {
-  const adzuna = require("@/lib/jobs/aggregators/adzuna");
-  fetchAdzunaJobs = adzuna.fetchAdzunaJobs;
-} catch (e) { fetchAdzunaJobs = null; }
-
-try {
-  const jsearch = require("@/lib/jobs/aggregators/jsearch");
-  fetchJSearchJobs = jsearch.fetchJSearchJobs;
-} catch (e) { fetchJSearchJobs = null; }
-
-try {
-  const loopcv = require("@/lib/jobs/aggregators/loopcv");
-  fetchLoopCVJobs = loopcv.fetchLoopCVJobs;
-} catch (e) { fetchLoopCVJobs = null; }
-
-// Simple in-memory cache
+// Simple cache
 const cache = new Map<string, { data: any; timestamp: number }>();
 const CACHE_TTL = 10 * 60 * 1000; // 10 minutes
 
 function getCacheKey(params: Record<string, any>): string {
   const str = JSON.stringify(params);
+  if (typeof Buffer !== 'undefined') {
+    return Buffer.from(str).toString('base64').replace(/[^a-zA-Z0-9]/g, '_').slice(0, 100);
+  }
   return btoa(str).replace(/[^a-zA-Z0-9]/g, '_').slice(0, 100);
 }
 
@@ -58,24 +42,11 @@ export async function GET(req: NextRequest) {
 
     console.log(`[API] Fetching live data for: "${q}" | Types: ${jobTypes.join(',') || 'all'}`);
 
-    // Fetch from ALL APIs in parallel
-    const apiCalls = [
+    // Fetch from APIs (NO AUTH REQUIRED)
+    const apiResults = await Promise.allSettled([
       fetchRemoteOKJobs(q),
       fetchJobicyJobs(perPage, q)
-    ];
-
-    // Add auth-required APIs if keys exist
-    if (process.env.ADZUNA_APP_ID && fetchAdzunaJobs) {
-      apiCalls.push(fetchAdzunaJobs(q, location, page));
-    }
-    if (process.env.RAPIDAPI_KEY && fetchJSearchJobs) {
-      apiCalls.push(fetchJSearchJobs(q, location, page));
-    }
-    if (process.env.LOOPCV_API_KEY && fetchLoopCVJobs) {
-      apiCalls.push(fetchLoopCVJobs(q, location, perPage));
-    }
-
-    const apiResults = await Promise.allSettled(apiCalls);
+    ]);
 
     let allJobs: any[] = [];
     let totalApiJobs = 0;
@@ -89,7 +60,7 @@ export async function GET(req: NextRequest) {
 
     console.log(`[API] Fetched ${totalApiJobs} jobs from live APIs`);
 
-    // If no real jobs, use fallback (demo mode)
+    // If no real jobs, use fallback
     const isDemoMode = allJobs.length === 0;
     if (isDemoMode) {
       console.log("[API] No live jobs. Using demo fallback.");
@@ -103,7 +74,7 @@ export async function GET(req: NextRequest) {
     // Apply filters
     let filteredJobs = [...allJobs];
 
-    // Job Type Filter — CRITICAL FIX
+    // Job Type Filter
     if (jobTypes.length > 0) {
       filteredJobs = filteredJobs.filter((job) => jobTypes.includes(job.jobType));
     }
@@ -160,14 +131,25 @@ export async function GET(req: NextRequest) {
       let limitMs = 30 * 24 * 60 * 60 * 1000;
       if (postedWithin === "24h") limitMs = 24 * 60 * 60 * 1000;
       if (postedWithin === "7d") limitMs = 7 * 24 * 60 * 60 * 1000;
-
-      filteredJobs = filteredJobs.filter(
-        (job) => now - new Date(job.postedDate).getTime() <= limitMs
-      );
+      filteredJobs = filteredJobs.filter((job) => now - new Date(job.postedDate).getTime() <= limitMs);
     }
 
     // Sort by newest
     filteredJobs.sort((a, b) => new Date(b.postedDate).getTime() - new Date(a.postedDate).getTime());
+
+    // Calculate job type counts for sidebar
+    const jobTypeCounts: Record<string, number> = {
+      "full-time": 0,
+      "part-time": 0,
+      "contract": 0,
+      "internship": 0,
+      "freelance": 0
+    };
+    allJobs.forEach((job) => {
+      if (jobTypeCounts[job.jobType] !== undefined) {
+        jobTypeCounts[job.jobType]++;
+      }
+    });
 
     // Source breakdown
     const sourceBreakdown: Record<string, number> = {};
@@ -191,7 +173,8 @@ export async function GET(req: NextRequest) {
       cached: false,
       fetchedAt: new Date().toISOString(),
       isDemoMode,
-      totalApiJobs
+      totalApiJobs,
+      jobTypeCounts
     };
 
     // Save to cache
@@ -204,7 +187,20 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ 
       error: "Server error", 
       details: error.message,
-      isDemoMode: true
+      isDemoMode: true,
+      jobs: [],
+      totalResults: 0,
+      page: 1,
+      perPage: 12,
+      hasMore: false,
+      sourceBreakdown: {},
+      jobTypeCounts: {
+        "full-time": 0,
+        "part-time": 0,
+        "contract": 0,
+        "internship": 0,
+        "freelance": 0
+      }
     }, { status: 500 });
   }
 }
