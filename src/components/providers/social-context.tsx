@@ -6,7 +6,7 @@ import type {
     Notification, TeamInvite, ActivityEvent, SocialState, NotificationType
 } from "@/lib/types/social-types";
 import { app, auth, db, googleProvider } from "@/lib/firebase/config";
-import { signInWithPopup, signOut as firebaseSignOut, onAuthStateChanged } from "firebase/auth";
+import { signInWithPopup, signInWithRedirect, signOut as firebaseSignOut, onAuthStateChanged } from "firebase/auth";
 import { doc, setDoc, deleteDoc, onSnapshot, collection, updateDoc } from "firebase/firestore";
 
 // ── Default Current User (Before Login) ──────────────────────────────
@@ -204,7 +204,7 @@ export function SocialProvider({ children }: { children: React.ReactNode }) {
     useEffect(() => {
         if (!auth) return;
 
-        const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+        const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
             if (firebaseUser) {
                 // Determine initials
                 const initials = firebaseUser.displayName
@@ -223,19 +223,18 @@ export function SocialProvider({ children }: { children: React.ReactNode }) {
                     isOnline: true,
                 };
 
-                // Sync profile details to Firestore
-                if (db) {
-                    try {
-                        const userRef = doc(db, "users", firebaseUser.uid);
-                        await setDoc(userRef, matchedUser, { merge: true });
-                    } catch (e) {
-                        console.error("Failed to sync profile to Firestore:", e);
-                    }
-                }
-
+                // Update UI state instantly
                 setCurrentUser(matchedUser);
                 setIsAuthenticated(true);
                 localStorage.setItem("devmatch_currentUser", JSON.stringify(matchedUser));
+
+                // Sync profile details to Firestore in the background
+                if (db) {
+                    const userRef = doc(db, "users", firebaseUser.uid);
+                    setDoc(userRef, matchedUser, { merge: true }).catch((e) => {
+                        console.error("Failed to sync profile to Firestore in background:", e);
+                    });
+                }
             } else {
                 // If logged out of Firebase and there is no guest token in localStorage, revert to guest
                 const storedUser = localStorage.getItem("devmatch_currentUser");
@@ -304,7 +303,17 @@ export function SocialProvider({ children }: { children: React.ReactNode }) {
         if (!auth || !googleProvider) {
             throw new Error("Firebase Authentication is not configured.");
         }
-        await signInWithPopup(auth, googleProvider);
+        try {
+            await signInWithPopup(auth, googleProvider);
+        } catch (popupError: any) {
+            console.warn("signInWithPopup failed, attempting redirect sign-in:", popupError);
+            try {
+                await signInWithRedirect(auth, googleProvider);
+            } catch (redirectError: any) {
+                console.error("signInWithRedirect failed:", redirectError);
+                throw new Error("Google Sign-In failed. Please ensure cookies are allowed or try Guest access.");
+            }
+        }
     };
 
     const loginAsGuest = (name: string, role: string, github?: string) => {
