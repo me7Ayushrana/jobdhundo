@@ -87,7 +87,7 @@ export default function Home() {
               transition={{ duration: 0.6, delay: 0.3 }}
               className="w-full max-w-xl"
             >
-              <form onSubmit={handleSearchSubmit} className="p-2 bg-white border border-stone-200 rounded-3xl flex flex-col sm:flex-row items-stretch sm:items-center gap-2 shadow-sm focus-within:border-primary transition-all duration-300">
+              <form onSubmit={handleSearchSubmit} className="p-2.5 bg-white border border-stone-250 rounded-3xl flex flex-col sm:flex-row items-stretch sm:items-center gap-2 shadow-[0_8px_30px_rgb(0,0,0,0.02)] focus-within:shadow-[0_8px_30px_rgba(220,76,32,0.04)] focus-within:border-primary transition-all duration-300">
                 <div className="flex-1 flex items-center px-4 gap-3">
                   <Search className="w-5 h-5 text-stone-400 shrink-0" />
                   <Input
@@ -105,15 +105,43 @@ export default function Home() {
                 </Button>
               </form>
             </motion.div>
+
+            {/* Quick Resume Upload Callout Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="w-full max-w-xl pt-2"
+            >
+              <Link href="/analyzer" className="block group">
+                <div className="p-4 bg-white border border-stone-250 hover:border-primary/50 rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.015)] transition-all duration-300 flex items-center gap-4 text-left">
+                  <div className="w-10 h-10 rounded-xl bg-primary/5 border border-primary/15 flex items-center justify-center shrink-0">
+                    <Sparkles className="w-4.5 h-4.5 text-primary" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h4 className="text-xs font-black text-stone-900 uppercase tracking-wider mb-0.5 flex items-center gap-1.5">
+                      AI Resume Matcher <span className="text-[8px] bg-emerald-500/10 text-emerald-600 border border-emerald-500/20 px-1.5 py-0.5 rounded-md font-extrabold normal-case tracking-normal">New</span>
+                    </h4>
+                    <p className="text-[11px] text-stone-500 font-semibold leading-relaxed">
+                      Upload your CV to automatically map skills and see matching score indicators across live listings.
+                    </p>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-stone-400 group-hover:translate-x-1 transition-transform shrink-0" />
+                </div>
+              </Link>
+            </motion.div>
           </div>
 
           {/* Right Column: High-End Vector Illustration */}
-          <div className="lg:col-span-5 flex justify-center">
+          <div className="lg:col-span-5 flex justify-center relative">
+            {/* Smooth backglow lighting */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 to-orange-500/5 rounded-[3rem] blur-3xl -z-10" />
+
             <motion.div
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="p-3 bg-white border border-stone-200 rounded-[2.5rem] shadow-sm max-w-md overflow-hidden relative"
+              className="p-3 bg-white border border-stone-200 rounded-[2.5rem] shadow-sm max-w-md overflow-hidden relative z-10"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
