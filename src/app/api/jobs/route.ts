@@ -1,35 +1,41 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getCachedJobs, saveJobsToCache } from "@/lib/jobs/cache";
 import { JobSearchResult } from "@/lib/jobs/types";
 import { HIGH_FIDELITY_FALLBACK_JOBS } from "@/lib/jobs/mock-data";
 
-// Real API aggregators
-import { fetchAdzunaJobs } from "@/lib/jobs/aggregators/adzuna";
-import { fetchJSearchJobs } from "@/lib/jobs/aggregators/jsearch";
-import { fetchLoopCVJobs } from "@/lib/jobs/aggregators/loopcv";
-
-// NEW: No-auth required APIs
+// Import real API aggregators
 import { fetchRemoteOKJobs } from "@/lib/jobs/aggregators/remoteok";
 import { fetchJobicyJobs } from "@/lib/jobs/aggregators/jobicy";
-import { fetchGreenhouseJobs } from "@/lib/jobs/aggregators/greenhouse";
-import { fetchLeverJobs } from "@/lib/jobs/aggregators/lever";
-import { fetchAshbyJobs } from "@/lib/jobs/aggregators/ashby";
 
-// Build cache key from all search parameters
-function buildCacheKey(params: Record<string, any>): string {
-  const sorted = Object.keys(params).sort().reduce((acc, key) => {
-    acc[key] = params[key];
-    return acc;
-  }, {} as Record<string, any>);
-  const str = JSON.stringify(sorted);
-  return Buffer.from(str).toString('base64').replace(/[^a-zA-Z0-9]/g, '_').slice(0, 100);
+// Import existing aggregators (if you have them)
+let fetchAdzunaJobs: any, fetchJSearchJobs: any, fetchLoopCVJobs: any;
+try {
+  const adzuna = require("@/lib/jobs/aggregators/adzuna");
+  fetchAdzunaJobs = adzuna.fetchAdzunaJobs;
+} catch (e) { fetchAdzunaJobs = null; }
+
+try {
+  const jsearch = require("@/lib/jobs/aggregators/jsearch");
+  fetchJSearchJobs = jsearch.fetchJSearchJobs;
+} catch (e) { fetchJSearchJobs = null; }
+
+try {
+  const loopcv = require("@/lib/jobs/aggregators/loopcv");
+  fetchLoopCVJobs = loopcv.fetchLoopCVJobs;
+} catch (e) { fetchLoopCVJobs = null; }
+
+// Simple in-memory cache
+const cache = new Map<string, { data: any; timestamp: number }>();
+const CACHE_TTL = 10 * 60 * 1000; // 10 minutes
+
+function getCacheKey(params: Record<string, any>): string {
+  const str = JSON.stringify(params);
+  return btoa(str).replace(/[^a-zA-Z0-9]/g, '_').slice(0, 100);
 }
 
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
     
-    // Extract all filter parameters
     const q = searchParams.get("q") || "";
     const location = searchParams.get("location") || "";
     const jobTypes = searchParams.get("jobType") ? searchParams.get("jobType")!.split(",") : [];
@@ -42,44 +48,36 @@ export async function GET(req: NextRequest) {
     const page = parseInt(searchParams.get("page") || "1", 10);
     const perPage = parseInt(searchParams.get("perPage") || "12", 10);
 
-    // Build cache key including ALL filters (critical for job type separation)
-    const cacheKey = buildCacheKey({
-      q, location, jobTypes, experience, skills, salaryMin, salaryMax, remote, postedWithin, page, perPage
-    });
+    const cacheKey = getCacheKey({ q, location, jobTypes, experience, skills, salaryMin, salaryMax, remote, postedWithin, page, perPage });
 
-    // 1. CHECK CACHE FIRST
-    const cached = await getCachedJobs(cacheKey);
-    if (cached) {
-      return NextResponse.json({ ...cached, cached: true });
+    // Check cache
+    const cached = cache.get(cacheKey);
+    if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+      return NextResponse.json({ ...cached.data, cached: true });
     }
 
-    // 2. FETCH LIVE DATA FROM ALL APIs IN PARALLEL
-    console.log(`[API] Cache miss. Fetching live for: "${q}" | Types: ${jobTypes.join(',') || 'all'} | Page: ${page}`);
+    console.log(`[API] Fetching live data for: "${q}" | Types: ${jobTypes.join(',') || 'all'}`);
 
+    // Fetch from ALL APIs in parallel
     const apiCalls = [
-      // No-auth APIs (always fetch)
       fetchRemoteOKJobs(q),
-      fetchJobicyJobs(perPage, undefined, undefined, q),
-      fetchGreenhouseJobs(),
-      fetchLeverJobs(),
-      fetchAshbyJobs()
+      fetchJobicyJobs(perPage, q)
     ];
 
-    // Auth-required APIs (conditional)
-    if (process.env.ADZUNA_APP_ID && process.env.ADZUNA_APP_KEY) {
+    // Add auth-required APIs if keys exist
+    if (process.env.ADZUNA_APP_ID && fetchAdzunaJobs) {
       apiCalls.push(fetchAdzunaJobs(q, location, page));
     }
-    if (process.env.RAPIDAPI_KEY) {
+    if (process.env.RAPIDAPI_KEY && fetchJSearchJobs) {
       apiCalls.push(fetchJSearchJobs(q, location, page));
     }
-    if (process.env.LOOPCV_API_KEY) {
+    if (process.env.LOOPCV_API_KEY && fetchLoopCVJobs) {
       apiCalls.push(fetchLoopCVJobs(q, location, perPage));
     }
 
     const apiResults = await Promise.allSettled(apiCalls);
 
     let allJobs: any[] = [];
-    const sourceStats: Record<string, number> = {};
     let totalApiJobs = 0;
 
     apiResults.forEach((result) => {
@@ -89,13 +87,12 @@ export async function GET(req: NextRequest) {
       }
     });
 
-    // Log source breakdown for debugging
-    console.log(`[API] Fetched ${totalApiJobs} total jobs from live APIs`);
+    console.log(`[API] Fetched ${totalApiJobs} jobs from live APIs`);
 
-    // 3. IF NO REAL JOBS, USE FALLBACK (clearly marked as demo)
+    // If no real jobs, use fallback (demo mode)
     const isDemoMode = allJobs.length === 0;
     if (isDemoMode) {
-      console.log("[API] No live jobs found. Using demo fallback data.");
+      console.log("[API] No live jobs. Using demo fallback.");
       allJobs = HIGH_FIDELITY_FALLBACK_JOBS.map(job => ({
         ...job,
         source: 'demo',
@@ -103,27 +100,12 @@ export async function GET(req: NextRequest) {
       }));
     }
 
-    // Count job types BEFORE filter application for accurate sidebar counts
-    const jobTypeCounts: Record<string, number> = {
-      "full-time": 0,
-      "part-time": 0,
-      "contract": 0,
-      "internship": 0,
-      "freelance": 0
-    };
-    allJobs.forEach((job) => {
-      if (job.jobType in jobTypeCounts) {
-        jobTypeCounts[job.jobType]++;
-      }
-    });
-
-    // 4. APPLY ALL FILTERS ON LIVE DATA
+    // Apply filters
     let filteredJobs = [...allJobs];
 
     // Job Type Filter — CRITICAL FIX
     if (jobTypes.length > 0) {
       filteredJobs = filteredJobs.filter((job) => jobTypes.includes(job.jobType));
-      console.log(`[Filter] After jobType [${jobTypes.join(',')}]: ${filteredJobs.length} jobs`);
     }
 
     // Experience filter
@@ -131,7 +113,7 @@ export async function GET(req: NextRequest) {
       filteredJobs = filteredJobs.filter((job) => experience.includes(job.experienceLevel));
     }
 
-    // Text search (title, company, description, skills)
+    // Text search
     if (q.trim()) {
       const term = q.toLowerCase().trim();
       filteredJobs = filteredJobs.filter((job) => 
@@ -184,10 +166,10 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    // Sort by postedDate descending (newest first)
+    // Sort by newest
     filteredJobs.sort((a, b) => new Date(b.postedDate).getTime() - new Date(a.postedDate).getTime());
 
-    // Calculate source breakdown
+    // Source breakdown
     const sourceBreakdown: Record<string, number> = {};
     filteredJobs.forEach((job) => {
       sourceBreakdown[job.source] = (sourceBreakdown[job.source] || 0) + 1;
@@ -199,7 +181,7 @@ export async function GET(req: NextRequest) {
     const paginatedJobs = filteredJobs.slice(startIndex, startIndex + perPage);
     const hasMore = startIndex + perPage < totalResults;
 
-    const result: JobSearchResult = {
+    const result = {
       jobs: paginatedJobs,
       totalResults,
       page,
@@ -208,18 +190,14 @@ export async function GET(req: NextRequest) {
       sourceBreakdown,
       cached: false,
       fetchedAt: new Date().toISOString(),
-      jobTypeCounts
+      isDemoMode,
+      totalApiJobs
     };
 
-    // 5. CACHE RESULT (10 minutes for live data)
-    await saveJobsToCache(cacheKey, result, 10 * 60 * 1000);
+    // Save to cache
+    cache.set(cacheKey, { data: result, timestamp: Date.now() });
 
-    return NextResponse.json({
-      ...result,
-      isDemoMode,
-      totalApiJobs,
-      jobTypeCounts
-    });
+    return NextResponse.json(result);
 
   } catch (error: any) {
     console.error("[API GET Jobs] Error:", error);
