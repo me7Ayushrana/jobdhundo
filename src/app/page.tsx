@@ -105,44 +105,6 @@ export default function Home() {
                 </Button>
               </form>
             </motion.div>
-
-            {/* Quick Filter Chips */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4 }}
-              className="flex flex-wrap items-center gap-2 max-w-xl"
-            >
-              <span className="text-[10px] font-bold text-stone-400 uppercase tracking-widest mr-1">Hot Keys:</span>
-              
-              <Badge
-                onClick={() => handleChipClick("remote", "Remote")}
-                className="cursor-pointer bg-white border border-stone-200 hover:border-primary text-stone-600 font-bold px-3 py-1.5 rounded-full text-xs shadow-sm"
-              >
-                🏠 Remote
-              </Badge>
-              
-              <Badge
-                onClick={() => handleChipClick("skill", "React")}
-                className="cursor-pointer bg-white border border-stone-200 hover:border-primary text-stone-600 font-bold px-3 py-1.5 rounded-full text-xs shadow-sm"
-              >
-                ⚛️ React
-              </Badge>
-              
-              <Badge
-                onClick={() => handleChipClick("skill", "Java")}
-                className="cursor-pointer bg-white border border-stone-200 hover:border-primary text-stone-600 font-bold px-3 py-1.5 rounded-full text-xs shadow-sm"
-              >
-                ☕ Java
-              </Badge>
-              
-              <Badge
-                onClick={() => handleChipClick("location", "Bangalore")}
-                className="cursor-pointer bg-white border border-stone-200 hover:border-primary text-stone-600 font-bold px-3 py-1.5 rounded-full text-xs shadow-sm"
-              >
-                📍 Bangalore
-              </Badge>
-            </motion.div>
           </div>
 
           {/* Right Column: High-End Vector Illustration */}
@@ -164,45 +126,60 @@ export default function Home() {
 
         </div>
 
-        {/* Live Index Metrics */}
+        {/* Live Index Metrics as Premium Black Flashcards */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full border-t border-stone-200 pt-10 mt-16"
+          transition={{ delay: 0.4 }}
+          className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full mt-16 text-left"
         >
-          {/* Index counter */}
-          <div className="flex flex-col items-start justify-center space-y-1">
-            <span className="text-[10px] font-black text-stone-400 uppercase tracking-widest">Aggregated Portals Index</span>
-            <div className="text-3xl font-black text-stone-900 tracking-tight flex items-baseline gap-1.5">
-              <span>34,912</span>
-              <span className="text-[10px] font-bold text-emerald-500 uppercase tracking-wider">Active Openings</span>
+          {/* Card 1: Portals Index Card */}
+          <div className="bg-gradient-to-br from-stone-900 to-stone-950 border border-stone-800 rounded-3xl p-7 shadow-xl text-left flex flex-col justify-between relative overflow-hidden group">
+            {/* Glowing accent light */}
+            <div className="absolute -right-10 -top-10 w-24 h-24 bg-primary/10 rounded-full blur-2xl group-hover:bg-primary/20 transition-all duration-500" />
+            <div className="space-y-4">
+              <div className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="text-[10px] font-black text-stone-500 uppercase tracking-widest">Aggregated Portals Index</span>
+              </div>
+              <div className="space-y-1">
+                <div className="text-4xl font-black text-white tracking-tight leading-none">
+                  34,912
+                </div>
+                <div className="text-[10px] font-black text-primary uppercase tracking-widest mt-1">
+                  Active Openings
+                </div>
+              </div>
             </div>
-            <p className="text-[11px] text-stone-500 font-medium">
+            <p className="text-[11px] text-stone-400 font-semibold leading-relaxed mt-6 border-t border-stone-800/60 pt-4">
               Consolidated, cleaned, and synced live from LinkedIn, Indeed, Naukri, Internshala, and 20+ other pipelines.
             </p>
           </div>
 
-          {/* Trending Searches */}
-          <div className="flex flex-col items-start justify-center space-y-2">
-            <span className="text-[10px] font-black text-stone-400 uppercase tracking-widest flex items-center gap-1">
-              <TrendingUp className="w-3.5 h-3.5 text-primary" /> Trending Keywords
-            </span>
-            <div className="flex flex-col gap-1.5 w-full">
-              {[
-                { term: "Web Development Internship", link: "/jobs?q=Web Development" },
-                { term: "Senior Frontend Engineer", link: "/jobs?q=Frontend" },
-                { term: "DevOps Infrastructure", link: "/jobs?q=DevOps" }
-              ].map((item, idx) => (
-                <Link
-                  key={idx}
-                  href={item.link}
-                  className="flex items-center justify-between p-2.5 rounded-xl bg-white border border-stone-200 hover:border-primary/50 text-xs font-bold text-stone-700 shadow-sm transition-colors"
-                >
-                  <span>{item.term}</span>
-                  <ArrowRight className="w-3.5 h-3.5 text-stone-400" />
-                </Link>
-              ))}
+          {/* Card 2: Trending Keywords Card */}
+          <div className="bg-gradient-to-br from-stone-900 to-stone-950 border border-stone-800 rounded-3xl p-7 shadow-xl text-left relative overflow-hidden group">
+            <div className="absolute -right-10 -top-10 w-24 h-24 bg-primary/10 rounded-full blur-2xl group-hover:bg-primary/20 transition-all duration-500" />
+            <div className="space-y-4">
+              <span className="text-[10px] font-black text-stone-550 uppercase tracking-widest flex items-center gap-1.5">
+                <TrendingUp className="w-3.5 h-3.5 text-primary" /> Trending Keywords
+              </span>
+              
+              <div className="flex flex-col gap-2 pt-1">
+                {[
+                  { term: "Web Development Internship", link: "/jobs?q=Web Development" },
+                  { term: "Senior Frontend Engineer", link: "/jobs?q=Frontend" },
+                  { term: "DevOps Infrastructure", link: "/jobs?q=DevOps" }
+                ].map((item, idx) => (
+                  <Link
+                    key={idx}
+                    href={item.link}
+                    className="flex items-center justify-between p-3 rounded-xl bg-stone-950/60 border border-stone-850 hover:border-primary/50 text-xs font-bold text-stone-300 hover:text-white transition-all duration-300 hover:bg-stone-950/90"
+                  >
+                    <span>{item.term}</span>
+                    <ArrowRight className="w-3.5 h-3.5 text-stone-500 group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
         </motion.div>
@@ -224,14 +201,14 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="bg-white border border-stone-200 p-8 rounded-3xl flex flex-col items-start gap-4 shadow-sm hover:border-primary/30 transition-all duration-300"
+                className="bg-gradient-to-br from-stone-900 to-stone-950 border border-stone-850 p-8 rounded-3xl flex flex-col items-start gap-4 shadow-xl hover:border-primary/30 transition-all duration-300 text-left"
               >
-                <div className="w-10 h-10 rounded-xl bg-stone-50 flex items-center justify-center border border-stone-200 shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-stone-800 border border-stone-700 flex items-center justify-center shrink-0">
                   <feature.icon className="w-5 h-5 text-primary" />
                 </div>
                 <div>
-                  <h3 className="text-base font-black tracking-tight text-stone-900 mb-1.5">{feature.title}</h3>
-                  <p className="text-stone-500 leading-relaxed text-xs font-semibold">
+                  <h3 className="text-base font-black tracking-tight text-white mb-1.5">{feature.title}</h3>
+                  <p className="text-stone-400 leading-relaxed text-xs font-semibold">
                     {feature.desc}
                   </p>
                 </div>

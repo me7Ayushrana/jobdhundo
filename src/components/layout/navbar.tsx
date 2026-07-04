@@ -66,7 +66,10 @@ export function Navbar() {
                             >
                                 Boost Workflow
                             </a>
-                            
+                            <Link href="/jobs" className="text-primary hover:text-primary/80 transition-colors active:scale-95 transition-transform font-black">
+                                Find Jobs
+                            </Link>
+
                             {mounted && isAuthenticated ? (
                                 <div className="relative">
                                     <button
@@ -142,10 +145,6 @@ export function Navbar() {
                                     Sign In
                                 </button>
                             )}
-                            
-                            <Link href="/jobs" className="text-primary hover:text-primary/80 transition-colors active:scale-95 transition-transform font-black">
-                                Find Jobs
-                            </Link>
                         </div>
 
                         {/* Mobile Actions: Hamburger only */}
