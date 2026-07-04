@@ -244,9 +244,9 @@ function JobsFeedInner() {
           
           {/* Desktop Left Sidebar Filters */}
           <aside className="hidden lg:block lg:col-span-1 space-y-6">
-            <div className="bg-white border border-stone-200/85 rounded-3xl p-6 shadow-sm sticky top-28 space-y-6">
-              <div className="flex justify-between items-center pb-4 border-b border-stone-100">
-                <span className="text-xs font-black uppercase tracking-widest text-stone-900 flex items-center gap-2">
+            <div className="bg-gradient-to-br from-stone-900 to-stone-950 border border-stone-800/80 rounded-3xl p-6 shadow-xl sticky top-28 space-y-6">
+              <div className="flex justify-between items-center pb-4 border-b border-stone-800/80">
+                <span className="text-xs font-black uppercase tracking-widest text-white flex items-center gap-2">
                   <Filter className="w-4.5 h-4.5" /> Filters
                 </span>
                 <button onClick={handleClearFilters} className="text-[10px] font-bold text-primary hover:underline uppercase tracking-wider">
@@ -256,14 +256,14 @@ function JobsFeedInner() {
 
               {/* Keyword Search */}
               <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-widest text-stone-400">Search</label>
+                <label className="text-[10px] font-black uppercase tracking-widest text-stone-450">Search</label>
                 <div className="relative">
-                  <Search className="absolute left-3 top-3 w-4 h-4 text-stone-400" />
+                  <Search className="absolute left-3 top-3 w-4 h-4 text-stone-500" />
                   <Input
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     placeholder="Title or company..."
-                    className="pl-9 bg-stone-50 border-stone-200 text-xs rounded-xl"
+                    className="pl-9 bg-stone-850/80 border-stone-800 text-stone-200 placeholder:text-stone-500 text-xs rounded-xl focus-visible:ring-primary/40 focus-visible:border-primary/50 focus-visible:ring-offset-0"
                   />
                 </div>
               </div>
@@ -271,24 +271,24 @@ function JobsFeedInner() {
               {/* Location Input & Remote */}
               <div className="space-y-3">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-stone-400">Location</label>
+                  <label className="text-[10px] font-black uppercase tracking-widest text-stone-450">Location</label>
                   <div className="relative">
-                    <MapPin className="absolute left-3 top-3 w-4 h-4 text-stone-400" />
+                    <MapPin className="absolute left-3 top-3 w-4 h-4 text-stone-500" />
                     <Input
                       value={location}
                       onChange={(e) => setLocation(e.target.value)}
                       placeholder="e.g. Bangalore, India"
-                      className="pl-9 bg-stone-50 border-stone-200 text-xs rounded-xl"
+                      className="pl-9 bg-stone-850/80 border-stone-800 text-stone-200 placeholder:text-stone-500 text-xs rounded-xl focus-visible:ring-primary/40 focus-visible:border-primary/50 focus-visible:ring-offset-0"
                     />
                   </div>
                 </div>
 
-                <label className="flex items-center gap-2.5 cursor-pointer text-xs font-semibold text-stone-700">
+                <label className="flex items-center gap-2.5 cursor-pointer text-xs font-semibold text-stone-300 hover:text-white transition-colors">
                   <input
                     type="checkbox"
                     checked={remoteOnly}
                     onChange={(e) => setRemoteOnly(e.target.checked)}
-                    className="w-4 h-4 rounded border-stone-300 text-primary focus:ring-primary"
+                    className="w-4 h-4 rounded border-stone-700 bg-stone-800 text-primary focus:ring-primary/40 focus:ring-offset-0"
                   />
                   <span>Remote Only</span>
                 </label>
@@ -296,15 +296,15 @@ function JobsFeedInner() {
 
               {/* Skills multi-select */}
               <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-widest text-stone-400">Skills Needed</label>
+                <label className="text-[10px] font-black uppercase tracking-widest text-stone-450">Skills Needed</label>
                 <div className="relative">
-                  <Search className="absolute left-3 top-3 w-4 h-4 text-stone-400" />
+                  <Search className="absolute left-3 top-3 w-4 h-4 text-stone-500" />
                   <Input
                     value={skillSearch}
                     onChange={(e) => setSkillSearch(e.target.value)}
                     onKeyDown={(e) => e.key === "Enter" && handleAddSkill(skillSearch)}
                     placeholder="Add skill (React, Java...)"
-                    className="pl-9 bg-stone-50 border-stone-200 text-xs rounded-xl"
+                    className="pl-9 bg-stone-850/80 border-stone-800 text-stone-200 placeholder:text-stone-500 text-xs rounded-xl focus-visible:ring-primary/40 focus-visible:border-primary/50 focus-visible:ring-offset-0"
                   />
                 </div>
                 
@@ -322,15 +322,15 @@ function JobsFeedInner() {
 
               {/* Job Type Checkboxes */}
               <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-widest text-stone-400">Job Type</label>
+                <label className="text-[10px] font-black uppercase tracking-widest text-stone-450">Job Type</label>
                 <div className="space-y-2">
                   {jobTypesList.map(type => (
-                    <label key={type} className="flex items-center gap-2.5 cursor-pointer text-xs font-semibold text-stone-700">
+                    <label key={type} className="flex items-center gap-2.5 cursor-pointer text-xs font-semibold text-stone-300 hover:text-white transition-colors">
                       <input
                         type="checkbox"
                         checked={selectedJobTypes.includes(type)}
                         onChange={() => handleToggleJobType(type)}
-                        className="w-4 h-4 rounded border-stone-300 text-primary focus:ring-primary"
+                        className="w-4 h-4 rounded border-stone-700 bg-stone-800 text-primary focus:ring-primary/40 focus:ring-offset-0"
                       />
                       <span className="capitalize">{type.replace("-", " ")}</span>
                     </label>
@@ -340,15 +340,15 @@ function JobsFeedInner() {
 
               {/* Experience level radios */}
               <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-widest text-stone-400">Experience Level</label>
+                <label className="text-[10px] font-black uppercase tracking-widest text-stone-450">Experience Level</label>
                 <div className="space-y-2">
                   {experienceList.map(exp => (
-                    <label key={exp} className="flex items-center gap-2.5 cursor-pointer text-xs font-semibold text-stone-700">
+                    <label key={exp} className="flex items-center gap-2.5 cursor-pointer text-xs font-semibold text-stone-300 hover:text-white transition-colors">
                       <input
                         type="checkbox"
                         checked={selectedExperience.includes(exp)}
                         onChange={() => handleToggleExperience(exp)}
-                        className="w-4 h-4 rounded border-stone-300 text-primary focus:ring-primary"
+                        className="w-4 h-4 rounded border-stone-700 bg-stone-800 text-primary focus:ring-primary/40 focus:ring-offset-0"
                       />
                       <span className="capitalize">{exp}</span>
                     </label>
@@ -358,30 +358,30 @@ function JobsFeedInner() {
 
               {/* Recency posted dropdown */}
               <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-widest text-stone-400">Date Posted</label>
+                <label className="text-[10px] font-black uppercase tracking-widest text-stone-450">Date Posted</label>
                 <select
                   value={postedWithin}
                   onChange={(e) => setPostedWithin(e.target.value)}
-                  className="w-full p-2.5 bg-stone-50 border border-stone-200 text-xs font-semibold rounded-xl text-stone-700 focus:outline-none focus:border-primary"
+                  className="w-full p-2.5 bg-stone-800/80 border border-stone-750 text-xs font-semibold rounded-xl text-stone-250 focus:outline-none focus:border-primary/55 cursor-pointer"
                 >
                   {postedWithinList.map(item => (
-                    <option key={item.value} value={item.value}>{item.label}</option>
+                    <option key={item.value} value={item.value} className="bg-stone-900 text-white">{item.label}</option>
                   ))}
                 </select>
               </div>
 
               {/* Salary Range */}
               <div className="space-y-3">
-                <label className="text-[10px] font-black uppercase tracking-widest text-stone-400">Min Annual Salary</label>
+                <label className="text-[10px] font-black uppercase tracking-widest text-stone-450">Min Annual Salary</label>
                 <div className="flex gap-2">
                   <div className="relative flex-1">
-                    <DollarSign className="absolute left-2.5 top-3 w-3.5 h-3.5 text-stone-400" />
+                    <DollarSign className="absolute left-2.5 top-3 w-3.5 h-3.5 text-stone-500" />
                     <Input
                       type="number"
                       value={salaryMin || ""}
                       onChange={(e) => setSalaryMin(parseInt(e.target.value, 10) || 0)}
                       placeholder="e.g. 50000"
-                      className="pl-7 bg-stone-50 border-stone-200 text-xs rounded-xl"
+                      className="pl-7 bg-stone-850/80 border-stone-800 text-stone-200 placeholder:text-stone-500 text-xs rounded-xl focus-visible:ring-primary/40 focus-visible:border-primary/50 focus-visible:ring-offset-0"
                     />
                   </div>
                 </div>
@@ -392,14 +392,14 @@ function JobsFeedInner() {
           {/* Right Main Panel: Feed cards */}
           <main className="lg:col-span-3 space-y-6">
             {/* Top Sort bar */}
-            <div className="bg-white border border-stone-200/85 rounded-2xl p-4 shadow-sm flex flex-col sm:flex-row justify-between items-center gap-4">
-              <span className="text-xs text-stone-500 font-bold">
+            <div className="bg-gradient-to-r from-stone-900 to-stone-950 border border-stone-800/85 rounded-2xl p-4 shadow-md flex flex-col sm:flex-row justify-between items-center gap-4">
+              <span className="text-xs text-stone-300 font-bold">
                 Showing {jobs.length} of {totalResults} results
               </span>
 
               <div className="flex items-center gap-3">
-                <span className="text-[10px] font-black text-stone-400 uppercase tracking-widest flex items-center gap-1"><ArrowUpDown className="w-3.5 h-3.5" /> Sort By:</span>
-                <div className="flex gap-1 bg-stone-50 p-1 rounded-xl">
+                <span className="text-[10px] font-black text-stone-450 uppercase tracking-widest flex items-center gap-1"><ArrowUpDown className="w-3.5 h-3.5" /> Sort By:</span>
+                <div className="flex gap-1 bg-stone-950/80 border border-stone-800/50 p-1 rounded-xl">
                   {[
                     { label: "DNA Match", val: "relevance" },
                     { label: "Newest", val: "newest" },
@@ -408,10 +408,10 @@ function JobsFeedInner() {
                     <button
                       key={tab.val}
                       onClick={() => setSortBy(tab.val as any)}
-                      className={`text-[10px] font-extrabold uppercase py-1.5 px-3 rounded-lg transition-all ${
+                      className={`text-[10px] font-extrabold uppercase py-1.5 px-3 rounded-lg transition-all cursor-pointer ${
                         sortBy === tab.val
-                          ? "bg-white dark:bg-stone-900 text-primary shadow-sm"
-                          : "text-stone-500 hover:text-stone-700 dark:hover:text-stone-300"
+                          ? "bg-stone-800 text-primary shadow-sm"
+                          : "text-stone-400 hover:text-white"
                       }`}
                     >
                       {tab.label}
@@ -422,7 +422,7 @@ function JobsFeedInner() {
                 {/* Mobile Filter toggle */}
                 <Button
                   onClick={() => setIsMobileFiltersOpen(true)}
-                  className="lg:hidden text-[10px] font-bold uppercase tracking-wider py-1.5 px-3 rounded-xl border border-stone-200 hover:bg-stone-50 bg-transparent text-stone-700"
+                  className="lg:hidden text-[10px] font-bold uppercase tracking-wider py-1.5 px-3 rounded-xl border border-stone-700 bg-stone-800 text-stone-200 hover:bg-stone-750"
                 >
                   <SlidersHorizontal className="w-3.5 h-3.5" />
                 </Button>
@@ -497,15 +497,15 @@ function JobsFeedInner() {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "tween", duration: 0.3 }}
-              className="relative bg-white w-full max-w-sm h-full shadow-2xl flex flex-col p-6 overflow-y-auto space-y-6"
+              className="relative bg-gradient-to-b from-stone-900 to-stone-950 w-full max-w-sm h-full shadow-2xl flex flex-col p-6 overflow-y-auto space-y-6 border-l border-stone-800"
             >
-              <div className="flex justify-between items-center pb-4 border-b border-stone-100">
-                <span className="text-xs font-black uppercase tracking-widest text-stone-900 flex items-center gap-2">
+              <div className="flex justify-between items-center pb-4 border-b border-stone-800/80">
+                <span className="text-xs font-black uppercase tracking-widest text-white flex items-center gap-2">
                   <Filter className="w-4.5 h-4.5" /> Filters
                 </span>
                 <button
                   onClick={() => setIsMobileFiltersOpen(false)}
-                  className="p-1 rounded-full text-stone-400 hover:text-stone-600"
+                  className="p-1 rounded-full text-stone-400 hover:text-stone-200"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -513,14 +513,14 @@ function JobsFeedInner() {
 
               {/* Keyword Search */}
               <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-widest text-stone-400">Search</label>
+                <label className="text-[10px] font-black uppercase tracking-widest text-stone-450">Search</label>
                 <div className="relative">
-                  <Search className="absolute left-3 top-3 w-4 h-4 text-stone-400" />
+                  <Search className="absolute left-3 top-3 w-4 h-4 text-stone-500" />
                   <Input
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     placeholder="Title or company..."
-                    className="pl-9 bg-stone-50 border-stone-200 text-xs rounded-xl"
+                    className="pl-9 bg-stone-850/80 border-stone-800 text-stone-200 placeholder:text-stone-500 text-xs rounded-xl focus-visible:ring-primary/40 focus-visible:border-primary/50 focus-visible:ring-offset-0"
                   />
                 </div>
               </div>
@@ -528,24 +528,24 @@ function JobsFeedInner() {
               {/* Location Input & Remote */}
               <div className="space-y-3">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-stone-400">Location</label>
+                  <label className="text-[10px] font-black uppercase tracking-widest text-stone-450">Location</label>
                   <div className="relative">
-                    <MapPin className="absolute left-3 top-3 w-4 h-4 text-stone-400" />
+                    <MapPin className="absolute left-3 top-3 w-4 h-4 text-stone-500" />
                     <Input
                       value={location}
                       onChange={(e) => setLocation(e.target.value)}
                       placeholder="e.g. Bangalore, India"
-                      className="pl-9 bg-stone-50 border-stone-200 text-xs rounded-xl"
+                      className="pl-9 bg-stone-850/80 border-stone-800 text-stone-200 placeholder:text-stone-500 text-xs rounded-xl focus-visible:ring-primary/40 focus-visible:border-primary/50 focus-visible:ring-offset-0"
                     />
                   </div>
                 </div>
 
-                <label className="flex items-center gap-2.5 cursor-pointer text-xs font-semibold text-stone-700">
+                <label className="flex items-center gap-2.5 cursor-pointer text-xs font-semibold text-stone-300 hover:text-white transition-colors">
                   <input
                     type="checkbox"
                     checked={remoteOnly}
                     onChange={(e) => setRemoteOnly(e.target.checked)}
-                    className="w-4 h-4 rounded border-stone-300 text-primary focus:ring-primary"
+                    className="w-4 h-4 rounded border-stone-700 bg-stone-800 text-primary focus:ring-primary/40 focus:ring-offset-0"
                   />
                   <span>Remote Only</span>
                 </label>
@@ -553,15 +553,15 @@ function JobsFeedInner() {
 
               {/* Skills */}
               <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-widest text-stone-400">Skills Needed</label>
+                <label className="text-[10px] font-black uppercase tracking-widest text-stone-450">Skills Needed</label>
                 <div className="relative">
-                  <Search className="absolute left-3 top-3 w-4 h-4 text-stone-400" />
+                  <Search className="absolute left-3 top-3 w-4 h-4 text-stone-500" />
                   <Input
                     value={skillSearch}
                     onChange={(e) => setSkillSearch(e.target.value)}
                     onKeyDown={(e) => e.key === "Enter" && handleAddSkill(skillSearch)}
                     placeholder="Add skill (React, Java...)"
-                    className="pl-9 bg-stone-50 border-stone-200 text-xs rounded-xl"
+                    className="pl-9 bg-stone-850/80 border-stone-800 text-stone-200 placeholder:text-stone-500 text-xs rounded-xl focus-visible:ring-primary/40 focus-visible:border-primary/50 focus-visible:ring-offset-0"
                   />
                 </div>
                 
@@ -579,15 +579,15 @@ function JobsFeedInner() {
 
               {/* Job Type Checkboxes */}
               <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-widest text-stone-400">Job Type</label>
+                <label className="text-[10px] font-black uppercase tracking-widest text-stone-450">Job Type</label>
                 <div className="space-y-2">
                   {jobTypesList.map(type => (
-                    <label key={type} className="flex items-center gap-2.5 cursor-pointer text-xs font-semibold text-stone-700">
+                    <label key={type} className="flex items-center gap-2.5 cursor-pointer text-xs font-semibold text-stone-300 hover:text-white transition-colors">
                       <input
                         type="checkbox"
                         checked={selectedJobTypes.includes(type)}
                         onChange={() => handleToggleJobType(type)}
-                        className="w-4 h-4 rounded border-stone-300 text-primary focus:ring-primary"
+                        className="w-4 h-4 rounded border-stone-700 bg-stone-800 text-primary focus:ring-primary/40 focus:ring-offset-0"
                       />
                       <span className="capitalize">{type.replace("-", " ")}</span>
                     </label>
@@ -597,15 +597,15 @@ function JobsFeedInner() {
 
               {/* Experience level radios */}
               <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-widest text-stone-400">Experience Level</label>
+                <label className="text-[10px] font-black uppercase tracking-widest text-stone-450">Experience Level</label>
                 <div className="space-y-2">
                   {experienceList.map(exp => (
-                    <label key={exp} className="flex items-center gap-2.5 cursor-pointer text-xs font-semibold text-stone-700">
+                    <label key={exp} className="flex items-center gap-2.5 cursor-pointer text-xs font-semibold text-stone-300 hover:text-white transition-colors">
                       <input
                         type="checkbox"
                         checked={selectedExperience.includes(exp)}
                         onChange={() => handleToggleExperience(exp)}
-                        className="w-4 h-4 rounded border-stone-300 text-primary focus:ring-primary"
+                        className="w-4 h-4 rounded border-stone-700 bg-stone-800 text-primary focus:ring-primary/40 focus:ring-offset-0"
                       />
                       <span className="capitalize">{exp}</span>
                     </label>
@@ -615,36 +615,36 @@ function JobsFeedInner() {
 
               {/* Recency posted dropdown */}
               <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-widest text-stone-400">Date Posted</label>
+                <label className="text-[10px] font-black uppercase tracking-widest text-stone-450">Date Posted</label>
                 <select
                   value={postedWithin}
                   onChange={(e) => setPostedWithin(e.target.value)}
-                  className="w-full p-2.5 bg-stone-50 border border-stone-200 text-xs font-semibold rounded-xl text-stone-700 focus:outline-none"
+                  className="w-full p-2.5 bg-stone-800/80 border border-stone-750 text-xs font-semibold rounded-xl text-stone-250 focus:outline-none focus:border-primary/55 cursor-pointer"
                 >
                   {postedWithinList.map(item => (
-                    <option key={item.value} value={item.value}>{item.label}</option>
+                    <option key={item.value} value={item.value} className="bg-stone-900 text-white">{item.label}</option>
                   ))}
                 </select>
               </div>
 
               {/* Salary Range */}
               <div className="space-y-3">
-                <label className="text-[10px] font-black uppercase tracking-widest text-stone-400">Min Annual Salary</label>
+                <label className="text-[10px] font-black uppercase tracking-widest text-stone-450">Min Annual Salary</label>
                 <div className="relative">
-                  <DollarSign className="absolute left-2.5 top-3 w-3.5 h-3.5 text-stone-400" />
+                  <DollarSign className="absolute left-2.5 top-3 w-3.5 h-3.5 text-stone-500" />
                   <Input
                     type="number"
                     value={salaryMin || ""}
                     onChange={(e) => setSalaryMin(parseInt(e.target.value, 10) || 0)}
                     placeholder="e.g. 50000"
-                    className="pl-7 bg-stone-50 border-stone-200 text-xs rounded-xl"
+                    className="pl-7 bg-stone-850/80 border-stone-800 text-stone-200 placeholder:text-stone-500 text-xs rounded-xl focus-visible:ring-primary/40 focus-visible:border-primary/50 focus-visible:ring-offset-0"
                   />
                 </div>
               </div>
 
               <div className="flex gap-2 pt-4">
-                <Button onClick={handleClearFilters} variant="outline" className="flex-1 rounded-xl text-xs py-2">Reset</Button>
-                <Button onClick={() => setIsMobileFiltersOpen(false)} className="flex-1 rounded-xl bg-primary text-white text-xs py-2">Apply Filters</Button>
+                <Button onClick={handleClearFilters} variant="outline" className="flex-1 rounded-xl text-xs py-2 bg-transparent text-stone-300 border-stone-700 hover:bg-stone-800 hover:text-white">Reset</Button>
+                <Button onClick={() => setIsMobileFiltersOpen(false)} className="flex-1 rounded-xl bg-primary text-white text-xs py-2 border-transparent">Apply Filters</Button>
               </div>
             </motion.div>
           </div>
