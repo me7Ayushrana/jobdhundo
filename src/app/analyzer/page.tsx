@@ -160,99 +160,110 @@ export default function AnalyzerPage() {
                 </p>
               </div>
 
-              {/* Tab Selection */}
-              <div className="p-1 bg-stone-200/50 border border-stone-200/80 rounded-2xl flex gap-1 shadow-sm w-fit">
-                <button
-                  onClick={() => { setActiveTab("github"); setError(null); }}
-                  className={`px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider flex items-center gap-2 transition-all cursor-pointer ${
-                    activeTab === "github"
-                      ? "bg-white text-stone-900 shadow-sm border border-stone-100"
-                      : "text-stone-500 hover:text-stone-700"
-                  }`}
-                >
-                  <Github className="w-4 h-4" /> GitHub Scan
-                </button>
-                <button
-                  onClick={() => { setActiveTab("resume"); setError(null); }}
-                  className={`px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider flex items-center gap-2 transition-all cursor-pointer ${
-                    activeTab === "resume"
-                      ? "bg-white text-stone-900 shadow-sm border border-stone-100"
-                      : "text-stone-500 hover:text-stone-700"
-                  }`}
-                >
-                  <Upload className="w-4 h-4" /> Resume Upload
-                </button>
-              </div>
+              {/* Premium Console Extractor Card */}
+              <div className="bg-gradient-to-br from-stone-900 via-stone-950 to-stone-900 border border-stone-850 p-6 rounded-[2.5rem] shadow-2xl space-y-6 max-w-md relative overflow-hidden group">
+                {/* Subtle backglow gradient inside the card */}
+                <div className="absolute -right-10 -top-10 w-24 h-24 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
+                
+                {/* Tab Selection inside Console */}
+                <div className="p-1 bg-stone-950/60 border border-stone-850 rounded-2xl flex gap-1 w-full relative z-10">
+                  <button
+                    onClick={() => { setActiveTab("github"); setError(null); }}
+                    className={`flex-1 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                      activeTab === "github"
+                        ? "bg-stone-800 text-white border border-stone-750 shadow-md"
+                        : "text-stone-450 hover:text-stone-300"
+                    }`}
+                  >
+                    <Github className="w-4 h-4" /> GitHub Scan
+                  </button>
+                  <button
+                    onClick={() => { setActiveTab("resume"); setError(null); }}
+                    className={`flex-1 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                      activeTab === "resume"
+                        ? "bg-stone-800 text-white border border-stone-750 shadow-md"
+                        : "text-stone-450 hover:text-stone-300"
+                    }`}
+                  >
+                    <Upload className="w-4 h-4" /> Resume Upload
+                  </button>
+                </div>
 
-              {/* Input action forms */}
-              <div className="space-y-4 max-w-md">
-                {activeTab === "github" ? (
-                  <div className="space-y-4">
-                    <div className="p-2.5 bg-white border border-stone-200 rounded-3xl shadow-sm flex items-center gap-2">
-                      <div className="flex-1 flex items-center px-4 gap-2.5 bg-stone-50 rounded-2xl border border-stone-200/60 h-12">
-                        <Github className="w-4 h-4 text-stone-400" />
-                        <Input
-                          value={username}
-                          onChange={(e) => setUsername(e.target.value)}
-                          placeholder="GitHub Username..."
-                          className="bg-transparent border-none text-xs h-full focus-visible:ring-0 placeholder:text-stone-400 font-semibold"
-                          onKeyDown={(e) => e.key === "Enter" && runAnalysis()}
+                {/* Input action forms inside Console */}
+                <div className="space-y-4 relative z-10">
+                  {activeTab === "github" ? (
+                    <div className="space-y-4">
+                      <div className="p-2 bg-stone-950/40 border border-stone-850 rounded-2xl flex items-center gap-2">
+                        <div className="flex-1 flex items-center px-4 gap-2.5 bg-stone-950/60 rounded-xl border border-stone-850 h-12">
+                          <Github className="w-4 h-4 text-stone-500" />
+                          <Input
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            placeholder="GitHub Username..."
+                            className="bg-transparent border-none text-xs h-full text-white focus-visible:ring-0 placeholder:text-stone-500 font-semibold"
+                            onKeyDown={(e) => e.key === "Enter" && runAnalysis()}
+                          />
+                        </div>
+                        <Button
+                          onClick={runAnalysis}
+                          disabled={!username || isAnalyzing}
+                          className="h-12 px-5 bg-primary hover:bg-primary/95 text-white font-black uppercase text-[10px] tracking-widest rounded-xl shadow-lg active:scale-95 transition-transform flex items-center gap-1.5 cursor-pointer shrink-0 border-none"
+                        >
+                          {isAnalyzing ? (
+                            <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                          ) : (
+                            <>
+                              Extract <ChevronRight className="w-3.5 h-3.5" />
+                            </>
+                          )}
+                        </Button>
+                      </div>
+
+                      <div className="flex animate-in fade-in slide-in-from-bottom-2 duration-300">
+                        <Button
+                          variant="outline"
+                          onClick={() => window.open("https://getmygit.vercel.app", "_blank")}
+                          className="h-10 px-5 border-stone-800 text-stone-450 hover:text-white bg-stone-900/40 rounded-2xl text-[9px] font-black uppercase tracking-widest hover:bg-stone-900 flex items-center gap-2 cursor-pointer transition-all border"
+                        >
+                          <Github className="w-3.5 h-3.5 text-primary" /> Analyzer Repository <ChevronRight className="w-3 h-3 text-stone-500" />
+                        </Button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="p-2 bg-stone-950/40 border border-stone-850 rounded-2xl flex items-center gap-2">
+                      <div className="flex-1 flex items-center px-4 gap-2.5 bg-stone-950/60 rounded-xl border border-stone-850 h-12 relative cursor-pointer group">
+                        <input
+                          type="file"
+                          accept=".pdf,.docx,.doc,.txt"
+                          onChange={handleResumeUpload}
+                          className="absolute inset-0 opacity-0 cursor-pointer"
                         />
+                        <FileText className="w-4 h-4 text-stone-500 shrink-0" />
+                        <span className="text-[11px] font-semibold text-stone-300 truncate">
+                          {fileName ? fileName : "Upload CV file..."}
+                        </span>
                       </div>
                       <Button
                         onClick={runAnalysis}
-                        disabled={!username || isAnalyzing}
-                        className="h-12 px-6 bg-primary text-white font-black uppercase text-[10px] tracking-widest rounded-2xl shadow-md shadow-primary/10 active:scale-95 transition-transform flex items-center gap-1.5 cursor-pointer"
+                        disabled={!fileName || isAnalyzing}
+                        className="h-12 px-5 bg-primary hover:bg-primary/95 text-white font-black uppercase text-[10px] tracking-widest rounded-xl shadow-lg active:scale-95 transition-transform flex items-center justify-center gap-1.5 cursor-pointer shrink-0 border-none"
                       >
                         {isAnalyzing ? (
                           <RefreshCw className="w-3.5 h-3.5 animate-spin" />
                         ) : (
                           <>
-                            Extract <ChevronRight className="w-3.5 h-3.5" />
+                            Parse <ChevronRight className="w-3.5 h-3.5" />
                           </>
                         )}
                       </Button>
                     </div>
+                  )}
+                </div>
 
-                    <div className="flex animate-in fade-in slide-in-from-bottom-2 duration-300">
-                      <Button
-                        variant="outline"
-                        onClick={() => window.open("https://getmygit.vercel.app", "_blank")}
-                        className="h-10 px-5 border-stone-200 text-stone-700 hover:text-stone-900 bg-white rounded-2xl text-[9px] font-black uppercase tracking-widest shadow-sm hover:bg-stone-50 flex items-center gap-2 cursor-pointer transition-all border"
-                      >
-                        <Github className="w-3.5 h-3.5 text-primary" /> Analyzer Repository <ChevronRight className="w-3 h-3 text-stone-400" />
-                      </Button>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="p-2.5 bg-white border border-stone-200 rounded-3xl shadow-sm flex items-center gap-2">
-                    <div className="flex-1 flex items-center px-4 gap-2.5 bg-stone-50 rounded-2xl border border-stone-200/60 h-12 relative cursor-pointer group">
-                      <input
-                        type="file"
-                        accept=".pdf,.docx,.doc,.txt"
-                        onChange={handleResumeUpload}
-                        className="absolute inset-0 opacity-0 cursor-pointer"
-                      />
-                      <FileText className="w-4 h-4 text-stone-400 shrink-0" />
-                      <span className="text-[11px] font-semibold text-stone-600 truncate">
-                        {fileName ? fileName : "Upload CV file..."}
-                      </span>
-                    </div>
-                    <Button
-                      onClick={runAnalysis}
-                      disabled={!fileName || isAnalyzing}
-                      className="h-12 px-6 bg-primary text-white font-black uppercase text-[10px] tracking-widest rounded-2xl shadow-md shadow-primary/10 active:scale-95 transition-transform flex items-center justify-center gap-1.5 cursor-pointer"
-                    >
-                      {isAnalyzing ? (
-                        <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-                      ) : (
-                        <>
-                          Parse <ChevronRight className="w-3.5 h-3.5" />
-                        </>
-                      )}
-                    </Button>
-                  </div>
-                )}
+                {/* Console footer tip */}
+                <p className="text-[10px] text-stone-500 font-bold tracking-normal text-left border-t border-stone-850/60 pt-3 relative z-10">
+                  💡 Scanner analyzes package files, dependencies, and CV text layers to compile matching indices.
+                </p>
               </div>
 
               {/* Error messages */}

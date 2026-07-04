@@ -114,19 +114,34 @@ export default function Home() {
               className="w-full max-w-xl pt-2"
             >
               <Link href="/analyzer" className="block group">
-                <div className="p-4 bg-white border border-stone-250 hover:border-primary/50 rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.015)] transition-all duration-300 flex items-center gap-4 text-left">
-                  <div className="w-10 h-10 rounded-xl bg-primary/5 border border-primary/15 flex items-center justify-center shrink-0">
-                    <Sparkles className="w-4.5 h-4.5 text-primary" />
+                <div className="p-5 bg-gradient-to-br from-stone-900 via-stone-950 to-stone-900 border border-stone-800 hover:border-primary/40 rounded-3xl shadow-[0_12px_40px_rgba(0,0,0,0.08)] transition-all duration-300 flex items-center gap-5 text-left relative overflow-hidden">
+                  {/* Glowing light spot */}
+                  <div className="absolute -right-8 -top-8 w-20 h-20 bg-primary/10 rounded-full blur-2xl group-hover:bg-primary/25 transition-all duration-500" />
+                  
+                  <div className="w-12 h-12 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0 shadow-inner group-hover:scale-105 transition-transform duration-300">
+                    <Sparkles className="w-5 h-5 text-primary" />
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <h4 className="text-xs font-black text-stone-900 uppercase tracking-wider mb-0.5 flex items-center gap-1.5">
-                      AI Resume Matcher <span className="text-[8px] bg-emerald-500/10 text-emerald-600 border border-emerald-500/20 px-1.5 py-0.5 rounded-md font-extrabold normal-case tracking-normal">New</span>
+                  
+                  <div className="flex-1 min-w-0 space-y-1 relative z-10">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] font-black text-stone-400 uppercase tracking-[0.12em]">
+                        Intelligence Protocol
+                      </span>
+                      <span className="text-[8px] bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 px-1.5 py-0.5 rounded font-extrabold uppercase tracking-wide">
+                        Live Scanner
+                      </span>
+                    </div>
+                    <h4 className="text-xs font-black text-white uppercase tracking-wider">
+                      Resume Alignment Matcher
                     </h4>
-                    <p className="text-[11px] text-stone-500 font-semibold leading-relaxed">
-                      Upload your CV to automatically map skills and see matching score indicators across live listings.
+                    <p className="text-[11px] text-stone-400 font-semibold leading-relaxed">
+                      Upload your CV to automatically map keywords, sync your profile, and see match score indicators across 34k+ active job openings.
                     </p>
                   </div>
-                  <ArrowRight className="w-4 h-4 text-stone-400 group-hover:translate-x-1 transition-transform shrink-0" />
+                  
+                  <div className="w-8 h-8 rounded-full bg-stone-950 border border-stone-850 flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:border-primary transition-all duration-300">
+                    <ArrowRight className="w-4 h-4 text-stone-400 group-hover:text-white group-hover:translate-x-0.5 transition-all" />
+                  </div>
                 </div>
               </Link>
             </motion.div>
