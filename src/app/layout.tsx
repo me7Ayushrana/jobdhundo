@@ -33,7 +33,8 @@ export default function RootLayout({
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
-          enableSystem={true}
+          forcedTheme="light"
+          enableSystem={false}
           disableTransitionOnChange
         >
           <SmoothScrollProvider>

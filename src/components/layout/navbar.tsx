@@ -66,16 +66,6 @@ export function Navbar() {
                             >
                                 Boost Workflow
                             </a>
-
-                            {mounted && (
-                                <button
-                                    onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                                    className="p-2 text-stone-700 dark:text-stone-300 hover:text-primary transition-colors cursor-pointer active:scale-95 rounded-full hover:bg-stone-100 dark:hover:bg-stone-800 flex items-center justify-center shrink-0 border border-transparent"
-                                    aria-label="Toggle Theme"
-                                >
-                                    {theme === "dark" ? <Sun className="w-4 h-4 text-amber-500" /> : <Moon className="w-4 h-4" />}
-                                </button>
-                            )}
                             
                             {isAuthenticated ? (
                                 <div className="flex items-center gap-5">
@@ -103,21 +93,11 @@ export function Navbar() {
                             </Link>
                         </div>
 
-                        {/* Mobile Actions: Hamburger and Theme Switcher */}
+                        {/* Mobile Actions: Hamburger only */}
                         <div className="flex md:hidden items-center gap-2 relative z-10">
-                            {mounted && (
-                                <button
-                                    onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                                    className="p-2 text-stone-750 dark:text-stone-300 hover:text-primary transition-colors cursor-pointer rounded-full hover:bg-stone-100 dark:hover:bg-stone-800"
-                                    aria-label="Toggle Theme"
-                                >
-                                    {theme === "dark" ? <Sun className="w-4 h-4 text-amber-500" /> : <Moon className="w-4 h-4" />}
-                                </button>
-                            )}
-
                             <button
                                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                                className="p-2 text-stone-750 dark:text-stone-300 hover:text-primary transition-colors cursor-pointer rounded-full hover:bg-stone-100 dark:hover:bg-stone-800"
+                                className="p-2 text-stone-755 hover:text-primary transition-colors cursor-pointer rounded-full hover:bg-stone-100/80"
                                 aria-label="Toggle Mobile Menu"
                             >
                                 {isMobileMenuOpen ? <X className="w-4.5 h-4.5" /> : <Menu className="w-4.5 h-4.5" />}
