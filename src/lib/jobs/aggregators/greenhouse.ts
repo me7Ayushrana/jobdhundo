@@ -1,5 +1,5 @@
 import { UnifiedJob } from "../types";
-import { normalizeJobs, normalizeExperience, extractSkills } from "./normalizer";
+import { normalizeJobs, normalizeExperience, normalizeJobType, extractSkills } from "./normalizer";
 
 const GREENHOUSE_COMPANIES = [
   "stripe", "airbnb", "notion", "figma", "linear", "vercel", 
@@ -27,7 +27,7 @@ export async function fetchGreenhouseJobs(): Promise<UnifiedJob[]> {
           title: title,
           company: companyName,
           location: job.location?.name || "Remote",
-          jobType: "full-time" as const,
+          jobType: normalizeJobType(title),
           experienceLevel: normalizeExperience(title, content),
           description: content.replace(/<[^>]*>/g, "").substring(0, 1000) || "",
           requirements: [],

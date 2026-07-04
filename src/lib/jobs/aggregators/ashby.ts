@@ -1,5 +1,5 @@
 import { UnifiedJob } from "../types";
-import { normalizeJobs, normalizeExperience, extractSkills } from "./normalizer";
+import { normalizeJobs, normalizeExperience, normalizeJobType, extractSkills } from "./normalizer";
 
 const ASHBY_COMPANIES = [
   "runway", "solace", "factory", "kong", "vestwell"
@@ -29,7 +29,7 @@ export async function fetchAshbyJobs(): Promise<UnifiedJob[]> {
           title: title,
           company: companyName,
           location: job.location || "Remote",
-          jobType: "full-time" as const,
+          jobType: normalizeJobType(title + " " + (job.employmentType || "")),
           experienceLevel: normalizeExperience(title, descPlain),
           salaryMin: tierSummary.min || 0,
           salaryMax: tierSummary.max || 0,

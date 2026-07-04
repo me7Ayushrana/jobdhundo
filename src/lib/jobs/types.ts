@@ -48,4 +48,5 @@ export interface JobSearchResult {
   cached: boolean;
   fetchedAt: string;
   isDemoMode?: boolean;
+  jobTypeCounts?: Record<string, number>;
 }

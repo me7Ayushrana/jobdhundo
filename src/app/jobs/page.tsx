@@ -44,6 +44,13 @@ function JobsFeedInner() {
   const [sourceBreakdown, setSourceBreakdown] = useState<Record<string, number>>({});
   const [isStale, setIsStale] = useState(false);
   const [isDemoMode, setIsDemoMode] = useState(false);
+  const [jobTypeCounts, setJobTypeCounts] = useState<Record<string, number>>({
+    "full-time": 0,
+    "part-time": 0,
+    "contract": 0,
+    "internship": 0,
+    "freelance": 0
+  });
 
   // Modal Detail View State
   const [selectedJob, setSelectedJob] = useState<UnifiedJob | null>(null);
@@ -140,6 +147,9 @@ function JobsFeedInner() {
       setSourceBreakdown(data.sourceBreakdown || {});
       setIsStale(!!(data as any).warning);
       setIsDemoMode(!!data.isDemoMode);
+      if (data.jobTypeCounts) {
+        setJobTypeCounts(data.jobTypeCounts);
+      }
     } catch (e) {
       console.error(e);
     } finally {
@@ -152,6 +162,20 @@ function JobsFeedInner() {
     setPage(1);
     fetchJobsData(1, false);
   }, [query, location, remoteOnly, selectedJobTypes, selectedExperience, selectedSkills, salaryMin, salaryMax, postedWithin, sortBy, fetchJobsData]);
+
+  // Auto-refresh when user returns to tab
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        console.log("[JobsFeed] Tab focused. Refreshing job opportunities...");
+        fetchJobsData(1, false);
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [fetchJobsData]);
 
   const handleLoadMore = () => {
     const nextPage = page + 1;
@@ -228,14 +252,11 @@ function JobsFeedInner() {
         )}
 
         {isDemoMode && (
-          <div className="bg-amber-50 border border-amber-250 rounded-2xl p-4 mb-6 flex flex-col gap-1 shadow-sm text-left">
-            <div className="flex items-center gap-2 text-amber-800 font-bold text-sm">
-              <AlertCircle className="w-4.5 h-4.5 text-amber-600 shrink-0" />
-              <span>Demo Mode Active</span>
+          <div className="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-4 mb-6 flex flex-col gap-1 shadow-sm text-left">
+            <div className="flex items-center gap-2 text-amber-455 font-bold text-xs uppercase tracking-wider">
+              <AlertCircle className="w-4 h-4 text-amber-500 shrink-0" />
+              <span>Demo Mode Active — Showing sample listings. Add API keys for live feeds from 50+ sources</span>
             </div>
-            <p className="text-xs text-amber-700 font-semibold leading-relaxed">
-              Showing sample listings. Configure API keys in environment variables for live job feeds from 50+ real sources.
-            </p>
           </div>
         )}
 
@@ -324,17 +345,20 @@ function JobsFeedInner() {
               <div className="space-y-2">
                 <label className="text-[10px] font-black uppercase tracking-widest text-stone-450">Job Type</label>
                 <div className="space-y-2">
-                  {jobTypesList.map(type => (
-                    <label key={type} className="flex items-center gap-2.5 cursor-pointer text-xs font-semibold text-stone-300 hover:text-white transition-colors">
-                      <input
-                        type="checkbox"
-                        checked={selectedJobTypes.includes(type)}
-                        onChange={() => handleToggleJobType(type)}
-                        className="w-4 h-4 rounded border-stone-700 bg-stone-800 text-primary focus:ring-primary/40 focus:ring-offset-0"
-                      />
-                      <span className="capitalize">{type.replace("-", " ")}</span>
-                    </label>
-                  ))}
+                  {jobTypesList.map(type => {
+                    const count = jobTypeCounts[type] || 0;
+                    return (
+                      <label key={type} className="flex items-center gap-2.5 cursor-pointer text-xs font-semibold text-stone-300 hover:text-white transition-colors">
+                        <input
+                          type="checkbox"
+                          checked={selectedJobTypes.includes(type)}
+                          onChange={() => handleToggleJobType(type)}
+                          className="w-4 h-4 rounded border-stone-700 bg-stone-800 text-primary focus:ring-primary/40 focus:ring-offset-0"
+                        />
+                        <span className="capitalize">{type.replace("-", " ")} {count > 0 && `(${count})`}</span>
+                      </label>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -433,7 +457,30 @@ function JobsFeedInner() {
             {loading && jobs.length === 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                 {[...Array(6)].map((_, idx) => (
-                  <div key={idx} className="h-[330px] rounded-2xl bg-stone-200/50 animate-pulse border border-stone-200/85" />
+                  <div key={idx} className="h-[300px] rounded-3xl bg-gradient-to-br from-stone-900 to-stone-950 border border-stone-800/80 animate-pulse flex flex-col justify-between p-6">
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-xl bg-stone-800" />
+                        <div className="space-y-2 flex-1">
+                          <div className="h-2.5 bg-stone-800 rounded w-1/3" />
+                          <div className="h-2 bg-stone-800 rounded w-1/4" />
+                        </div>
+                      </div>
+                      <div className="h-4 bg-stone-800 rounded w-3/4" />
+                      <div className="h-3 bg-stone-805 rounded w-1/2" />
+                      <div className="flex gap-2">
+                        <div className="h-5 bg-stone-800 rounded-lg w-16" />
+                        <div className="h-5 bg-stone-800 rounded-lg w-16" />
+                      </div>
+                    </div>
+                    <div className="flex justify-between items-center border-t border-stone-850 pt-4 mt-4">
+                      <div className="h-3 bg-stone-800 rounded w-1/4" />
+                      <div className="flex gap-2">
+                        <div className="h-8 bg-stone-805 rounded-xl w-16" />
+                        <div className="h-8 bg-stone-805 rounded-xl w-16" />
+                      </div>
+                    </div>
+                  </div>
                 ))}
               </div>
             ) : jobs.length > 0 ? (
@@ -581,17 +628,20 @@ function JobsFeedInner() {
               <div className="space-y-2">
                 <label className="text-[10px] font-black uppercase tracking-widest text-stone-450">Job Type</label>
                 <div className="space-y-2">
-                  {jobTypesList.map(type => (
-                    <label key={type} className="flex items-center gap-2.5 cursor-pointer text-xs font-semibold text-stone-300 hover:text-white transition-colors">
-                      <input
-                        type="checkbox"
-                        checked={selectedJobTypes.includes(type)}
-                        onChange={() => handleToggleJobType(type)}
-                        className="w-4 h-4 rounded border-stone-700 bg-stone-800 text-primary focus:ring-primary/40 focus:ring-offset-0"
-                      />
-                      <span className="capitalize">{type.replace("-", " ")}</span>
-                    </label>
-                  ))}
+                  {jobTypesList.map(type => {
+                    const count = jobTypeCounts[type] || 0;
+                    return (
+                      <label key={type} className="flex items-center gap-2.5 cursor-pointer text-xs font-semibold text-stone-300 hover:text-white transition-colors">
+                        <input
+                          type="checkbox"
+                          checked={selectedJobTypes.includes(type)}
+                          onChange={() => handleToggleJobType(type)}
+                          className="w-4 h-4 rounded border-stone-700 bg-stone-800 text-primary focus:ring-primary/40 focus:ring-offset-0"
+                        />
+                        <span className="capitalize">{type.replace("-", " ")} {count > 0 && `(${count})`}</span>
+                      </label>
+                    );
+                  })}
                 </div>
               </div>
 
