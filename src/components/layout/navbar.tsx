@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
@@ -18,7 +18,15 @@ export function Navbar() {
         isAuthModalOpen,
         setAuthModalOpen
     } = useSocial();
+    
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isProfileOpen, setIsProfileOpen] = useState(false);
+    const [mounted, setMounted] = useState(false);
+
+    // Guard hydration mismatch
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     return (
         <>
@@ -59,22 +67,77 @@ export function Navbar() {
                                 Boost Workflow
                             </a>
                             
-                            {isAuthenticated ? (
-                                <div className="flex items-center gap-5">
-                                    <span className="text-stone-400 font-bold lowercase tracking-normal text-xs normal-case border-r border-stone-800 pr-5">
-                                        @{currentUser.github || currentUser.name.toLowerCase().replace(/\s+/g, "")}
-                                    </span>
+                            {mounted && isAuthenticated ? (
+                                <div className="relative">
                                     <button
-                                        onClick={logout}
-                                        className="hover:text-white transition-colors cursor-pointer active:scale-95 font-bold text-[11px] uppercase tracking-[0.15em]"
+                                        onClick={() => setIsProfileOpen(!isProfileOpen)}
+                                        className="flex items-center justify-center rounded-full border border-stone-800 focus:outline-none hover:border-primary/50 transition-all cursor-pointer overflow-hidden bg-stone-800 text-white font-black text-[12px] uppercase w-8 h-8 select-none"
+                                        aria-label="User Profile"
                                     >
-                                        Sign Out
+                                        {currentUser.avatarUrl ? (
+                                            // eslint-disable-next-line @next/next/no-img-element
+                                            <img
+                                                src={currentUser.avatarUrl}
+                                                alt={currentUser.name}
+                                                className="w-full h-full object-cover"
+                                            />
+                                        ) : (
+                                            currentUser.avatar
+                                        )}
                                     </button>
+
+                                    {/* Premium Dropdown menu */}
+                                    <AnimatePresence>
+                                        {isProfileOpen && (
+                                            <>
+                                                {/* Backdrop to capture clicks outside */}
+                                                <div 
+                                                    className="fixed inset-0 z-40 bg-transparent cursor-default" 
+                                                    onClick={() => setIsProfileOpen(false)} 
+                                                />
+                                                <motion.div
+                                                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                                                    transition={{ duration: 0.15 }}
+                                                    className="absolute right-0 mt-3 w-56 bg-stone-900 border border-stone-850 rounded-2xl p-4 shadow-xl z-50 flex flex-col gap-3 text-left pointer-events-auto"
+                                                >
+                                                    <div className="flex items-center gap-3 pb-3 border-b border-stone-850">
+                                                        <div className="w-10 h-10 rounded-full bg-stone-850 border border-stone-800 overflow-hidden flex items-center justify-center font-extrabold text-white text-sm shrink-0">
+                                                            {currentUser.avatarUrl ? (
+                                                                // eslint-disable-next-line @next/next/no-img-element
+                                                                <img
+                                                                    src={currentUser.avatarUrl}
+                                                                    alt={currentUser.name}
+                                                                    className="w-full h-full object-cover"
+                                                                />
+                                                            ) : (
+                                                                currentUser.avatar
+                                                            )}
+                                                        </div>
+                                                        <div className="flex flex-col min-w-0">
+                                                            <span className="text-xs font-black text-white truncate leading-tight">{currentUser.name}</span>
+                                                            <span className="text-[10px] font-bold text-stone-500 truncate mt-0.5">@{currentUser.github}</span>
+                                                        </div>
+                                                    </div>
+                                                    <button
+                                                        onClick={() => {
+                                                            logout();
+                                                            setIsProfileOpen(false);
+                                                        }}
+                                                        className="w-full py-2 bg-stone-850 hover:bg-stone-800 text-stone-300 hover:text-white transition-colors rounded-xl font-black text-[10px] uppercase tracking-widest text-center cursor-pointer border-transparent"
+                                                    >
+                                                        Sign Out
+                                                    </button>
+                                                </motion.div>
+                                            </>
+                                        )}
+                                    </AnimatePresence>
                                 </div>
                             ) : (
                                 <button
                                     onClick={() => setAuthModalOpen(true)}
-                                    className="hover:text-white transition-colors cursor-pointer active:scale-95 font-bold text-[11px] uppercase tracking-[0.15em]"
+                                    className="hover:text-white transition-colors cursor-pointer active:scale-95 font-bold text-[11px] uppercase tracking-[0.15em] bg-transparent border-none"
                                 >
                                     Sign In
                                 </button>
@@ -147,14 +210,29 @@ export function Navbar() {
                                         Boost Workflow ↗
                                     </a>
                                     
-                                    {isAuthenticated ? (
+                                    {mounted && isAuthenticated ? (
                                         <div className="flex items-center justify-between py-2 border-t border-stone-800 pt-4">
-                                            <span className="text-stone-400 lowercase tracking-normal text-xs normal-case">
-                                                @{currentUser.github || currentUser.name.toLowerCase().replace(/\s+/g, "")}
-                                            </span>
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-8 h-8 rounded-full bg-stone-800 border border-stone-750 overflow-hidden flex items-center justify-center font-black text-white text-xs">
+                                                    {currentUser.avatarUrl ? (
+                                                        // eslint-disable-next-line @next/next/no-img-element
+                                                        <img
+                                                            src={currentUser.avatarUrl}
+                                                            alt={currentUser.name}
+                                                            className="w-full h-full object-cover"
+                                                        />
+                                                    ) : (
+                                                        currentUser.avatar
+                                                    )}
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <span className="text-xs font-black text-white leading-tight">{currentUser.name}</span>
+                                                    <span className="text-[10px] font-bold text-stone-500">@{currentUser.github}</span>
+                                                </div>
+                                            </div>
                                             <button
                                                 onClick={() => { logout(); setIsMobileMenuOpen(false); }}
-                                                className="text-stone-300 hover:text-white"
+                                                className="text-stone-400 hover:text-white font-extrabold text-[10px] uppercase tracking-wider py-1 px-3 bg-stone-800 hover:bg-stone-750 rounded-lg cursor-pointer border-transparent"
                                             >
                                                 Sign Out
                                             </button>
@@ -162,7 +240,7 @@ export function Navbar() {
                                     ) : (
                                         <button
                                             onClick={() => { setAuthModalOpen(true); setIsMobileMenuOpen(false); }}
-                                            className="w-full text-left py-2.5 border-t border-stone-800 pt-4 text-stone-300 hover:text-white"
+                                            className="w-full text-left py-2.5 border-t border-stone-800 pt-4 text-stone-300 hover:text-white bg-transparent border-none"
                                         >
                                             Sign In
                                         </button>

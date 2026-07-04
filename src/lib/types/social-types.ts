@@ -8,6 +8,7 @@ export interface SocialUser {
     skills: string[];
     style: string;
     avatar: string; // first letter or initials
+    avatarUrl?: string;
     isOnline: boolean;
 }
 

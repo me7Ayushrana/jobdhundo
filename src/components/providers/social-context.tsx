@@ -219,6 +219,7 @@ export function SocialProvider({ children }: { children: React.ReactNode }) {
                     skills: ["React", "TypeScript", "Node.js"],
                     style: "Builder",
                     avatar: initials,
+                    avatarUrl: firebaseUser.photoURL || undefined,
                     isOnline: true,
                 };
 
