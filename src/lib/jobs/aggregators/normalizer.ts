@@ -56,8 +56,16 @@ export function normalizeExperience(title: string, description: string): Unified
   return "mid";
 }
 
-export function normalizeJobType(typeStr: string): UnifiedJob["jobType"] {
-  const t = (typeStr || "").toLowerCase().trim();
+export function normalizeJobType(typeStr: any): UnifiedJob["jobType"] {
+  let val = "";
+  if (typeof typeStr === "string") {
+    val = typeStr;
+  } else if (Array.isArray(typeStr)) {
+    val = typeStr.join(" ");
+  } else if (typeStr) {
+    val = String(typeStr);
+  }
+  const t = val.toLowerCase().trim();
   if (t.includes("parttime") || t.includes("part-time")) return "part-time";
   if (t.includes("contract") || t.includes("temp") || t.includes("temporary")) return "contract";
   if (t.includes("intern") || t.includes("co-op")) return "internship";
