@@ -45,12 +45,12 @@ export class SyncManager {
   static async runSync(query: string = "software", location: string = "Remote"): Promise<any> {
     console.log(`[SyncManager] Starting live sync for "${query}" in ${location}...`);
     
-    const results = await Promise.allSettled([
+        const results = await Promise.allSettled([
       ...(process.env.ADZUNA_APP_ID ? [fetchAdzunaJobs(query, location)] : []),
       ...(process.env.RAPIDAPI_KEY ? [fetchJSearchJobs(query, location)] : []),
       ...(process.env.LOOPCV_API_KEY ? [fetchLoopCVJobs(query, location)] : []),
       fetchRemoteOKJobs(query),
-      fetchJobicyJobs(50, undefined, undefined, query),
+      fetchJobicyJobs(50, query),
       fetchGreenhouseJobs(),
       fetchLeverJobs(),
       fetchAshbyJobs()
