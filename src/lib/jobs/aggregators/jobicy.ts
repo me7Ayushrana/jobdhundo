@@ -1,4 +1,5 @@
 import { UnifiedJob } from "../types";
+import { normalizeJobType } from "./normalizer";
 
 export async function fetchJobicyJobs(
   count: number = 50,
@@ -26,10 +27,7 @@ export async function fetchJobicyJobs(
       company: job.companyName || 'Unknown Company',
       companyLogo: job.companyLogo,
       location: job.jobGeo || 'Remote',
-      jobType: job.jobType?.toLowerCase().includes('intern') ? 'internship' : 
-               job.jobType?.toLowerCase().includes('part') ? 'part-time' :
-               job.jobType?.toLowerCase().includes('contract') ? 'contract' :
-               job.jobType?.toLowerCase().includes('freelance') ? 'freelance' : 'full-time',
+      jobType: normalizeJobType(job.jobType),
       experienceLevel: 'mid',
       salaryMin: job.salaryMin || 0,
       salaryMax: job.salaryMax || 0,
