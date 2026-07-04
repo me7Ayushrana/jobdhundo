@@ -48,7 +48,15 @@ export async function getCachedJobs(key: string): Promise<JobSearchResult | null
   if (db) {
     try {
       const docRef = doc(db, "job_cache", key);
-      const docSnap = await getDoc(docRef);
+      
+      // Wrap getDoc in a 1.5-second timeout to prevent API hangs on database issues
+      const docSnap = await Promise.race([
+        getDoc(docRef),
+        new Promise<any>((_, reject) => 
+          setTimeout(() => reject(new Error("Timeout waiting for Firestore")), 1500)
+        )
+      ]);
+      
       if (docSnap.exists()) {
         const data = docSnap.data();
         const expiresAt = data.expiresAt;
@@ -86,7 +94,15 @@ export async function getStaleJobs(key: string): Promise<JobSearchResult | null>
   if (db) {
     try {
       const docRef = doc(db, "job_cache", key);
-      const docSnap = await getDoc(docRef);
+      
+      // Wrap getDoc in a 1.5-second timeout to prevent API hangs on database issues
+      const docSnap = await Promise.race([
+        getDoc(docRef),
+        new Promise<any>((_, reject) => 
+          setTimeout(() => reject(new Error("Timeout waiting for Firestore")), 1500)
+        )
+      ]);
+      
       if (docSnap.exists()) {
         const data = docSnap.data();
         const result = data.result ? JSON.parse(data.result) : null;
@@ -117,18 +133,21 @@ export async function saveJobsToCache(
     ttl: ttlMs
   });
 
-  // 2. Save to Firestore
+  // 2. Save to Firestore asynchronously in background (no await to prevent endpoint hangs)
   if (db) {
     try {
       const docRef = doc(db, "job_cache", key);
-      await setDoc(docRef, {
+      setDoc(docRef, {
         result: JSON.stringify(data),
         fetchedAt: now,
         expiresAt: expiresAt
+      }).then(() => {
+        console.log("[Cache] Saved results to Firestore");
+      }).catch((e) => {
+        console.warn("[Cache] Firestore write error in background:", e);
       });
-      console.log("[Cache] Saved results to Firestore");
     } catch (e) {
-      console.warn("[Cache] Firestore write error:", e);
+      console.warn("[Cache] Firestore write setup error:", e);
     }
   }
 }
@@ -144,4 +163,3 @@ export function findJobInMemoryCache(id: string): any | null {
   }
   return null;
 }
-
