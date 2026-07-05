@@ -45,3 +45,9 @@ npm run build
 ```
 This runs TypeScript checking, lint rules, static optimization, and collects page structures.
 
+## Environmental Variables Configuration
+
+Add the following keys to your local configuration:
+- `COHERE_API_KEY`: Connects the workspace AI helper chat.
+- `NEXT_PUBLIC_FIREBASE_API_KEY`: Client authorization for databases and authentication.
+
