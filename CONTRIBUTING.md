@@ -36,3 +36,12 @@ To optimize page speeds:
 
 - `SocialProvider` (`src/components/providers/social-context.tsx`): Manages authentication and sync state with Firestore, whitelisting, and in-memory fallback.
 - `SmoothScrollProvider` (`src/app/layout.tsx`): Sets up Lenis smooth scroll configurations.
+
+## Production Build Verification
+
+Always test production compiles before deploying:
+```bash
+npm run build
+```
+This runs TypeScript checking, lint rules, static optimization, and collects page structures.
+
