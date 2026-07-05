@@ -51,3 +51,7 @@ Add the following keys to your local configuration:
 - `COHERE_API_KEY`: Connects the workspace AI helper chat.
 - `NEXT_PUBLIC_FIREBASE_API_KEY`: Client authorization for databases and authentication.
 
+## Responsive Viewport Audits
+
+When reviewing styling templates, perform layout audits using Chrome DevTools for both desktop and mobile viewports.
+
