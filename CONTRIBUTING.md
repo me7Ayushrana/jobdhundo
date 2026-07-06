@@ -10,3 +10,11 @@ Welcome! Thank you for helping build and scale this developer workspace platform
    ```bash
    npm install
    ```
+
+## Folder Structure
+
+The project follows a standard Next.js App Router structure:
+- `src/app/`: Core route pages and layout entrypoints.
+- `src/components/`: Modular React view components (e.g., layouts, jobs widgets, social panels).
+- `src/lib/`: Custom modules, types, database connections, and aggregator sync managers.
+
