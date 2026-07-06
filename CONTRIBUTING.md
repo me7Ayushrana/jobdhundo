@@ -24,3 +24,10 @@ The server routes are defined under `src/app/api/`:
 - `GET /api/jobs`: Fetches aggregated listings (remote, types, page, keywords parameters).
 - `GET /api/jobs/[id]`: Pulls details dynamically from Greenhouse, Lever, Ashby, RemoteOK, or Jobicy on cache miss.
 - `POST /api/skills`: Runs repository-to-skill DNA parsing scripts.
+
+## Job Synchronization & Caching
+
+To optimize page speeds:
+1. `SyncManager` coordinates live parallel API calls.
+2. Results are deduplicated and cached using Firestore or server memory caches.
+3. If users query specific details, the API route checks the cache before launching a direct endpoint fetch.
