@@ -18,3 +18,9 @@ The project follows a standard Next.js App Router structure:
 - `src/components/`: Modular React view components (e.g., layouts, jobs widgets, social panels).
 - `src/lib/`: Custom modules, types, database connections, and aggregator sync managers.
 
+## API Routes Schema
+
+The server routes are defined under `src/app/api/`:
+- `GET /api/jobs`: Fetches aggregated listings (remote, types, page, keywords parameters).
+- `GET /api/jobs/[id]`: Pulls details dynamically from Greenhouse, Lever, Ashby, RemoteOK, or Jobicy on cache miss.
+- `POST /api/skills`: Runs repository-to-skill DNA parsing scripts.
